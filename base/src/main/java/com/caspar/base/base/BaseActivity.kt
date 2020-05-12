@@ -326,7 +326,7 @@ abstract class BaseActivity<VM : AndroidViewModel, SV : ViewDataBinding> : AppCo
      *
      * @return id 数组
      */
-    fun filterViewByIds(): Array<View>? {
+    open fun filterViewByIds(): Array<View>? {
         return null
     }
     /***************************************隐藏软键盘相关方法**********************************************/

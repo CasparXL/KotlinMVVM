@@ -5,7 +5,7 @@ import io.objectbox.annotation.Id
 
 /**
  *  "CasparXL" 创建 2020/5/12.
- *   界面名称以及功能:
+ *   界面名称以及功能:用户信息
  */
 @Entity
 class UserBean(
