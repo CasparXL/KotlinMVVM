@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">base</string>
+    <!--InjectManager辅助工具类所需要的资源文件-->
+    <string name="layout_id_error">\n\tLayout id error\n\tPlease set activity @ContentView \n\t The sample: @ContentView(R.layout.main_activity)</string>
+    <string name="content_view_empty">\n\tPlease set activity @ContentView \n\t The sample: @ContentView(R.layout.main_activity)</string>
+    <string name="common_loading">Loading...</string>
+
+    <!--网络请求异常状态-->
+    <string name="connect_error">Network connection failed. Please check the network</string>
+    <string name="connect_timeout">The connection has timed out. Please try again later</string>
+    <string name="bad_network">Server exception</string>
+    <string name="parse_error">Parse server response data failed</string>
+    <string name="unknown_error">unknown error</string>
+    <string name="response_return_error">The server failed to return data</string>
+    <!--捕获崩溃的界面需要的文字-->
+    <string name="crash_error_hint">Unexpected error \n sorry for the inconvenience</string>
+    <string name="crash_error_restart">Restart</string>
+    <string name="crash_error_log">Error log</string>
+    <string name="crash_error_details">Error details</string>
+    <string name="crash_error_info">Error message</string>
+    <string name="crash_copy_log">Copy</string>
+    <string name="crash_close">Close</string>
+
+
+    <string name="home_exit_hint">Press again to exit</string>
+
+</resources>

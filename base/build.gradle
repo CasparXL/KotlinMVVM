@@ -1,0 +1,79 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true   //开启混淆
+            buildConfigField("boolean", "LOG_ENABLE", "false")//控制日志是否打印
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+        debug {
+            minifyEnabled false   //开启混淆
+            buildConfigField("boolean", "LOG_ENABLE", "true")//控制日志是否打印
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    //使用JAVA8语法解析
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //kotlin JDK1.8支持
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+}
+
+dependencies {
+    def libsImplementation = rootProject.ext.dependencies.implementation //依赖库配置
+    def libsTestImplementation = rootProject.ext.dependencies.testImplementation //依赖库配置
+    def libsAndroidTestImplementation = rootProject.ext.dependencies.androidTestImplementation //依赖库配置
+    def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation libsImplementation.kotlin_stdlib_jdk7
+    implementation libsImplementation.androidx_appcompat
+    implementation libsImplementation.coroutines_android
+    implementation libsImplementation.coroutines_kotlin
+    implementation libsImplementation.core_ktx
+    implementation libsImplementation.androidx_constraintlayout
+    implementation libsImplementation.google_material
+    implementation libsImplementation.immersionbar //第三方框架
+    implementation libsImplementation.lifecycle_api
+    implementation libsImplementation.toast //第三方框架
+
+    api libsImplementation.arouter_api //第三方框架
+
+    kapt libsAnnotationProcessor.arouter_compiler //第三方框架
+
+    testImplementation libsTestImplementation.junit
+    androidTestImplementation libsAndroidTestImplementation.test_ext
+    androidTestImplementation libsAndroidTestImplementation.test_espresso
+}

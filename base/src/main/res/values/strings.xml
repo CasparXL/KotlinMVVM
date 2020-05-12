@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">base</string>
+    <!--InjectManager辅助工具类所需要的资源文件-->
+    <string name="layout_id_error">\n\t布局Id错误\n\t请设置 activity 的@ContentView注解 \n\t 注解样例: @ContentView(R.layout.main_activity)</string>
+    <string name="content_view_empty">\n\t请设置布局注解 @ContentView \n\t注解案例: @ContentView(R.layout.main_activity)</string>
+    <string name="common_loading">Loading...</string>
+
+    <!--网络请求异常状态-->
+    <string name="connect_error">网络连接失败,请检查网络</string>
+    <string name="connect_timeout">连接超时,请稍后再试</string>
+    <string name="bad_network">服务器异常</string>
+    <string name="parse_error">解析服务器响应数据失败</string>
+    <string name="unknown_error">未知错误</string>
+    <string name="response_return_error">服务器返回数据失败</string>
+
+    <!--捕获崩溃的界面需要的文字-->
+    <string name="crash_error_hint">发生意外错误\n抱歉，给您带来不便</string>
+    <string name="crash_error_restart">重新启动</string>
+    <string name="crash_error_log">错误日志</string>
+    <string name="crash_error_details">错误详情</string>
+    <string name="crash_error_info">错误信息</string>
+    <string name="crash_copy_log">复制日志</string>
+    <string name="crash_close">关闭</string>
+
+    <string name="home_exit_hint">再按一次退出</string>
+
+</resources>

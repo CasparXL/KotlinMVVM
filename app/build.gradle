@@ -1,0 +1,113 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        applicationId rootProject.ext.android.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true  //开启分包
+        // 使用矢量图支持库（为了兼容 API 21 以下）
+        // 阿里巴巴矢量图库：https://www.iconfont.cn/
+        vectorDrawables.useSupportLibrary = true
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true   //开启混淆
+            zipAlignEnabled true  //压缩优化
+            shrinkResources true  //移出无用资源
+            buildConfigField("boolean", "LOG_ENABLE", "false")//控制日志是否打印
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+        debug {
+            minifyEnabled false   //开启混淆
+            zipAlignEnabled false  //压缩优化
+            shrinkResources false  //移出无用资源
+            buildConfigField("boolean", "LOG_ENABLE", "true")//控制日志是否打印
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {//使用JAVA8语法解析
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //kotlin的java8支持
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+    androidExtensions {//Kotlin序列化
+        experimental = true
+    }
+}
+
+dependencies {
+    def libsImplementation = rootProject.ext.dependencies.implementation //依赖库配置变量
+    def libsTestImplementation = rootProject.ext.dependencies.testImplementation //依赖库配置变量
+    def libsAndroidTestImplementation = rootProject.ext.dependencies.androidTestImplementation
+    //依赖库配置变量
+    def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
+    //依赖库配置
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.aar'], dir: 'libs')
+    // 基础库
+    implementation project(':base')
+
+    implementation libsImplementation.kotlin_stdlib_jdk7
+    implementation libsImplementation.androidx_appcompat
+    implementation libsImplementation.androidx_constraintlayout
+    implementation libsImplementation.coroutines_android
+    implementation libsImplementation.coroutines_kotlin
+    implementation libsImplementation.core_ktx
+
+    implementation libsImplementation.androidx_multidex
+    implementation libsImplementation.smart_refresh
+    implementation libsImplementation.smart_header
+    implementation libsImplementation.lifecycle_api
+    implementation libsImplementation.retrofit_api
+    implementation libsImplementation.retrofit_gson
+    implementation libsImplementation.retrofit_rxjava2
+    implementation libsImplementation.retrofit_scalars
+    implementation libsImplementation.gson
+    implementation libsImplementation.immersionbar
+    implementation libsImplementation.arouter_api
+    implementation libsImplementation.androidx_recyclerview
+    implementation libsImplementation.rxandroid
+    implementation libsImplementation.toast
+    implementation libsImplementation.base_adapter
+    implementation libsImplementation.google_material
+    implementation libsImplementation.qr_code
+    implementation libsImplementation.mmkv
+    implementation 'me.jessyan:autosize:1.2.1'//适配手机屏幕
+    //用于使用浏览器查看数据库内容，可以删掉 //adb forward tcp:8090 tcp:8090
+    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
+    kapt libsAnnotationProcessor.arouter_compiler
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'  //检测代码内存泄漏
+    implementation 'cat.ereza:customactivityoncrash:2.3.0'
+    testImplementation libsTestImplementation.junit
+    androidTestImplementation libsAndroidTestImplementation.test_ext
+    androidTestImplementation libsAndroidTestImplementation.test_espresso
+}
+
+apply plugin: 'io.objectbox'
