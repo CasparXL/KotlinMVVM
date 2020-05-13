@@ -2,6 +2,7 @@ package com.caspar.xl.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.caspar.base.base.BaseViewModel
 import com.caspar.xl.bean.Resource
 import com.caspar.xl.bean.response.City
@@ -23,7 +24,7 @@ class TestViewModel(application: Application) : BaseViewModel(application) {
     }
 
     fun getCity() {
-        launch {
+        viewModelScope.launch {
             val value = TestRepository.getCity()
             if (value.code==200){ //网络请求成功，则返回数据
                 mData.value=value.body

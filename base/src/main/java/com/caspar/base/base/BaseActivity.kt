@@ -12,8 +12,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
 import com.caspar.base.R
@@ -23,7 +21,6 @@ import com.caspar.base.dialog.WaitDialog
 import com.caspar.base.extension.ARouterStart
 import com.caspar.base.extension.ARouterStartResult
 import com.caspar.base.extension.immersionBar
-import com.caspar.base.helper.ClassUtil
 import com.caspar.base.helper.KeyBoardUtils
 import com.gyf.immersionbar.ImmersionBar.setTitleBar
 
@@ -34,11 +31,9 @@ import com.gyf.immersionbar.ImmersionBar.setTitleBar
  * @description2 如果使用了InjectManager.inject方式注入布局layout，同样，顶部使用注解@ContentView，参数value为布局xml，示例:@ContentView(R.layout.activity_main)
  * @time 2020/4/2
  */
-abstract class BaseActivity<VM : AndroidViewModel, SV : ViewDataBinding> : AppCompatActivity(),
+abstract class BaseActivity<SV : ViewDataBinding> : AppCompatActivity(),
     ToastAction {
     /***************************************初始化视图以及变量,相关生命周期**********************************************/
-    // ViewModel,用于逻辑处理
-    protected var mViewModel: VM? = null
 
     /**
      * 绑定布局的ViewDataBinding,本项目中主要用于findViewById的作用，未来可用ViewBinding代替
@@ -92,13 +87,14 @@ abstract class BaseActivity<VM : AndroidViewModel, SV : ViewDataBinding> : AppCo
             /**
              * 状态栏字体深色或亮色 true是深色
              */
-            statusBarDarkFont(false)
+            statusBarDarkFont(true)
             /**
              * 解决软键盘与底部输入框冲突问题 ，默认是false
              * Keyboard enable immersion bar.
              *
              */
             keyboardEnable(true)
+
             if (getTitleBar() != null) {//这里用来处理是否需要手动沉浸式给标题栏加上顶部状态栏的高度
                 /**
                  * 为标题栏paddingTop和高度增加状态栏的高度
@@ -107,7 +103,6 @@ abstract class BaseActivity<VM : AndroidViewModel, SV : ViewDataBinding> : AppCo
                 setTitleBar(this@BaseActivity, getTitleBar())
             }
         }
-        initViewModel()
         initIntent()
         initView(savedInstanceState)
     }
@@ -122,16 +117,7 @@ abstract class BaseActivity<VM : AndroidViewModel, SV : ViewDataBinding> : AppCo
         setIntent(intent)
     }
 
-    /**
-     * 初始化ViewModel
-     */
-    private fun initViewModel() {
-        // 若为NoViewMode,则为空，证明界面不需要使用ViewModel
-        val viewModelClass: Class<VM>? = ClassUtil.getViewModel(this)
-        viewModelClass?.run {
-            mViewModel = ViewModelProvider(this@BaseActivity)[viewModelClass]
-        }
-    }
+
 
 
     /***初始化获取Intent数据***/

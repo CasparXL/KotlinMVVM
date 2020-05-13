@@ -35,7 +35,15 @@ fun AppCompatTextView.setDrawable(position: Int, idRes: Int) {
 }
 
 //转换dip
-fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+fun Context.dip(value: Int): Int {
+    val scale = resources.displayMetrics.density;
+    return (value * scale + 0.5f).toInt()
+}
+//转换sp
+fun Context.sp(value: Int): Int {
+    val scale = resources.displayMetrics.scaledDensity;
+    return (value * scale + 0.5f).toInt()
+}
 
 /**
  * Activity扩展函数，用于给视图添加点击事件

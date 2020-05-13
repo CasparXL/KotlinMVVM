@@ -51,7 +51,7 @@ class BaseApplication : MultiDexApplication() {
         ToastUtils.initStyle(ToastAliPayStyle(context))
         ToastUtils.setGravity(Gravity.BOTTOM, 0, 100)//Toast默认在中间，该设置将toast设置到距离底部100px
         //全局堆栈管理初始化
-        ActivityStackManager.sInstance.init(context)
+        ActivityStackManager.init(context)
         //阿里路由跳转初始化，这里要注意，若打签名包，除第一次签名包外，以后的都要修改项目的versionCode和VersionName，否则新增界面可能会无法生效[阿里框架的机制]
         // These two lines must be written before init, otherwise these configurations will be invalid in the init process
         ARouter.openLog() // Print log

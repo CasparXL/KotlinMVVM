@@ -26,7 +26,7 @@ import com.caspar.xl.R
  * desc   : 崩溃捕捉界面
  */
 @ContentView(R.layout.activity_crash)
-class CrashActivity : BaseActivity<BaseViewModel, ActivityCrashBinding>(),
+class CrashActivity : BaseActivity<ActivityCrashBinding>(),
     View.OnClickListener {
     private var mConfig: CaocConfig? = null
     private var mDialog: AlertDialog? = null

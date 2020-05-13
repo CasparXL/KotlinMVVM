@@ -12,6 +12,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import com.caspar.base.R
+import kotlin.math.min
 
 class ProgressView @JvmOverloads constructor(
     context: Context,
@@ -304,8 +305,8 @@ class ProgressView @JvmOverloads constructor(
      *
      * @param progress the progress between 0 and 1
      */
-    fun setInstantProgress(progress: Float) {
-        var progress = progress
+    fun setInstantProgress(pgs: Float) {
+        var progress = pgs
         if (isSpinning) {
             mProgress = 0.0f
             isSpinning = false
@@ -318,7 +319,7 @@ class ProgressView @JvmOverloads constructor(
         if (progress == mTargetProgress) {
             return
         }
-        mTargetProgress = Math.min(progress * 360.0f, 360.0f)
+        mTargetProgress = min(progress * 360.0f, 360.0f)
         mProgress = mTargetProgress
         mLastTimeAnimated = SystemClock.uptimeMillis()
         invalidate()
@@ -377,8 +378,8 @@ class ProgressView @JvmOverloads constructor(
      */
     var progress: Float
         get() = if (isSpinning) -1f else mProgress / 360.0f
-        set(progress) {
-            var progress = progress
+        set(pgs) {
+            var progress = pgs
             if (isSpinning) {
                 mProgress = 0.0f
                 isSpinning = false

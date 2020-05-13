@@ -6,8 +6,8 @@ import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
 import androidx.collection.ArrayMap
 
-class ActivityStackManager private constructor() : ActivityLifecycleCallbacks {
-    private val mActivitySet = ArrayMap<String?, Activity>()
+object ActivityStackManager : ActivityLifecycleCallbacks {
+    private val mActivitySet = ArrayMap<String, Activity>()
 
     /**
      * 获取 Application 对象
@@ -44,8 +44,8 @@ class ActivityStackManager private constructor() : ActivityLifecycleCallbacks {
      * 销毁所有的 Activity，除这些 Class 之外的 Activity
      */
     @SafeVarargs
-    fun finishAllActivities(vararg classArray: Class<out Activity?>?) {
-        val keys: List<String?> = mActivitySet.keys.toList()
+    fun finishAllActivities(vararg classArray: Class<out Activity>?) {
+        val keys: List<String> = mActivitySet.keys.toList()
         for (key in keys) {
             val activity = mActivitySet[key]
             if (activity != null && !activity.isFinishing) {
@@ -69,8 +69,8 @@ class ActivityStackManager private constructor() : ActivityLifecycleCallbacks {
      * 销毁部分Activity
      */
     @SafeVarargs
-    fun finishActivities(vararg classArray: Class<out Activity?>?) {
-        val keys: List<String?> = mActivitySet.keys.toList()
+    fun finishActivities(vararg classArray: Class<out Activity>?) {
+        val keys: List<String> = mActivitySet.keys.toList()
         for (key in keys) {
             val activity = mActivitySet[key]
             if (activity != null && !activity.isFinishing) {
@@ -122,15 +122,11 @@ class ActivityStackManager private constructor() : ActivityLifecycleCallbacks {
         }
     }
 
-    companion object {
-        var sInstance = ActivityStackManager()
-
-        /**
-         * 获取一个对象的独立无二的标记
-         */
-        private fun getObjectTag(`object`: Any): String {
-            // 对象所在的包名 + 对象的内存地址
-            return `object`.javaClass.name + Integer.toHexString(`object`.hashCode())
-        }
+    /**
+     * 获取一个对象的独立无二的标记
+     */
+    private fun getObjectTag(obj: Any): String {
+        // 对象所在的包名 + 对象的内存地址
+        return obj.javaClass.name + Integer.toHexString(obj.hashCode())
     }
 }

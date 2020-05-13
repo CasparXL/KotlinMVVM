@@ -102,15 +102,15 @@ class GridSectionAverageGapItemDecoration
     ) {
         if (parent.layoutManager is GridLayoutManager && parent.adapter is BaseSectionQuickAdapter<*, *>) {
             val layoutManager = parent.layoutManager as GridLayoutManager?
-            val adapter: BaseSectionQuickAdapter<SectionEntity, BaseViewHolder>? =
-                parent.adapter as BaseSectionQuickAdapter<SectionEntity, BaseViewHolder>?
+            val adapter: BaseSectionQuickAdapter<SectionEntity, BaseViewHolder> =
+                parent.adapter as BaseSectionQuickAdapter<SectionEntity, BaseViewHolder>
             if (mAdapter !== adapter) {
                 setUpWithAdapter(adapter)
             }
             val spanCount = layoutManager!!.spanCount
             val position = parent.getChildAdapterPosition(view) - mAdapter!!.headerLayoutCount
-            val entity = adapter!!.getItem(position)
-            if (entity == null || entity.isHeader) {
+            val entity = adapter.getItem(position)
+            if (entity.isHeader) {
                 //不处理header
                 outRect[0, 0, 0] = 0
                 //                Log.w("GridAverageGapItem", "pos=" + position + "," + outRect.toShortString());
@@ -164,17 +164,16 @@ class GridSectionAverageGapItemDecoration
         if (mAdapter != null) {
             val adapter = mAdapter
             mSectionList.clear()
-            var sectionEntity: SectionEntity? = null
-            var section =
-                Section()
+            var sectionEntity: SectionEntity
+            var section :Section = Section()
             var i = 0
             val size = adapter?.itemCount
             size?.apply {
                 while (i < size) {
                     sectionEntity = adapter.getItem(i)
-                    if (sectionEntity != null && sectionEntity?.isHeader!!) {
+                    if (sectionEntity.isHeader) {
                         //找到新Section起点
-                        if (section != null && i != 0) {
+                        if (i != 0) {
                             //已经有待添加的section
                             section.endPos = i - 1
                             mSectionList.add(section)

@@ -8,14 +8,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
 import com.caspar.base.annotations.InjectManager.inject
 import com.caspar.base.extension.ARouterStart
 import com.caspar.base.extension.ARouterStartResult
-import com.caspar.base.helper.ClassUtil
 
 /**
  * @author CasparXL
@@ -23,10 +20,8 @@ import com.caspar.base.helper.ClassUtil
  * @description2 如果使用了InjectManager.inject方式注入布局layout，同样，顶部使用注解@ContentView，参数value为布局xml，示例:@ContentView(R.layout.activity_main)
  * @time 2020/4/2
  */
-abstract class BaseFragment<VM : AndroidViewModel, SV : ViewDataBinding> : Fragment() {
+abstract class BaseFragment< SV : ViewDataBinding> : Fragment() {
 
-    // ViewModel
-    protected var mViewModel: VM? = null
 
     /**
      * 绑定布局的ViewDatabinding,本项目中主要用于findViewById的作用，未来可用ViewBinding代替
@@ -56,7 +51,6 @@ abstract class BaseFragment<VM : AndroidViewModel, SV : ViewDataBinding> : Fragm
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initViewModel()
         initView(savedInstanceState)
     }
 
@@ -68,15 +62,6 @@ abstract class BaseFragment<VM : AndroidViewModel, SV : ViewDataBinding> : Fragm
     }
 
 
-    /**
-     * 初始化ViewModel
-     */
-    private fun initViewModel() {
-        val viewModelClass: Class<VM>? = ClassUtil.getViewModel(this)//若为AndroidViewMode,则为空，证明界面不需要使用ViewModel
-        viewModelClass?.run {//不为空的情况下执行
-            mViewModel = ViewModelProvider(this@BaseFragment)[viewModelClass]
-        }
-    }
     /*******************************************拓展方法以及函数**************************************************/
 
     /***默认界面跳转,不带传值的***/

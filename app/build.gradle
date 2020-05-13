@@ -85,7 +85,6 @@ dependencies {
     implementation libsImplementation.smart_refresh
     implementation libsImplementation.smart_header
     implementation libsImplementation.lifecycle_api
-    implementation libsImplementation.retrofit_api
     implementation libsImplementation.retrofit_gson
     implementation libsImplementation.retrofit_rxjava2
     implementation libsImplementation.retrofit_scalars

@@ -12,20 +12,9 @@ import org.json.JSONTokener
 import kotlin.coroutines.CoroutineContext
 
 /**
- * 没有viewModel的情况
+ * 理论上可以不要这个ViewModel，不过有些ViewModel如果要做统一管理可以使用这个
  */
 open class BaseViewModel(application: Application) :
-    AndroidViewModel(application), CoroutineScope, ToastAction {
-    var job = Job()
-
-    //重写协程上下文，使它包含ViewModel的上下文
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
-    override fun onCleared() {
-        super.onCleared()
-        coroutineContext.cancel()//取消协程上下文
-        job.cancel()//取消协程工作工作域
-    }
+    AndroidViewModel(application), ToastAction {
 
 }

@@ -58,6 +58,8 @@ dependencies {
     def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api libsImplementation.kt_activity
+    api libsImplementation.kt_fragment
     implementation libsImplementation.kotlin_stdlib_jdk7
     implementation libsImplementation.androidx_appcompat
     implementation libsImplementation.coroutines_android
@@ -66,7 +68,10 @@ dependencies {
     implementation libsImplementation.androidx_constraintlayout
     implementation libsImplementation.google_material
     implementation libsImplementation.immersionbar //第三方框架
-    implementation libsImplementation.lifecycle_api
+    api libsImplementation.lifecycle_api
+    api libsImplementation.lifecycle_runtime
+    api libsImplementation.lifecycle_livedata
+    api libsImplementation.lifecycle_common
     implementation libsImplementation.toast //第三方框架
 
     api libsImplementation.arouter_api //第三方框架

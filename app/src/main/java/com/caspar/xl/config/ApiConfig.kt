@@ -6,6 +6,7 @@ package com.caspar.xl.config
 object ApiConfig {
     //网络请求的BaseUrl层
     var BaseUrl = "http://www.baidu.com/"
-
-   const val getCity="http://datavmap-public.oss-cn-hangzhou.aliyuncs.com/areas/csv/100000_province.json"
+    //网络请求,阿里云的城市获取
+    const val getCity =
+        "http://datavmap-public.oss-cn-hangzhou.aliyuncs.com/areas/csv/100000_province.json"
 }
