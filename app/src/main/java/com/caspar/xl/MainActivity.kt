@@ -5,7 +5,6 @@ import android.text.method.ScrollingMovementMethod
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.caspar.base.annotations.ContentView
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.helper.Utils
 import com.caspar.xl.config.ARouterApi
@@ -14,8 +13,7 @@ import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.viewmodel.TestViewModel
 
 @Route(path = ARouterApi.MAIN)
-@ContentView(R.layout.activity_main)
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     //需要使用ViewModel的界面使用如下方式声名ViewModel，by用来委托前面的 ViewModel.class
     private val mViewModel: TestViewModel by viewModels()

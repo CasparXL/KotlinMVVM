@@ -9,14 +9,16 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
 import com.caspar.base.R
 import com.caspar.base.action.ToastAction
-import com.caspar.base.annotations.InjectManager.inject
 import com.caspar.base.dialog.WaitDialog
 import com.caspar.base.extension.ARouterStart
 import com.caspar.base.extension.ARouterStartResult
@@ -28,11 +30,9 @@ import com.gyf.immersionbar.ImmersionBar.setTitleBar
 /**
  * @author CasparXL
  * @description 如果使用了ARouter,Activity顶部需要加上@Router注解，参数path为标注路径，示例:@Route(path = ARouterApi.MAIN)
- * @description2 如果使用了InjectManager.inject方式注入布局layout，同样，顶部使用注解@ContentView，参数value为布局xml，示例:@ContentView(R.layout.activity_main)
  * @time 2020/4/2
  */
-abstract class BaseActivity<SV : ViewDataBinding> : AppCompatActivity(),
-    ToastAction {
+abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId:Int) : AppCompatActivity(), ToastAction {
     /***************************************初始化视图以及变量,相关生命周期**********************************************/
 
     /**
@@ -81,7 +81,7 @@ abstract class BaseActivity<SV : ViewDataBinding> : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ARouter.getInstance().inject(this);//初始化路由器
-        mBindingView = DataBindingUtil.setContentView(this, inject(this))
+        mBindingView = DataBindingUtil.setContentView(this, contentLayoutId)
         //沉浸式的拓展方法
         immersionBar {
             /**

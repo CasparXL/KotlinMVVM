@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
-import com.caspar.base.annotations.InjectManager.inject
 import com.caspar.base.extension.ARouterStart
 import com.caspar.base.extension.ARouterStartResult
 
@@ -20,7 +20,7 @@ import com.caspar.base.extension.ARouterStartResult
  * @description2 如果使用了InjectManager.inject方式注入布局layout，同样，顶部使用注解@ContentView，参数value为布局xml，示例:@ContentView(R.layout.activity_main)
  * @time 2020/4/2
  */
-abstract class BaseFragment< SV : ViewDataBinding> : Fragment() {
+abstract class BaseFragment< SV : ViewDataBinding>(@LayoutRes val contentLayoutId:Int) : Fragment() {
 
 
     /**
@@ -36,7 +36,7 @@ abstract class BaseFragment< SV : ViewDataBinding> : Fragment() {
     ): View? {
         mBindingView = DataBindingUtil.inflate(
             inflater,
-            inject(this),
+            contentLayoutId,
             null,
             false
         )

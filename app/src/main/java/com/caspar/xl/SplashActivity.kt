@@ -3,18 +3,14 @@ package com.caspar.xl
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.caspar.base.annotations.ContentView
 import com.caspar.base.base.BaseActivity
-import com.caspar.base.base.BaseViewModel
-import com.caspar.base.helper.LogUtil
 import com.caspar.xl.config.ARouterApi
 import com.caspar.xl.databinding.ActivitySplashBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-@ContentView(R.layout.activity_splash)
-class SplashActivity : BaseActivity<ActivitySplashBinding>() {
+class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
     override fun initIntent() {
 

@@ -11,9 +11,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import cat.ereza.customactivityoncrash.config.CaocConfig
-import com.caspar.base.annotations.ContentView
 import com.caspar.base.base.BaseActivity
-import com.caspar.base.base.BaseViewModel
 import com.caspar.base.databinding.ActivityCrashBinding
 import com.caspar.base.helper.DoubleClickHelper
 import com.caspar.base.helper.LogUtil
@@ -25,8 +23,7 @@ import com.caspar.xl.R
  * time   : 2019/06/27
  * desc   : 崩溃捕捉界面
  */
-@ContentView(R.layout.activity_crash)
-class CrashActivity : BaseActivity<ActivityCrashBinding>(),
+class CrashActivity : BaseActivity<ActivityCrashBinding>(R.layout.activity_crash),
     View.OnClickListener {
     private var mConfig: CaocConfig? = null
     private var mDialog: AlertDialog? = null
