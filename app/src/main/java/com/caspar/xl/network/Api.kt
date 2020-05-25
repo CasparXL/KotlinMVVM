@@ -49,15 +49,12 @@ object Api {
             okBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             okBuilder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             /*okBuilder.addInterceptor { chain ->
-                val request: Request = chain.request()
-
-                val originalResponse = chain.proceed(request)
-
-                originalResponse.newBuilder()
-                    .header("Cache-Control", "public") //如果只有一个请求头，就使用这
-                    .addHeader("header2","aa") //如果是多个请求头，就是用addHeader
-                    .removeHeader("Pragma")//删除掉请求过程中的所有key为Pragma的请求头
-                    .build()
+                val request: Request = chain.request().newBuilder()
+                                       .header("Cache-Control", "public") //如果只有一个请求头，就使用这
+                                       .addHeader("header2","aa") //如果是多个请求头，就是用addHeader
+                                       .removeHeader("Pragma")//删除掉请求过程中的所有key为Pragma的请求头
+                                       .build()
+                chain.proceed(request);
             }*/
             okBuilder.addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE))
             okBuilder.hostnameVerifier { _, _ -> true }
