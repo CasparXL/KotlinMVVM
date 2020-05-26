@@ -37,7 +37,7 @@ class ApiResponse<T> {
             }
             is ConnectException, is UnknownHostException -> NetException.CONNECT_ERROR
             is InterruptedIOException -> NetException.CONNECT_TIMEOUT
-            is JsonParseException, is JSONException, is ParseException -> NetException.CONNECT_TIMEOUT
+            is JsonParseException, is JSONException, is ParseException -> NetException.PARSE_ERROR
             else -> throwable.message
         }
     }
