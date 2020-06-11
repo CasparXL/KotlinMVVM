@@ -29,10 +29,11 @@ class ApiResponse<T> {
         msg = when (throwable) {
             is HttpException -> {
                 code = throwable.code()
+                val errorBody = throwable.response()?.errorBody()?.string()
                 when (throwable.code()) {
-                    404 -> "没有找到合适的资源"
-                    500 -> "服务器内部错误"
-                    else -> NetException.BAD_NETWORK + ":" + throwable.message()
+                    404 -> "The right resources were not found"
+                    500 -> "Server internal error"
+                    else -> NetException.BAD_NETWORK + errorBody
                 }
             }
             is ConnectException, is UnknownHostException -> NetException.CONNECT_ERROR
