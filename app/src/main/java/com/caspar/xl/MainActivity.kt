@@ -16,7 +16,7 @@ import com.caspar.xl.viewmodel.TestViewModel
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     //需要使用ViewModel的界面使用如下方式声名ViewModel，by用来委托前面的 ViewModel.class
-    private val mViewModel: TestViewModel by viewModels()
+    private val mViewModel : TestViewModel by viewModels()
 
     override fun initIntent() {
 
@@ -34,20 +34,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         //当接口获取到数据以后将会回调到当前回调
         mViewModel.mData.observe(this, Observer { bean ->
             run {
-                hideDialog()
-                bean?.apply {
-                    mBindingView.tvText.text = Utils.stringToJSON(GsonUtils.toJson(this))
+                if (bean.first) {//first字段是网络请求是否成功
+                    hideDialog()
+                    bean.second?.let {//second是网络请求成功后的数据
+                        mBindingView.tvText.text = Utils.stringToJSON(GsonUtils.toJson(it))
+                    }
+                }else{ //这里是网络请求失败的回调
+                    hideDialog()
+                    bean.third.let {//third是网络请求失败后的数据
+                        mBindingView.tvText.text = "code->${it.status},msg->${it.msg}"
+                    }
                 }
             }
         })
-        //当接口出现错误时会返回到这个回调之中
-        mViewModel.mError.observe(this, Observer { bean ->
-            run {
-                hideDialog()
-                bean?.apply {
-                    mBindingView.tvText.text = "code->${bean.status},msg->${bean.msg}"
-                }
-            }
-        })
+
     }
 }
