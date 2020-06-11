@@ -14,22 +14,19 @@ import kotlinx.coroutines.launch
  *   界面名称以及功能:
  */
 class TestViewModel(application: Application) : BaseViewModel(application) {
-    //dataBean，根据接口生命多个dataBean
-    val mData:MutableLiveData<City> by lazy {
-        MutableLiveData<City>()
-    }
-    //errorBean，一个Activity共用一个就行了
-    val mError:MutableLiveData<Resource<String>> by lazy {
-        MutableLiveData<Resource<String>>()
+
+    //mData，使用Triple<A,B,C>储存网络请求反应，A为网络请求是否成功，B为成功的消息，C为错误的信息
+    val mData: MutableLiveData<Triple<Boolean, City?, Resource<String>>> by lazy {
+        MutableLiveData<Triple<Boolean, City?, Resource<String>>>()
     }
 
     fun getCity() {
         viewModelScope.launch {
             val value = TestRepository.getCity()
-            if (value.code==200){ //网络请求成功，则返回数据
-                mData.value=value.body
-            }else{//网络请求失败，则返回一个errorBean，errorBean一个Activity拦截一次就够了，统一做处理
-                mError.value= Resource(status = value.code,msg = value.msg,obj = null)
+            if (value.code == 200) { //网络请求成功，则返回数据
+                mData.value = Triple(true, value.body, Resource())
+            } else {//网络请求失败，则返回一个errorBean，errorBean一个Activity拦截一次就够了，统一做处理
+                mData.value = Triple(false, null, Resource(status = value.code,msg = value.msg,obj = ""))
             }
         }
     }
