@@ -98,9 +98,12 @@ dependencies {
     implementation libsImplementation.google_material
     implementation libsImplementation.qr_code
     implementation libsImplementation.mmkv
-    implementation 'me.jessyan:autosize:1.2.1'//适配手机屏幕
+    implementation libsImplementation.autosize
+    implementation libsImplementation.camera_camera
+    implementation libsImplementation.camera_view
+    implementation libsImplementation.camera_lifecycle
     //用于使用浏览器查看数据库内容，可以删掉 //adb forward tcp:8090 tcp:8090
-    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
+//    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
     kapt libsAnnotationProcessor.arouter_compiler
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'  //检测代码内存泄漏
     implementation 'cat.ereza:customactivityoncrash:2.3.0'

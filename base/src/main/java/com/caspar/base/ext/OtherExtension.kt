@@ -1,4 +1,4 @@
-package com.caspar.base.extension
+package com.caspar.base.ext
 
 import android.app.Activity
 import android.content.Context
@@ -6,11 +6,24 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  *  "CasparXL" 创建 2020/5/12.
- *   界面名称以及功能:
+ *   界面名称以及功能: 各种自定义扩展函数
  */
+
+fun View.show() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.hide() {
+    this.visibility = View.INVISIBLE
+}
+
+fun View.gone() {
+    this.visibility = View.GONE
+}
 
 /**
  * 设置TextView的边边图标
@@ -39,6 +52,7 @@ fun Context.dip(value: Int): Int {
     val scale = resources.displayMetrics.density;
     return (value * scale + 0.5f).toInt()
 }
+
 //转换sp
 fun Context.sp(value: Int): Int {
     val scale = resources.displayMetrics.scaledDensity;

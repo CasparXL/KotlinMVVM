@@ -13,18 +13,15 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
 import com.caspar.base.R
 import com.caspar.base.action.ToastAction
 import com.caspar.base.dialog.WaitDialog
-import com.caspar.base.extension.ARouterStart
-import com.caspar.base.extension.ARouterStartResult
-import com.caspar.base.extension.immersionBar
+import com.caspar.base.ext.ARouterStart
+import com.caspar.base.ext.ARouterStartResult
+import com.caspar.base.ext.immersionBar
 import com.caspar.base.helper.KeyBoardUtils
-import com.gyf.immersionbar.ImmersionBar.setTitleBar
 
 
 /**
@@ -32,7 +29,8 @@ import com.gyf.immersionbar.ImmersionBar.setTitleBar
  * @description 如果使用了ARouter,Activity顶部需要加上@Router注解，参数path为标注路径，示例:@Route(path = ARouterApi.MAIN)
  * @time 2020/4/2
  */
-abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId:Int) : AppCompatActivity(), ToastAction {
+abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId: Int) :
+    AppCompatActivity(), ToastAction {
     /***************************************初始化视图以及变量,相关生命周期**********************************************/
 
     /**
@@ -50,7 +48,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
     /**
      * 显示加载对话框
      */
-    open fun showLoadingDialog(tips: String?=null) {
+    open fun showLoadingDialog(tips: String? = null) {
         if (mBaseDialog == null) {
             mBaseDialog = if (tips.isNullOrEmpty()) {
                 WaitDialog.Builder(this@BaseActivity).create()
@@ -82,6 +80,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
         super.onCreate(savedInstanceState)
         ARouter.getInstance().inject(this);//初始化路由器
         mBindingView = DataBindingUtil.setContentView(this, contentLayoutId)
+        mBindingView.lifecycleOwner = this
         //沉浸式的拓展方法
         immersionBar {
             /**
@@ -94,30 +93,15 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
              *
              */
             keyboardEnable(true)
-
-            if (getTitleBar() != null) {//这里用来处理是否需要手动沉浸式给标题栏加上顶部状态栏的高度
-                /**
-                 * 为标题栏paddingTop和高度增加状态栏的高度
-                 * Sets title bar.
-                 */
-                setTitleBar(this@BaseActivity, getTitleBar())
-            }
         }
         initIntent()
         initView(savedInstanceState)
-    }
-
-    //界面的头部栏，如果重写该方法，沉浸式会默认加paddingTop，让状态栏高度达到界面要求，根据需求使用
-    open fun getTitleBar(): View? {
-        return null
     }
 
     override fun onNewIntent(intent: Intent?) {//页面特殊销毁的话通过该方法重新赋值
         super.onNewIntent(intent)
         setIntent(intent)
     }
-
-
 
 
     /***初始化获取Intent数据***/
@@ -282,15 +266,15 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (ev.action == MotionEvent.ACTION_DOWN) {
             if (isTouchView(filterViewByIds(), ev)) return super.dispatchTouchEvent(ev)
-            if (hideSoftByEditViewIds() == null || hideSoftByEditViewIds()!!.size == 0) return super.dispatchTouchEvent(
+            if (hideSoftByEditViewIds().isEmpty()) return super.dispatchTouchEvent(
                 ev
             )
             val v = currentFocus
-            if (isFocusEditText(v, *hideSoftByEditViewIds()!!)) {
+            if (isFocusEditText(v, *hideSoftByEditViewIds())) {
                 if (isTouchView(hideSoftByEditViewIds(), ev)) return super.dispatchTouchEvent(ev)
                 //隐藏键盘
                 KeyBoardUtils.hideInputForce(this)
-                clearViewFocus(v, *hideSoftByEditViewIds()!!)
+                clearViewFocus(v, *hideSoftByEditViewIds())
             }
         }
         return super.dispatchTouchEvent(ev)
@@ -302,8 +286,8 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
      *
      * @return id 数组
      */
-    open fun hideSoftByEditViewIds(): IntArray? {
-        return null
+    open fun hideSoftByEditViewIds(): IntArray {
+        return IntArray(0)
     }
 
     /**

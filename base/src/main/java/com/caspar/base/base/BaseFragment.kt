@@ -11,8 +11,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
-import com.caspar.base.extension.ARouterStart
-import com.caspar.base.extension.ARouterStartResult
+import com.caspar.base.ext.ARouterStart
+import com.caspar.base.ext.ARouterStartResult
 
 /**
  * @author CasparXL
@@ -57,16 +57,15 @@ abstract class BaseFragment< SV : ViewDataBinding>(@LayoutRes val contentLayoutI
     abstract fun initView(savedInstanceState: Bundle?)
 
     override fun onDestroy() {
-        super.onDestroy()
         mBindingView.unbind()
+        super.onDestroy()
     }
-
 
     /*******************************************拓展方法以及函数**************************************************/
 
     /***默认界面跳转,不带传值的***/
     fun arStart(url: String) {
-        //ARouter自带API跳转界面
+        //ARouter自带API跳转界
         ARouter.getInstance().build(url).navigation()
     }
 

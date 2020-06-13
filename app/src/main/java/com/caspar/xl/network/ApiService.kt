@@ -2,6 +2,7 @@ package com.caspar.xl.network
 
 
 import com.caspar.xl.bean.response.City
+import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.config.ApiConfig
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -26,6 +27,16 @@ interface ApiService {
      */
     @GET(ApiConfig.getCity)
     suspend fun getCity(): City
+
+    /**
+     * 翻译
+     */
+    @GET(ApiConfig.Translate)
+    suspend fun Translate(
+        @Query("doctype") doctype: String = "json",
+        @Query("type") type: String = "AUTO",
+        @Query("i") text: String
+    ): TranslateBean
 
 
 }

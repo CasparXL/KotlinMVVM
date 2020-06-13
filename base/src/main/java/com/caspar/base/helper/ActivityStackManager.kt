@@ -5,9 +5,10 @@ import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
 import androidx.collection.ArrayMap
+import java.util.*
 
 object ActivityStackManager : ActivityLifecycleCallbacks {
-    private val mActivitySet = ArrayMap<String, Activity>()
+    private val mActivitySet = Stack<Activity>()
 
     /**
      * 获取 Application 对象
@@ -31,7 +32,7 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
      * 获取栈顶的 Activity
      */
     val topActivity: Activity
-        get() = mActivitySet[mCurrentTag]!!
+        get() = mActivitySet.lastElement()
 
     /**
      * 销毁所有的 Activity
@@ -45,20 +46,19 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
      */
     @SafeVarargs
     fun finishAllActivities(vararg classArray: Class<out Activity>?) {
-        val keys: List<String> = mActivitySet.keys.toList()
-        for (key in keys) {
-            val activity = mActivitySet[key]
-            if (activity != null && !activity.isFinishing) {
+        for (key in mActivitySet) {
+
+            if (key != null && !key.isFinishing) {
                 var whiteClazz = false
                 for (clazz in classArray) {
-                    if (activity.javaClass == clazz) {
+                    if (key.javaClass == clazz) {
                         whiteClazz = true
                     }
                 }
                 // 如果不是白名单上面的 Activity 就销毁掉
                 if (!whiteClazz) {
-                    LogUtil.e("销毁掉界面${activity.localClassName}")
-                    activity.finish()
+                    LogUtil.e("销毁掉界面${key.localClassName}")
+                    key.finish()
                     mActivitySet.remove(key)
                 }
             }
@@ -70,20 +70,18 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
      */
     @SafeVarargs
     fun finishActivities(vararg classArray: Class<out Activity>?) {
-        val keys: List<String> = mActivitySet.keys.toList()
-        for (key in keys) {
-            val activity = mActivitySet[key]
-            if (activity != null && !activity.isFinishing) {
+        for (key in mActivitySet) {
+            if (key != null && !key.isFinishing) {
                 var whiteClazz = true
                 for (clazz in classArray) {
-                    if (activity.javaClass == clazz) {
+                    if (key.javaClass == clazz) {
                         whiteClazz = false
                     }
                 }
                 // 如果不是白名单上面的 Activity 就销毁掉
                 if (whiteClazz) {
-                    LogUtil.e("销毁掉界面${activity.localClassName}")
-                    activity.finish()
+                    LogUtil.e("销毁掉界面${key.localClassName}")
+                    key.finish()
                     mActivitySet.remove(key)
                 }
             }
@@ -94,16 +92,13 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
         activity: Activity,
         savedInstanceState: Bundle?
     ) {
-        mCurrentTag = getObjectTag(activity)
-        mActivitySet[getObjectTag(activity)] = activity
+        mActivitySet.add(activity)
     }
 
     override fun onActivityStarted(activity: Activity) {
-        mCurrentTag = getObjectTag(activity)
     }
 
     override fun onActivityResumed(activity: Activity) {
-        mCurrentTag = getObjectTag(activity)
     }
 
     override fun onActivityPaused(activity: Activity) {}
@@ -115,18 +110,6 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        mActivitySet.remove(getObjectTag(activity))
-        if (getObjectTag(activity) == mCurrentTag) {
-            // 清除当前标记
-            mCurrentTag = null
-        }
-    }
-
-    /**
-     * 获取一个对象的独立无二的标记
-     */
-    private fun getObjectTag(obj: Any): String {
-        // 对象所在的包名 + 对象的内存地址
-        return obj.javaClass.name + Integer.toHexString(obj.hashCode())
+        mActivitySet.remove(activity)
     }
 }

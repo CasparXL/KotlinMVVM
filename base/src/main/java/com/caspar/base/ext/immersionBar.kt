@@ -1,4 +1,4 @@
-package com.caspar.base.extension
+package com.caspar.base.ext
 
 import android.app.Activity
 import android.app.Dialog

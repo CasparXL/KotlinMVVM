@@ -3,6 +3,8 @@ package com.caspar.xl.app
 import android.app.Application
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.camera.camera2.Camera2Config
+import androidx.camera.core.CameraXConfig
 import androidx.multidex.MultiDexApplication
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.alibaba.android.arouter.launcher.ARouter
@@ -27,7 +29,7 @@ import me.jessyan.autosize.unit.Subunits
 /**
  * 初始化Application
  */
-class BaseApplication : MultiDexApplication() {
+class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
 
     override fun onCreate() {
         super.onCreate()
@@ -42,8 +44,8 @@ class BaseApplication : MultiDexApplication() {
         MMKV.initialize(this)//本地储存初始化
         ObjectBox.init(this)//初始化数据库
         if (BuildConfig.DEBUG) {//开启浏览器访问ObjectBox
-            val started = AndroidObjectBrowser(ObjectBox.boxStore).start(this)
-            LogUtil.e("" + started)
+//            val started = AndroidObjectBrowser(ObjectBox.boxStore).start(this)
+//            LogUtil.e("" + started)
         }
         RxBus.init()//RxBus初始化，用于全局WebSocket网络请求发送
         //Toast弹框初始化
@@ -101,5 +103,9 @@ class BaseApplication : MultiDexApplication() {
                 MaterialHeader(context).setColorSchemeResources(R.color.appColor, android.R.color.white)
             }
         }
+    }
+
+    override fun getCameraXConfig(): CameraXConfig {
+        return Camera2Config.defaultConfig()
     }
 }

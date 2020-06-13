@@ -12,18 +12,53 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <TextView
-            android:id="@+id/tv_text"
+        <com.caspar.xl.widget.NoScrollViewPager
+            android:id="@+id/nv_pager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="Hello World!"
-            android:layout_marginTop="@dimen/dp_30"
-            android:layout_marginBottom="@dimen/dp_30"
-            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
+            android:background="@color/black"
+            />
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_60"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:background="@color/white"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="首页"
+                />
+            <View
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                />
+            <TextView
+                android:id="@+id/tv_mine"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="个人中心"
+                />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
