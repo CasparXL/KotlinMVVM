@@ -6,9 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.caspar.base.base.BaseFragment
 import com.caspar.base.ext.dip
 import com.caspar.base.ext.hide
-import com.caspar.base.utils.permissions.OnPermission
-import com.caspar.base.utils.permissions.Permission
-import com.caspar.base.utils.permissions.XXPermissions
 import com.caspar.xl.R
 import com.caspar.xl.config.ARouterApi
 import com.caspar.xl.databinding.FragmentHomeBinding
