@@ -1,11 +1,14 @@
 package com.caspar.xl.ui.activity
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
+import android.view.*
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
@@ -13,6 +16,7 @@ import com.caspar.base.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.config.ARouterApi
 import com.caspar.xl.databinding.ActivityCameraBinding
+import com.google.common.util.concurrent.ListenableFuture
 import com.hjq.toast.ToastUtils
 import java.io.File
 import java.nio.ByteBuffer
@@ -22,7 +26,10 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 @Route(path = ARouterApi.CAMERA)
-class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_camera), View.OnClickListener {
+class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_camera),
+    View.OnClickListener {
+    var cameraControl: CameraControl? = null
+    lateinit var scaleGestureDetector: ScaleGestureDetector
 
     private lateinit var imageAnalyzer: ImageAnalysis
     private var preview: Preview? = null
@@ -46,12 +53,16 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
     //图片将要保存的路径
     private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }
+            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
+        }
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else filesDir
     }
+
     //开始预览，CameraX绑定Activity，随生命周期销毁而自动销毁
+    @SuppressLint("ClickableViewAccessibility")
     private fun startCamera() {
+        scaleGestureDetector = ScaleGestureDetector(this, listener)//初始化双指缩放的控制器
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener(Runnable {
             imageCapture = ImageCapture.Builder()
@@ -72,7 +83,8 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
                 .build()
             // Select back camera
             // 使用相机
-            val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+            val cameraSelector =
+                CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
             try {
                 // Unbind use cases before rebinding
                 //在重新绑定之前解除用例绑定
@@ -80,15 +92,54 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
                 // Bind use cases to camera
                 //将用例绑定到摄像机
                 camera = cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview,imageCapture,imageAnalyzer)
+                    this, cameraSelector, preview, imageCapture, imageAnalyzer
+                )
+                cameraControl = camera?.cameraControl
                 preview?.setSurfaceProvider(mBindingView.viewFinder.createSurfaceProvider(camera?.cameraInfo))
-            } catch(exc: Exception) {
+            } catch (exc: Exception) {
                 LogUtil.e(exc)
             }
 
         }, ContextCompat.getMainExecutor(this))
-
+        initImageCapture()
+        mBindingView.viewFinder.setOnTouchListener(View.OnTouchListener { v, event ->
+            run {
+                if (event.action == MotionEvent.ACTION_UP) { //加这个判断是为了缩放以后自动聚焦，单击也可以聚焦
+                    onTouch(v.x, v.y)
+                }
+                scaleGestureDetector.onTouchEvent(event) //将event传给监听，进行自动缩放
+                return@OnTouchListener true
+            }
+        })
     }
+
+    // 创建一个名为 listener 的回调函数，当手势事件发生时会调用这个回调函数
+    val listener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            // 获取当前的摄像头的缩放比例
+            val currentZoomRatio: Float = camera?.cameraInfo?.zoomState?.value?.zoomRatio ?: 1F
+
+            // 获取用户捏拉手势所更改的缩放比例
+            val delta = detector.scaleFactor
+            LogUtil.e("当前比例:$currentZoomRatio 手势更改比例 $delta")
+            // 更新摄像头的缩放比例
+            cameraControl?.setZoomRatio(currentZoomRatio * delta)
+            return true
+        }
+    }
+    // 点击聚焦的方法
+    private fun onTouch(x: Float, y: Float) {
+        // 创建 MeteringPoint，命名为 factory
+        val factory =
+            mBindingView.viewFinder.createMeteringPointFactory(CameraSelector.DEFAULT_FRONT_CAMERA)
+        // 将 UI 界面的坐标转换为摄像头传感器的坐标
+        val point = factory.createPoint(x, y)
+        // 创建对焦需要用的 action
+        val action = FocusMeteringAction.Builder(point).build()
+        // 执行所创建的对焦 action
+        cameraControl?.startFocusAndMetering(action)
+    }
+
     //拍照
     private fun takePhoto() {
         showLoadingDialog("稍等")
@@ -97,14 +148,22 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
         val imageCapture = imageCapture ?: return
         // Create timestamped output file to hold the image
         // 创建带有时间戳的输出文件来保存图像
-        val photoFile = File(outputDirectory, SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis()) + ".jpg")
+        val photoFile = File(
+            outputDirectory,
+            SimpleDateFormat(
+                "yyyy-MM-dd-HH-mm-ss-SSS",
+                Locale.US
+            ).format(System.currentTimeMillis()) + ".jpg"
+        )
         // Create output options object which contains file + metadata
         // 创建包含文件+元数据的输出选项对象
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
         // Setup image capture listener which is triggered after photo has been taken
         // 设置图片捕捉监听器，在拍照后触发
         imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
+            outputOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     hideDialog()
                     LogUtil.e(exc)
@@ -141,8 +200,31 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_left -> finish()
-            R.id.iv_take_photo -> {takePhoto()}
+            R.id.iv_take_photo -> {
+                takePhoto()
+            }
         }
+    }
+
+    private fun initImageCapture() {
+        // 旋转监听
+        val orientationEventListener: OrientationEventListener =
+            object : OrientationEventListener(this as Context) {
+                override fun onOrientationChanged(orientation: Int) {
+                    // Monitors orientation values to determine the target rotation value
+                    val rotation: Int = if (orientation in 45..134) {
+                        Surface.ROTATION_270
+                    } else if (orientation in 135..224) {
+                        Surface.ROTATION_180
+                    } else if (orientation in 225..314) {
+                        Surface.ROTATION_90
+                    } else {
+                        Surface.ROTATION_0
+                    }
+                    imageCapture?.targetRotation = rotation
+                }
+            }
+        orientationEventListener.enable()
     }
 
 }
