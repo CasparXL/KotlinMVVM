@@ -21,7 +21,7 @@ val Int.dp
         TypedValue.COMPLEX_UNIT_DIP,
         this.toFloat(),
         Resources.getSystem().displayMetrics
-    )
+    ).toInt()
 //Float类型转换sp
 val Float.sp
     get() = TypedValue.applyDimension(
@@ -35,7 +35,7 @@ val Int.sp
         TypedValue.COMPLEX_UNIT_SP,
         this.toFloat(),
         Resources.getSystem().displayMetrics
-    )
+    ).toInt()
 
 //转换dip
 fun Context.dip(value: Int): Int {

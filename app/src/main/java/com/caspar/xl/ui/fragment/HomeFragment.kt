@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.caspar.base.base.BaseFragment
-import com.caspar.base.ext.dip
+import com.caspar.base.ext.dp
 import com.caspar.base.ext.hide
 import com.caspar.xl.R
 import com.caspar.xl.config.ARouterApi
@@ -19,9 +19,9 @@ import com.caspar.xl.viewmodel.HomeViewModel
  */
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    val mAdapter: HomeMenuAdapter by lazy { HomeMenuAdapter() }
+    private val mAdapter: HomeMenuAdapter by lazy { HomeMenuAdapter() }
 
-    val mViewModel: HomeViewModel by viewModels()
+    private val mViewModel: HomeViewModel by viewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvLeft.hide()
@@ -33,7 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         mBindingView.rvList.addItemDecoration(
             Decoration.GridDecoration(
                 2,
-                context?.dip(10) ?: 0,
+                10.dp,
                 true
             )
         )
