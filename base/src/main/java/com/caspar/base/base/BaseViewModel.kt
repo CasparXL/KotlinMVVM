@@ -16,5 +16,6 @@ import kotlin.coroutines.CoroutineContext
  */
 open class BaseViewModel(application: Application) :
     AndroidViewModel(application), ToastAction {
-
+    //声明协程的用法,这样可以有效使用协程的功能
+    //var job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 }
