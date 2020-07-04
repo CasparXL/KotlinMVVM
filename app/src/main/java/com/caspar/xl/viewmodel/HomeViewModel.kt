@@ -17,7 +17,7 @@ import com.caspar.xl.config.ARouterApi
  */
 class HomeViewModel(application: Application) : BaseViewModel(application) {
     //功能列表
-    val mData: List<String> = arrayListOf("翻译","CameraX")
+    val mData: List<String> = arrayListOf("翻译","CameraX","Room")
 
     fun permission(){
         XXPermissions.with(ActivityStackManager.topActivity).permission(Permission.Group.CAMERA).request(object :

@@ -16,5 +16,6 @@ object ARouterApi {
     const val MAIN = "${APP}main"
     const val TRANSLATE = "${HOME}translate"
     const val CAMERA = "${HOME}camera"
+    const val ROOM = "${HOME}room"
 
 }

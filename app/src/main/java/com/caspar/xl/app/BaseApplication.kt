@@ -15,13 +15,11 @@ import com.caspar.base.helper.LogUtil
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.MainActivity
 import com.caspar.xl.R
-import com.caspar.xl.db.ObjectBox
 import com.caspar.xl.ui.CrashActivity
 import com.caspar.xl.utils.rxjava.RxBus
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.tencent.mmkv.MMKV
-import io.objectbox.android.AndroidObjectBrowser
 import me.jessyan.autosize.AutoSizeConfig
 import me.jessyan.autosize.unit.Subunits
 
@@ -42,11 +40,6 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
         //打印日志初始化,打正式包将不再打印日志
         LogUtil.init(BuildConfig.LOG_ENABLE, "浪")
         MMKV.initialize(this)//本地储存初始化
-        ObjectBox.init(this)//初始化数据库
-        if (BuildConfig.DEBUG) {//开启浏览器访问ObjectBox
-//            val started = AndroidObjectBrowser(ObjectBox.boxStore).start(this)
-//            LogUtil.e("" + started)
-        }
         RxBus.init()//RxBus初始化，用于全局WebSocket网络请求发送
         //Toast弹框初始化
         ToastUtils.init(context)

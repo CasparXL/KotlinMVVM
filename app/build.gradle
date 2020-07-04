@@ -23,6 +23,14 @@ android {
                 arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
+        }
     }
     buildTypes {
         release {
@@ -98,6 +106,8 @@ dependencies {
     implementation libsImplementation.google_material
     implementation libsImplementation.qr_code
     implementation libsImplementation.mmkv
+    implementation libsImplementation.room
+    implementation libsImplementation.room_ktx
     implementation libsImplementation.autosize
     implementation libsImplementation.camera_camera
     implementation libsImplementation.camera_view
@@ -105,11 +115,12 @@ dependencies {
     //用于使用浏览器查看数据库内容，可以删掉 //adb forward tcp:8090 tcp:8090
 //    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
     kapt libsAnnotationProcessor.arouter_compiler
+    kapt libsAnnotationProcessor.room_compiler
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'  //检测代码内存泄漏
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
     testImplementation libsTestImplementation.junit
+    testImplementation libsTestImplementation.room
     androidTestImplementation libsAndroidTestImplementation.test_ext
     androidTestImplementation libsAndroidTestImplementation.test_espresso
 }
 
-apply plugin: 'io.objectbox'

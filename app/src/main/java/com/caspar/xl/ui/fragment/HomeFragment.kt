@@ -45,6 +45,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     arStart(ARouterApi.TRANSLATE)
                 } else if (position == 1) {
                     mViewModel.permission()
+                }else if (position == 2) {
+                    arStart(ARouterApi.ROOM)
                 }
             }
         }
