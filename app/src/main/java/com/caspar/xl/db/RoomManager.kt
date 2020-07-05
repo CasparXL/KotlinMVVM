@@ -22,6 +22,7 @@ abstract class RoomManager : RoomDatabase() {
                 RoomManager::class.java,
                 "test_database"
             )
+//                .allowMainThreadQueries()  //如果想要支持接口被主线程调用，则使用该方法，默认必须是异步调用，否则使用Room时会导致app崩溃
                 .build()
         }
     }

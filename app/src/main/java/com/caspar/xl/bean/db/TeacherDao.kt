@@ -6,6 +6,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 /**
  *  @Create 2020/7/4.
@@ -14,12 +15,14 @@ import androidx.room.Query
 @Dao
 interface TeacherDao {
     @Query("SELECT * from teacher_table ORDER BY id ASC")
-    fun getAllTeacher(): LiveData<MutableList<TeacherBean>>
+    suspend fun getAllTeacher(): List<TeacherBean>
 
+    @Query("SELECT * from teacher_table where id = :id")
+    suspend fun getTeacherById(id:Long): TeacherBean
     /**
      * 如果操作失败，事务回滚
      */
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(teacher: TeacherBean): Long
 
     /**

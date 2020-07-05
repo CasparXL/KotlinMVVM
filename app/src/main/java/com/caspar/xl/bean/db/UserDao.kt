@@ -2,6 +2,7 @@ package com.caspar.xl.bean.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 /**
  *  @Create 2020/7/4.
@@ -11,15 +12,18 @@ import androidx.room.*
 interface UserDao {
 
     @Query("SELECT * from user_table ORDER BY id ASC")
-    fun getAllUser(): LiveData<MutableList<UserBean>>
+    suspend fun getAllUser(): List<UserBean>
 
     @Query("SELECT * from user_table where t_id = :tId")
-    suspend fun getUser(tId:Long): UserBean
+    suspend fun getUserByTid(tId:Long): UserBean
+
+    @Query("SELECT * from user_table where id = :uId")
+    suspend fun getUserById(uId:Long): UserBean
 
     /**
      * 如果操作失败，事务回滚
      */
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: UserBean) : Long
 
     /**

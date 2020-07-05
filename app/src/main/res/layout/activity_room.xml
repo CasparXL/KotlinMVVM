@@ -15,17 +15,26 @@
         <include layout="@layout/view_header" android:id="@+id/title"/>
         <Button
             android:id="@+id/btnInsert"
-            android:text="Insert"
+            android:text="新增随机数据"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/btnSearch"
-            android:text="Search"
+            android:text="查找随机数据"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnSearchAll"
+            android:text="查找所有数据"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/btnClear"
-            android:text="Clear"
+            android:text="清空数据库表中所有数据"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLogcat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
