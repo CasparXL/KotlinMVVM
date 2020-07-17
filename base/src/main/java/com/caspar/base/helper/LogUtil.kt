@@ -19,27 +19,63 @@ import javax.xml.transform.stream.StreamSource
  * Description: logUtil
  */
 object LogUtil {
+    /**
+     *  是否打印日志的标识位
+     *  Whether to print the identity bit of the log
+     */
+    private var debug = false
 
-    var debug = false
-    var Tag = "\u21E2"
-    val LINE_SEPARATOR = System.getProperty("line.separator").toString()
+    /**
+     * 文本tag，默认为 `⇢`
+     *  The text in the tag, the default for ` ⇢ `
+     */
+    private var mTag = "\u21E2"
 
+    /**
+     * 获取文件行数的堆栈信息下标
+     * Gets the index of stack information for the number of file lines
+     */
+    private var mIndex = 3
 
+    /**
+     * 打印json，用于做节点分割
+     * Print JSON for node segmentation
+     */
+    private val LINE_SEPARATOR = System.getProperty("line.separator").toString()
+
+    /**
+     * 初始化日志基本参数
+     * Initialize log base parameters
+     *
+     * @param debug 是否打印       Whether or not to print
+     * @param Tag 日志Tag         Log Tag
+     */
     fun init(debug: Boolean, Tag: String) {
         LogUtil.debug = debug
-        LogUtil.Tag = Tag
+        LogUtil.mTag = Tag
     }
 
+    /**
+     * 打印文本格式:[线程:Thread.currentThread()] -> [方法名称:@param method] -> [所处文件行数:@param clazz:@param line] -> 正文
+     *
+     *  Print text format :[Thread: thread.currentThread ()] -> [method name :@param method] -> [line number :@param clazz:@param line] -> body
+     */
     fun content(
-        clazz: String = "LogUtil",
-        method: String = "not know method",
-        line: String = "0",
+        index: Int,
         msg: String?
     ): String {
-        return "[$clazz] \u21E2 [$method : line $line] \u21E2 $msg"
+        val stackTraceElement = Throwable().stackTrace[index]
+        val clazz = stackTraceElement.fileName
+        val method = stackTraceElement.methodName
+        val line = stackTraceElement.lineNumber
+        return "[thread:${Thread.currentThread().name}]\u21E2[$method()]\u21E2($clazz:$line)\u21E2 $msg"
     }
 
-    fun e(throwable: Throwable) {
+    /**
+     * 打印Throwable的详情堆栈信息
+     * Print Throwable details stack information
+     */
+    fun e(throwable: Throwable, index: Int = mIndex) {
         val sw = StringWriter()
         val pw = PrintWriter(sw)
         throwable.printStackTrace(pw)
@@ -56,87 +92,57 @@ object LogUtil {
                 MAX_STACK_TRACE_SIZE - disclaimer.length
             ) + disclaimer
         }
-        e(stackTraceString)
+        Log.e(mTag, content(index = index, msg = stackTraceString))
     }
 
-    fun v(msg: String?) {
+    fun v(msg: String?, index: Int = mIndex) {
         if (debug) {
-            val stackTraceElement = Throwable().stackTrace[1]
-            val clazz = stackTraceElement.fileName
-            val method = stackTraceElement.methodName
-            val line = stackTraceElement.lineNumber
-            Log.v(Tag, content(clazz = clazz, method = method, line = line.toString(), msg = msg))
+            Log.v(mTag, content(index = index, msg = msg))
         }
     }
 
 
-    fun d(msg: String?) {
+    fun d(msg: String?, index: Int = mIndex) {
         if (debug) {
-            val stackTraceElement = Throwable().stackTrace[1]
-            val clazz = stackTraceElement.fileName
-            val method = stackTraceElement.methodName
-            val line = stackTraceElement.lineNumber
-            Log.d(Tag, content(clazz = clazz, method = method, line = line.toString(), msg = msg))
+            Log.d(mTag, content(index = index, msg = msg))
         }
     }
 
 
-    fun i(msg: String?) {
+    fun i(msg: String?, index: Int = mIndex) {
         if (debug) {
-            val stackTraceElement = Throwable().stackTrace[1]
-            val clazz = stackTraceElement.fileName
-            val method = stackTraceElement.methodName
-            val line = stackTraceElement.lineNumber
-            Log.i(Tag, content(clazz = clazz, method = method, line = line.toString(), msg = msg))
+            Log.i(mTag, content(index = index, msg = msg))
         }
     }
 
 
-    fun w(msg: String?) {
+    fun w(msg: String?, index: Int = mIndex) {
         if (debug) {
-            val stackTraceElement = Throwable().stackTrace[1]
-            val clazz = stackTraceElement.fileName
-            val method = stackTraceElement.methodName
-            val line = stackTraceElement.lineNumber
-            Log.w(Tag, content(clazz = clazz, method = method, line = line.toString(), msg = msg))
+            Log.w(mTag, content(index = index, msg = msg))
         }
     }
 
 
-    fun wtf(msg: String?) {
+    fun wtf(msg: String?, index: Int = mIndex) {
         if (debug) {
-            val stackTraceElement = Throwable().stackTrace[1]
-            val clazz = stackTraceElement.fileName
-            val method = stackTraceElement.methodName
-            val line = stackTraceElement.lineNumber
-            Log.wtf(Tag, content(clazz = clazz, method = method, line = line.toString(), msg = msg))
+            Log.wtf(mTag, content(index = index, msg = msg))
         }
     }
 
 
-    fun e(msg: String?) {
+    fun e(msg: String?, index: Int = mIndex) {
         if (debug) {
-            val stackTraceElement = Throwable().stackTrace[1]
-            val clazz = stackTraceElement.fileName
-            val method = stackTraceElement.methodName
-            val line = stackTraceElement.lineNumber
-            Log.e(Tag, content(clazz = clazz, method = method, line = line.toString(), msg = msg))
+            Log.e(mTag, content(index = index, msg = msg))
         }
     }
 
-
-    private fun printLine(isTop: Boolean) {
-        if (isTop) {
-            e("╔═══════════════════════════════════════════════════════════════════════════════════════")
-        } else {
-            e("╚═══════════════════════════════════════════════════════════════════════════════════════")
-        }
-    }
-
-
-    fun json(msg: String?) {
+    /**
+     * 打印json格式文本
+     * Print text in JSON format
+     */
+    fun json(msg: String?,index:Int = mIndex) {
         if (msg.isNullOrEmpty()) {
-            e("Json is Empty")
+            e("Json is Empty",index+1)
             return
         }
         var message: String
@@ -157,77 +163,20 @@ object LogUtil {
         } catch (e: JSONException) {
             msg
         }
-        printLine(true)
+        i("╔═══════════════════════════════════════════════════════════════════════════════════════",index = index +1)
         message = "Json:$LINE_SEPARATOR$message"
         val lines = message.split(LINE_SEPARATOR).toTypedArray()
         for (line in lines) {
-            e("║ $line")
+            i(msg = "║ $line",index = index +1)
         }
-        printLine(false)
+        i("╚═══════════════════════════════════════════════════════════════════════════════════════",index = index +1)
     }
 
-
-    fun jsonI(msg: String?) {
-        if (msg.isNullOrEmpty()) {
-            e("Json is Empty")
-            return
-        }
-        var message: String
-        message = try {
-            if (msg.startsWith("{")) {
-                val jsonObject = JSONObject(msg)
-                jsonObject.toString(4) //最重要的方法，就一行，返回格式化的json字符串，其中的数字4是缩进字符数
-            } else if (msg.startsWith("[")) {
-                val jsonArray = JSONArray(msg)
-                jsonArray.toString(4)
-            } else {
-                msg
-            }
-        } catch (e: JSONException) {
-            msg
-        }
-        printLine(true)
-        message = "Json:$LINE_SEPARATOR$message"
-        val lines =
-            message.split(LINE_SEPARATOR!!).toTypedArray()
-        for (line in lines) {
-            i("║ $line")
-        }
-        printLine(false)
-    }
-
-
-    fun jsonD(msg: String?) {
-        if (msg.isNullOrEmpty()) {
-            e("Json is Empty")
-            return
-        }
-        var message: String
-        message = try {
-            if (msg.startsWith("{")) {
-                val jsonObject = JSONObject(msg)
-                jsonObject.toString(4) //最重要的方法，就一行，返回格式化的json字符串，其中的数字4是缩进字符数
-            } else if (msg.startsWith("[")) {
-                val jsonArray = JSONArray(msg)
-                jsonArray.toString(4)
-            } else {
-                msg
-            }
-        } catch (e: JSONException) {
-            msg
-        }
-        printLine(true)
-        message = "Json:$LINE_SEPARATOR$message"
-        val lines =
-            message.split(LINE_SEPARATOR!!).toTypedArray()
-        for (line in lines) {
-            d("║ $line")
-        }
-        printLine(false)
-    }
-
-
-    fun xml(xml: String?) {
+    /**
+     * 打印xml格式文本
+     * Print text in XML format
+     */
+    fun xml(xml: String?,index: Int = mIndex) {
         var xml = xml
         if (xml != null) {
             xml = formatXML(xml)
@@ -235,15 +184,15 @@ object LogUtil {
         } else {
             xml = "Xml:End"
         }
-        printLine(true)
+        e("╔═══════════════════════════════════════════════════════════════════════════════════════",index = index +1)
         val lines =
-            xml.split(LINE_SEPARATOR!!).toTypedArray()
+            xml.split(LINE_SEPARATOR).toTypedArray()
         for (line in lines) {
             if (!TextUtils.isEmpty(line)) {
                 e("║ $line")
             }
         }
-        printLine(false)
+        e("╚═══════════════════════════════════════════════════════════════════════════════════════",index = index +1)
     }
 
     private fun formatXML(inputXML: String): String {
