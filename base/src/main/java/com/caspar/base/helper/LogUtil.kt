@@ -33,7 +33,9 @@ object LogUtil {
 
     /**
      * 获取文件行数的堆栈信息下标
+     * 默认是3，这是工具类配套使用好的，如果需要单独设置，请做测试到你需要的下标以达到你需要的文字
      * Gets the index of stack information for the number of file lines
+     * The default is 3, which is used with the tool class. If it needs to be set separately, please test to the subscript you need to achieve the text you need
      */
     private var mIndex = 3
 
@@ -59,6 +61,13 @@ object LogUtil {
      * 打印文本格式:[线程:Thread.currentThread()] -> [方法名称:@param method] -> [所处文件行数:@param clazz:@param line] -> 正文
      *
      *  Print text format :[Thread: thread.currentThread ()] -> [method name :@param method] -> [line number :@param clazz:@param line] -> body
+     *  示例(sample) ：
+     *  class MainActivity{
+     *   fun test(){
+     *       LogUtil.e("test")
+     *   }
+     *  }
+     * Logcat -----> [thread:main]⇢[test()]⇢(MainActivity.kt:124) -> test
      */
     fun content(
         index: Int,
