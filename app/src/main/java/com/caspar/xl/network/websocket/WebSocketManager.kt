@@ -5,7 +5,7 @@ import android.text.TextUtils
 import com.caspar.base.helper.LogUtil
 import com.caspar.base.helper.LogUtil.e
 import com.caspar.base.helper.LogUtil.i
-import com.caspar.base.helper.LogUtil.jsonD
+import com.caspar.base.helper.LogUtil.json
 import com.caspar.xl.config.ApiConfig
 import okhttp3.*
 import okio.ByteString
@@ -178,7 +178,7 @@ class WebSocketManager private constructor() {
             LogUtil.e("发送失败，可能是因为未连接,url:${url}")
             return false
         }
-        jsonD(text)
+        json(text)
         return mWebSocket!!.send(text)
     }
 

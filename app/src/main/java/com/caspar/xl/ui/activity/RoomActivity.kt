@@ -67,7 +67,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room),
                         val id = mViewModel.getTeacherForId(tId)
                         str = "查找到老师，老师对应的id为${id}\n"
                         val user = mViewModel.getUserByTid(id)
-                        if (user != null) {
+                        if (!user.isNullOrEmpty()) {
                             str += GsonUtils.toJson(user)
                             mBindingView.tvLogcat.text = str
                         } else {

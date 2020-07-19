@@ -15,7 +15,7 @@ interface UserDao {
     suspend fun getAllUser(): List<UserBean>
 
     @Query("SELECT * from user_table where t_id = :tId")
-    suspend fun getUserByTid(tId:Long): UserBean
+    suspend fun getUserByTid(tId:Long): List<UserBean>
 
     @Query("SELECT * from user_table where id = :uId")
     suspend fun getUserById(uId:Long): UserBean

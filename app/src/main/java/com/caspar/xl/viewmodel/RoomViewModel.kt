@@ -48,7 +48,7 @@ class RoomViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 根据老师id获取学生信息
      */
-    suspend fun getUserByTid(index: Long): UserBean {
+    suspend fun getUserByTid(index: Long): List<UserBean> {
         return user.getUserByTid(index)
     }
 
