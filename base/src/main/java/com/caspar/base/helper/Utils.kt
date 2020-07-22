@@ -338,4 +338,13 @@ object Utils {
         val keyFactory = KeyFactory.getInstance("RSA")
         return keyFactory.generatePrivate(keySpec)
     }
+    
+    //图片将要保存的路径文件夹
+    private fun getOutputDirectory(context: Context,appName:String): File {
+        val mediaDir = context.externalMediaDirs.firstOrNull()?.let {
+            File(it, appName).apply { mkdirs() }
+        }
+        return if (mediaDir != null && mediaDir.exists())
+            mediaDir else context.filesDir
+    }
 }
