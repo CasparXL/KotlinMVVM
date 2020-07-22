@@ -16,10 +16,12 @@ interface ApiService {
 
     /**
      * 下载文件
+     * @param range 下载的范围，一般只有流文件才会生效，其他类型的下载需要做文件过滤 格式为:bytes = 全部[0-],范围[0-100]
+     * @param url 下载的连接地址
      */
     @Streaming
-    @GET("v1/download")
-    fun download(@Query("filename") fileName: String?): Call<ResponseBody>?
+    @GET
+    suspend fun download(@Header("Range") range :String, @Url url: String): ResponseBody
 
 
     /**
