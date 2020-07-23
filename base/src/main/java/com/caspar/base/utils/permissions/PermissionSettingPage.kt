@@ -60,18 +60,15 @@ internal object PermissionSettingPage {
     private fun huawei(context: Context): Intent {
         val intent = Intent()
         intent.component = ComponentName(
-            "com.huawei.systemmanager",
-            "com.huawei.permissionmanager.ui.MainActivity"
+            "com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity"
         )
         if (hasIntent(context, intent)) return intent
         intent.component = ComponentName(
-            "com.huawei.systemmanager",
-            "com.huawei.systemmanager.addviewmonitor.AddViewMonitorActivity"
+            "com.huawei.systemmanager", "com.huawei.systemmanager.addviewmonitor.AddViewMonitorActivity"
         )
         if (hasIntent(context, intent)) return intent
         intent.component = ComponentName(
-            "com.huawei.systemmanager",
-            "com.huawei.notificationmanager.ui.NotificationManagmentActivity"
+            "com.huawei.systemmanager", "com.huawei.notificationmanager.ui.NotificationManagmentActivity"
         )
         return intent
     }
@@ -83,13 +80,11 @@ internal object PermissionSettingPage {
         intent.setPackage("com.miui.securitycenter")
         if (hasIntent(context, intent)) return intent
         intent.setClassName(
-            "com.miui.securitycenter",
-            "com.miui.permcenter.permissions.AppPermissionsEditorActivity"
+            "com.miui.securitycenter", "com.miui.permcenter.permissions.AppPermissionsEditorActivity"
         )
         if (hasIntent(context, intent)) return intent
         intent.setClassName(
-            "com.miui.securitycenter",
-            "com.miui.permcenter.permissions.PermissionsEditorActivity"
+            "com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity"
         )
         return intent
     }
@@ -98,13 +93,11 @@ internal object PermissionSettingPage {
         val intent = Intent()
         intent.putExtra("packageName", context.packageName)
         intent.setClassName(
-            "com.color.safecenter",
-            "com.color.safecenter.permission.floatwindow.FloatWindowListActivity"
+            "com.color.safecenter", "com.color.safecenter.permission.floatwindow.FloatWindowListActivity"
         )
         if (hasIntent(context, intent)) return intent
         intent.setClassName(
-            "com.coloros.safecenter",
-            "com.coloros.safecenter.sysfloatwindow.FloatWindowListActivity"
+            "com.coloros.safecenter", "com.coloros.safecenter.sysfloatwindow.FloatWindowListActivity"
         )
         if (hasIntent(context, intent)) return intent
         intent.setClassName("com.oppo.safe", "com.oppo.safe.permission.PermissionAppListActivity")
@@ -114,14 +107,12 @@ internal object PermissionSettingPage {
     private fun vivo(context: Context): Intent {
         val intent = Intent()
         intent.setClassName(
-            "com.iqoo.secure",
-            "com.iqoo.secure.ui.phoneoptimize.FloatWindowManager"
+            "com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.FloatWindowManager"
         )
         intent.putExtra("packagename", context.packageName)
         if (hasIntent(context, intent)) return intent
         intent.component = ComponentName(
-            "com.iqoo.secure",
-            "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"
+            "com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity"
         )
         return intent
     }
@@ -130,14 +121,12 @@ internal object PermissionSettingPage {
         val intent = Intent("com.meizu.safe.security.SHOW_APPSEC")
         intent.putExtra("packageName", context.packageName)
         intent.component = ComponentName(
-            "com.meizu.safe",
-            "com.meizu.safe.security.AppSecActivity"
+            "com.meizu.safe", "com.meizu.safe.security.AppSecActivity"
         )
         return intent
     }
 
     private fun hasIntent(context: Context, intent: Intent): Boolean {
-        return !context.packageManager
-            .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty()
+        return !context.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty()
     }
 }

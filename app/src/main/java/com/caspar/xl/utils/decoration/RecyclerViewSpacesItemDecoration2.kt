@@ -7,16 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import java.util.*
 
-class RecyclerViewSpacesItemDecoration2 internal constructor(private val mSpaceValueMap: HashMap<String, Int>) :
-    ItemDecoration() {
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
-        parent.adapter?.apply{
-            if (this.getItemViewType(parent.getChildAdapterPosition(view))==0){
+class RecyclerViewSpacesItemDecoration2 internal constructor(private val mSpaceValueMap: HashMap<String, Int>) : ItemDecoration() {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        parent.adapter?.apply {
+            if (this.getItemViewType(parent.getChildAdapterPosition(view)) == 0) {
                 if (mSpaceValueMap[TOP_DECORATION] != null) outRect.top = mSpaceValueMap[TOP_DECORATION]!!
                 if (mSpaceValueMap[LEFT_DECORATION] != null) outRect.left = mSpaceValueMap[LEFT_DECORATION]!!
                 if (mSpaceValueMap[RIGHT_DECORATION] != null) outRect.right = mSpaceValueMap[RIGHT_DECORATION]!!

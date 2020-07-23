@@ -15,11 +15,7 @@ import androidx.viewpager.widget.ViewPager
  */
 class NoScrollViewPager : ViewPager {
     constructor(context: Context) : super(context) {}
-    constructor(context: Context, attrs: AttributeSet?) : super(
-        context,
-        attrs
-    ) {
-    }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {}
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         // 不拦截这个事件

@@ -43,8 +43,7 @@ object RxBus {
      * @return
     </T> */
     private fun <T> getObservable(type: Class<T>?): Flowable<T> {
-        return mSubject.toFlowable(BackpressureStrategy.BUFFER)
-            .ofType(type)
+        return mSubject.toFlowable(BackpressureStrategy.BUFFER).ofType(type)
     }
 
     /**
@@ -55,8 +54,7 @@ object RxBus {
      * @return
     </T> */
     fun <T> getObservableList(type: Class<List<T>?>?): Flowable<List<T>?> {
-        return mSubject.toFlowable(BackpressureStrategy.BUFFER)
-            .ofType(type)
+        return mSubject.toFlowable(BackpressureStrategy.BUFFER).ofType(type)
     }
 
     /**
@@ -68,15 +66,8 @@ object RxBus {
      * @param error
      * @return
     </T> */
-    private fun <T> doSubscribe(
-        type: Class<T>?,
-        next: Consumer<T>?,
-        error: Consumer<Throwable>?
-    ): Disposable {
-        return getObservable(type)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(next, error)
+    private fun <T> doSubscribe(type: Class<T>?, next: Consumer<T>?, error: Consumer<Throwable>?): Disposable {
+        return getObservable(type).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(next, error)
     }
 
     /**
@@ -94,10 +85,7 @@ object RxBus {
      * @param o
      * @param disposable
      */
-    fun addSubscription(
-        o: Any,
-        disposable: Disposable?
-    ) {
+    fun addSubscription(o: Any, disposable: Disposable?) {
         if (mSubscriptionMap == null) {
             mSubscriptionMap = HashMap()
         }
@@ -133,14 +121,9 @@ object RxBus {
     }
 
     fun <T> rxBusRegisterRxBus(o: Any, eventType: Class<T>?, action: Consumer<T>?) {
-        val disposable = doSubscribe(
-            eventType,
-            action,
-            Consumer { throwable: Throwable ->
-                e(o.javaClass.name + "的RxBus发送订阅报错:" )
-                e(throwable)
-            }
-        )
+        val disposable = doSubscribe(eventType, action, Consumer { throwable: Throwable ->
+            e(throwable)
+        })
         addSubscription(o, disposable)
     }
 

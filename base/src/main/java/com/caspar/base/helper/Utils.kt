@@ -10,6 +10,7 @@ import android.widget.TextView
 import org.json.JSONArray
 import org.json.JSONTokener
 import java.io.BufferedReader
+import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
 import java.math.BigInteger
@@ -20,7 +21,6 @@ import java.security.spec.RSAPrivateKeySpec
 import java.security.spec.RSAPublicKeySpec
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 object Utils {
     /**
@@ -36,8 +36,7 @@ object Utils {
             //获取assets资源管理器
             val assetManager = context.assets
             //通过管理器打开文件并读取
-            val bf =
-                BufferedReader(InputStreamReader(assetManager.open(fileName!!)))
+            val bf = BufferedReader(InputStreamReader(assetManager.open(fileName!!)))
             var line: String?
             while (bf.readLine().also { line = it } != null) {
                 stringBuilder.append(line)
@@ -60,43 +59,22 @@ object Utils {
     /**
      * 设置文本文字和大小以及颜色，分为两段，开始部分和结束部分
      */
-    fun textAfter(
-        textView: TextView,
-        start: String,
-        content: String,
-        startSize: Int,
-        endSize: Int,
-        startColor: Int,
-        endColor: Int
-    ) {
+    fun textAfter(textView: TextView, start: String, content: String, startSize: Int, endSize: Int, startColor: Int, endColor: Int) {
         val spannableString: SpannableString = SpannableString(start + content)
         spannableString.setSpan(
-            AbsoluteSizeSpan(startSize),
-            0,
-            start.length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+            AbsoluteSizeSpan(startSize), 0, start.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
         );
         spannableString.setSpan(
-            ForegroundColorSpan(startColor),
-            0,
-            start.length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(startColor), 0, start.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
         );
         spannableString.setSpan(
-            AbsoluteSizeSpan(endSize),
-            start.length,
-            start.length + content.length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+            AbsoluteSizeSpan(endSize), start.length, start.length + content.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
         );
         spannableString.setSpan(
-            ForegroundColorSpan(endColor),
-            start.length,
-            start.length + content.length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(endColor), start.length, start.length + content.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
         );
         textView.text = spannableString
     }
-
 
     //可根据需要自行截取数据显示
     fun getTimeHour(date: Date?): String {
@@ -132,12 +110,8 @@ object Utils {
         var gmtString = gmtFormatter.format(now)
         val bidiFormatter = BidiFormatter.getInstance()
         val l = Locale.getDefault()
-        val isRtl =
-            TextUtils.getLayoutDirectionFromLocale(l) == View.LAYOUT_DIRECTION_RTL
-        gmtString = bidiFormatter.unicodeWrap(
-            gmtString,
-            if (isRtl) TextDirectionHeuristics.RTL else TextDirectionHeuristics.LTR
-        )
+        val isRtl = TextUtils.getLayoutDirectionFromLocale(l) == View.LAYOUT_DIRECTION_RTL
+        gmtString = bidiFormatter.unicodeWrap(gmtString, if (isRtl) TextDirectionHeuristics.RTL else TextDirectionHeuristics.LTR)
         return if (!includeName) {
             gmtString
         } else gmtString
@@ -157,8 +131,7 @@ object Utils {
      * @param bitNum 多少位
      */
     fun intToBinary32(i: Int, bitNum: Int): String {
-        val binaryStr =
-            StringBuilder(Integer.toBinaryString(i))
+        val binaryStr = StringBuilder(Integer.toBinaryString(i))
         while (binaryStr.length < bitNum) {
             binaryStr.insert(0, "0")
         }
@@ -168,10 +141,7 @@ object Utils {
     /**
      * 文字添加icon，换行时不会出现剧中的问题
      */
-    fun getTextIcon(
-        drawable: Drawable,
-        text: String
-    ): SpannableString? {
+    fun getTextIcon(drawable: Drawable, text: String): SpannableString? {
         val spannableString = SpannableString("  $text")
         drawable.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
         spannableString.setSpan(VerticalImageSpan(drawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -192,12 +162,7 @@ object Utils {
             val c = strJson[i]
             if (c == '{') {
                 tabNum++
-                jsonFormat.append(
-                    """
-                        $c
-                        
-                        """.trimIndent()
-                )
+                jsonFormat.append("""$c""".trimIndent())
                 jsonFormat.append(getSpaceOrTab(tabNum))
             } else if (c == '}') {
                 tabNum--
@@ -205,12 +170,7 @@ object Utils {
                 jsonFormat.append(getSpaceOrTab(tabNum))
                 jsonFormat.append(c)
             } else if (c == ',') {
-                jsonFormat.append(
-                    """
-                        $c
-                        
-                        """.trimIndent()
-                )
+                jsonFormat.append("""$c""".trimIndent())
                 jsonFormat.append(getSpaceOrTab(tabNum))
             } else if (c == ':') {
                 jsonFormat.append("$c ")
@@ -220,12 +180,7 @@ object Utils {
                 if (next == ']') {
                     jsonFormat.append(c)
                 } else {
-                    jsonFormat.append(
-                        """
-                            $c
-                            
-                            """.trimIndent()
-                    )
+                    jsonFormat.append("""$c""".trimIndent())
                     jsonFormat.append(getSpaceOrTab(tabNum))
                 }
             } else if (c == ']') {
@@ -233,11 +188,7 @@ object Utils {
                 if (last == '[') {
                     jsonFormat.append(c)
                 } else {
-                    jsonFormat.append(
-                        """
-                            ${getSpaceOrTab(tabNum)}$c
-                            """.trimIndent()
-                    )
+                    jsonFormat.append("""${getSpaceOrTab(tabNum)}$c""".trimIndent())
                 }
             } else {
                 jsonFormat.append(c)
@@ -324,27 +275,26 @@ object Utils {
     }
 
     fun getPublicKey(modulus: String, publicExponent: String): PublicKey? {
-        val biglntModulus: BigInteger = BigInteger(modulus,16)
-        val biglntPrivateExponent: BigInteger = BigInteger(publicExponent,16)
+        val biglntModulus: BigInteger = BigInteger(modulus, 16)
+        val biglntPrivateExponent: BigInteger = BigInteger(publicExponent, 16)
         val keySpec = RSAPublicKeySpec(biglntModulus, biglntPrivateExponent)
         val keyFactory = KeyFactory.getInstance("RSA")
         return keyFactory.generatePublic(keySpec)
     }
 
     fun getPrivateKey(modulus: String, privateExponent: String): PrivateKey? {
-        val biglntModulus = BigInteger(modulus,16)
-        val biglntPrivateExponent: BigInteger = BigInteger(privateExponent,16)
+        val biglntModulus = BigInteger(modulus, 16)
+        val biglntPrivateExponent: BigInteger = BigInteger(privateExponent, 16)
         val keySpec = RSAPrivateKeySpec(biglntModulus, biglntPrivateExponent)
         val keyFactory = KeyFactory.getInstance("RSA")
         return keyFactory.generatePrivate(keySpec)
     }
-    
+
     //图片将要保存的路径文件夹
-    private fun getOutputDirectory(context: Context,appName:String): File {
+    private fun getOutputDirectory(context: Context, appName: String): File {
         val mediaDir = context.externalMediaDirs.firstOrNull()?.let {
             File(it, appName).apply { mkdirs() }
         }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else context.filesDir
+        return if (mediaDir != null && mediaDir.exists()) mediaDir else context.filesDir
     }
 }

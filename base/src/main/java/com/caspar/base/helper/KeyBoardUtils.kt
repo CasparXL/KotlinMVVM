@@ -20,12 +20,10 @@ object KeyBoardUtils {
      * @param mContext
      */
     fun openKeyBord(mEditText: EditText?, mContext: Context) {
-        val imm = mContext
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(mEditText, InputMethodManager.RESULT_SHOWN)
         imm.toggleSoftInput(
-            InputMethodManager.SHOW_FORCED,
-            InputMethodManager.HIDE_IMPLICIT_ONLY
+            InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY
         )
     }
 
@@ -36,8 +34,7 @@ object KeyBoardUtils {
      * @param mContext
      */
     fun closeKeyBord(mEditText: EditText, mContext: Context) {
-        val imm =
-            (mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+        val imm = (mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         imm.hideSoftInputFromWindow(mEditText.windowToken, 0)
     }
 
@@ -48,11 +45,8 @@ object KeyBoardUtils {
      */
     fun hideInputForce(activity: Activity?) {
         if (activity == null || activity.currentFocus == null) return
-        (activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .hideSoftInputFromWindow(
-                activity.currentFocus!!
-                    .windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS
+        (activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                activity.currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
             )
     }
 
@@ -62,8 +56,7 @@ object KeyBoardUtils {
      * @param activity
      */
     fun hideInputForce(activity: Fragment) {
-        activity.activity!!.window
-            .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        activity.activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
     /**
@@ -71,7 +64,7 @@ object KeyBoardUtils {
      */
     fun showInput(context: Context, view: View) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            view.requestFocus()
+        view.requestFocus()
         imm.showSoftInput(view, 0)
     }
 }

@@ -10,22 +10,20 @@ import com.caspar.base.utils.permissions.Permission
 import com.caspar.base.utils.permissions.XXPermissions
 import com.caspar.xl.config.ARouterApi
 
-
 /**
  *  "CasparXL" 创建 2020/5/12.
  *   界面名称以及功能: 首页功能菜单
  */
 class HomeViewModel(application: Application) : BaseViewModel(application) {
     //功能列表
-    val mData: List<String> = arrayListOf("翻译","CameraX","Room")
+    val mData: List<String> = arrayListOf("翻译", "CameraX", "Room")
 
-    fun permission(){
-        XXPermissions.with(ActivityStackManager.topActivity).permission(Permission.Group.CAMERA).request(object :
-            OnPermission {
+    fun permission() {
+        XXPermissions.with(ActivityStackManager.topActivity).permission(Permission.Group.CAMERA).request(object : OnPermission {
             override fun hasPermission(granted: List<String?>?, isAll: Boolean) {
-                if (isAll){
+                if (isAll) {
                     ARouter.getInstance().build(ARouterApi.CAMERA).navigation()
-                }else{
+                } else {
                     toast("请先同意权限")
                 }
             }

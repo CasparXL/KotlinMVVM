@@ -10,32 +10,19 @@ import android.util.TypedValue
  */
 //Float类型转换dp
 val Float.dp
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        this,
-        Resources.getSystem().displayMetrics
-    )
+    get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics)
+
 //Int类型转换dp[本质上就是Float转换dp,只不过我们的编码习惯更习惯于int.dp 例: 18.dp]
 val Int.dp
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        this.toFloat(),
-        Resources.getSystem().displayMetrics
-    ).toInt()
+    get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics).toInt()
+
 //Float类型转换sp
 val Float.sp
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_SP,
-        this,
-        Resources.getSystem().displayMetrics
-    )
+    get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, this, Resources.getSystem().displayMetrics)
+
 //Int类型转换sp[本质上就是Float转换sp,只不过我们的编码习惯更习惯于int.sp 例: 18.sp]
 val Int.sp
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_SP,
-        this.toFloat(),
-        Resources.getSystem().displayMetrics
-    ).toInt()
+    get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, this.toFloat(), Resources.getSystem().displayMetrics).toInt()
 
 //转换dip
 fun Context.dip(value: Int): Int {

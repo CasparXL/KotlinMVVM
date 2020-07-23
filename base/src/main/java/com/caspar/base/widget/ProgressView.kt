@@ -14,11 +14,7 @@ import android.view.View
 import com.caspar.base.R
 import kotlin.math.min
 
-class ProgressView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+class ProgressView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
     /** Sizes (with defaults in DP)  */
     private var mCircleRadius = 28
     private var mBarWidth = 4
@@ -67,9 +63,9 @@ class ProgressView @JvmOverloads constructor(
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
         val heightSize = MeasureSpec.getSize(heightMeasureSpec)
         width = when (widthMode) {
-            MeasureSpec.EXACTLY -> widthSize
+            MeasureSpec.EXACTLY                          -> widthSize
             MeasureSpec.AT_MOST, MeasureSpec.UNSPECIFIED -> Math.min(viewWidth, widthSize)
-            else -> viewWidth
+            else                                         -> viewWidth
         }
         height = if (heightMode == MeasureSpec.EXACTLY || widthMode == MeasureSpec.EXACTLY) {
             heightSize
@@ -119,29 +115,18 @@ class ProgressView @JvmOverloads constructor(
         mCircleBounds = if (!mFillRadius) {
             // Width should equal to Height, find the min value to setup the circle
             val minValue = Math.min(
-                layoutWidth - paddingLeft - paddingRight,
-                layoutHeight - paddingBottom - paddingTop
+                layoutWidth - paddingLeft - paddingRight, layoutHeight - paddingBottom - paddingTop
             )
-            val circleDiameter =
-                Math.min(minValue, mCircleRadius * 2 - mBarWidth * 2)
-
+            val circleDiameter = Math.min(minValue, mCircleRadius * 2 - mBarWidth * 2)
             // Calc the Offset if needed for centering the wheel in the available space
-            val xOffset =
-                (layoutWidth - paddingLeft - paddingRight - circleDiameter) / 2 + paddingLeft
-            val yOffset =
-                (layoutHeight - paddingTop - paddingBottom - circleDiameter) / 2 + paddingTop
+            val xOffset = (layoutWidth - paddingLeft - paddingRight - circleDiameter) / 2 + paddingLeft
+            val yOffset = (layoutHeight - paddingTop - paddingBottom - circleDiameter) / 2 + paddingTop
             RectF(
-                (xOffset + mBarWidth).toFloat(),
-                (yOffset + mBarWidth).toFloat(),
-                (xOffset + circleDiameter - mBarWidth).toFloat(),
-                (yOffset + circleDiameter - mBarWidth).toFloat()
+                (xOffset + mBarWidth).toFloat(), (yOffset + mBarWidth).toFloat(), (xOffset + circleDiameter - mBarWidth).toFloat(), (yOffset + circleDiameter - mBarWidth).toFloat()
             )
         } else {
             RectF(
-                (paddingLeft + mBarWidth).toFloat(),
-                (paddingTop + mBarWidth).toFloat(),
-                (layoutWidth - paddingRight - mBarWidth).toFloat(),
-                (layoutHeight - paddingBottom - mBarWidth).toFloat()
+                (paddingLeft + mBarWidth).toFloat(), (paddingTop + mBarWidth).toFloat(), (layoutWidth - paddingRight - mBarWidth).toFloat(), (layoutHeight - paddingBottom - mBarWidth).toFloat()
             )
         }
     }
@@ -168,7 +153,6 @@ class ProgressView @JvmOverloads constructor(
             mProgress += deltaNormalized
             if (mProgress > 360) {
                 mProgress -= 360f
-
                 // A full turn has been completed
                 // we run the callback with -1 in case we want to
                 // do something, like changing the color
@@ -187,8 +171,7 @@ class ProgressView @JvmOverloads constructor(
             if (mProgress != mTargetProgress) {
                 //We smoothly increase the progress bar
                 mustInvalidate = true
-                val deltaTime =
-                    (SystemClock.uptimeMillis() - mLastTimeAnimated).toFloat() / 1000
+                val deltaTime = (SystemClock.uptimeMillis() - mLastTimeAnimated).toFloat() / 1000
                 val deltaNormalized = deltaTime * mSpinSpeed
                 mProgress = Math.min(mProgress + deltaNormalized, mTargetProgress)
                 mLastTimeAnimated = SystemClock.uptimeMillis()
@@ -201,12 +184,10 @@ class ProgressView @JvmOverloads constructor(
             if (!mLinearProgress) {
                 val factor = 2.0f
                 offset = (1.0f - Math.pow(
-                    1.0f - mProgress / 360.0f.toDouble(),
-                    2.0f * factor.toDouble()
+                    1.0f - mProgress / 360.0f.toDouble(), 2.0f * factor.toDouble()
                 )).toFloat() * 360.0f
                 progress = (1.0f - Math.pow(
-                    1.0f - mProgress / 360.0f.toDouble(),
-                    factor.toDouble()
+                    1.0f - mProgress / 360.0f.toDouble(), factor.toDouble()
                 )).toFloat() * 360.0f
             }
             if (isInEditMode) {
@@ -219,10 +200,7 @@ class ProgressView @JvmOverloads constructor(
         }
     }
 
-    override fun onVisibilityChanged(
-        changedView: View,
-        visibility: Int
-    ) {
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == VISIBLE) {
             mLastTimeAnimated = SystemClock.uptimeMillis()
@@ -241,10 +219,8 @@ class ProgressView @JvmOverloads constructor(
                 //}
                 mBarGrowingFromFront = !mBarGrowingFromFront
             }
-            val distance =
-                Math.cos((mTimeStartGrowing / mBarSpinCycleTime + 1) * Math.PI).toFloat() / 2 + 0.5f
-            val destLength =
-                (BAR_MAX_LENGTH - BAR_LENGTH).toFloat()
+            val distance = Math.cos((mTimeStartGrowing / mBarSpinCycleTime + 1) * Math.PI).toFloat() / 2 + 0.5f
+            val destLength = (BAR_MAX_LENGTH - BAR_LENGTH).toFloat()
             if (mBarGrowingFromFront) {
                 mBarExtraLength = distance * destLength
             } else {
@@ -293,8 +269,7 @@ class ProgressView @JvmOverloads constructor(
 
     private fun runCallback() {
         if (mCallback != null) {
-            val normalizedProgress =
-                Math.round(mProgress * 100 / 360.0f).toFloat() / 100
+            val normalizedProgress = Math.round(mProgress * 100 / 360.0f).toFloat() / 100
             mCallback!!.onProgressUpdate(normalizedProgress)
         }
     }
@@ -363,11 +338,10 @@ class ProgressView @JvmOverloads constructor(
         mFillRadius = savedState.fillRadius
         mLastTimeAnimated = SystemClock.uptimeMillis()
     }
-
     /**
      * @return the current progress between 0.0 and 1.0,
      * if the wheel is indeterminate, then the result is -1
-     */// If we are currently in the right position
+     */ // If we are currently in the right position
     // we set again the last time animated so the
     // animation starts smooth from here
     /**
@@ -393,7 +367,6 @@ class ProgressView @JvmOverloads constructor(
             if (progress == mTargetProgress) {
                 return
             }
-
             // If we are currently in the right position
             // we set again the last time animated so the
             // animation starts smooth from here
@@ -406,7 +379,6 @@ class ProgressView @JvmOverloads constructor(
     //----------------------------------
     //Getters + setters
     //----------------------------------
-
     /**
      * Sets the determinate progress mode
      *
@@ -418,7 +390,6 @@ class ProgressView @JvmOverloads constructor(
             invalidate()
         }
     }
-
     /**
      * @return the radius of the wheel in pixels
      */
@@ -435,7 +406,6 @@ class ProgressView @JvmOverloads constructor(
                 invalidate()
             }
         }
-
     /**
      * @return the width of the spinning bar
      */
@@ -452,7 +422,6 @@ class ProgressView @JvmOverloads constructor(
                 invalidate()
             }
         }
-
     /**
      * @return the color of the spinning bar
      */
@@ -470,7 +439,6 @@ class ProgressView @JvmOverloads constructor(
                 invalidate()
             }
         }
-
     /**
      * @return the color of the wheel's contour
      */
@@ -488,7 +456,6 @@ class ProgressView @JvmOverloads constructor(
                 invalidate()
             }
         }
-
     /**
      * @return the base spinning speed, in full circle turns per second
      * (1.0 equals on full turn in one second), this value also is applied for
@@ -506,7 +473,6 @@ class ProgressView @JvmOverloads constructor(
         set(spinSpeed) {
             mSpinSpeed = spinSpeed * 360.0f
         }
-
     /**
      * @return the width of the wheel's contour in pixels
      */
@@ -584,16 +550,15 @@ class ProgressView @JvmOverloads constructor(
 
         companion object {
             // required field that makes Parcelables from a Parcel
-            val CREATOR: Parcelable.Creator<WheelSavedState> =
-                object : Parcelable.Creator<WheelSavedState> {
-                    override fun createFromParcel(`in`: Parcel): WheelSavedState? {
-                        return WheelSavedState(`in`)
-                    }
-
-                    override fun newArray(size: Int): Array<WheelSavedState?> {
-                        return arrayOfNulls(size)
-                    }
+            val CREATOR: Parcelable.Creator<WheelSavedState> = object : Parcelable.Creator<WheelSavedState> {
+                override fun createFromParcel(`in`: Parcel): WheelSavedState? {
+                    return WheelSavedState(`in`)
                 }
+
+                override fun newArray(size: Int): Array<WheelSavedState?> {
+                    return arrayOfNulls(size)
+                }
+            }
         }
     }
 
@@ -606,35 +571,23 @@ class ProgressView @JvmOverloads constructor(
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.ProgressView)
         mBarWidth = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            mBarWidth.toFloat(),
-            resources.displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP, mBarWidth.toFloat(), resources.displayMetrics
         ).toInt()
         mRimWidth = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            mRimWidth.toFloat(),
-            resources.displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP, mRimWidth.toFloat(), resources.displayMetrics
         ).toInt()
         mCircleRadius = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            mCircleRadius.toFloat(),
-            resources.displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP, mCircleRadius.toFloat(), resources.displayMetrics
         ).toInt()
         mCircleRadius = array.getDimension(
-            R.styleable.ProgressView_circleRadius,
-            mCircleRadius.toFloat()
+            R.styleable.ProgressView_circleRadius, mCircleRadius.toFloat()
         ).toInt()
         mFillRadius = array.getBoolean(R.styleable.ProgressView_fillRadius, false)
-        mBarWidth =
-            array.getDimension(R.styleable.ProgressView_barWidth, mBarWidth.toFloat()).toInt()
-        mRimWidth =
-            array.getDimension(R.styleable.ProgressView_rimWidth, mRimWidth.toFloat()).toInt()
-        val baseSpinSpeed =
-            array.getFloat(R.styleable.ProgressView_spinSpeed, mSpinSpeed / 360.0f)
+        mBarWidth = array.getDimension(R.styleable.ProgressView_barWidth, mBarWidth.toFloat()).toInt()
+        mRimWidth = array.getDimension(R.styleable.ProgressView_rimWidth, mRimWidth.toFloat()).toInt()
+        val baseSpinSpeed = array.getFloat(R.styleable.ProgressView_spinSpeed, mSpinSpeed / 360.0f)
         mSpinSpeed = baseSpinSpeed * 360
-        mBarSpinCycleTime =
-            array.getInt(R.styleable.ProgressView_barSpinCycleTime, mBarSpinCycleTime.toInt())
-                .toDouble()
+        mBarSpinCycleTime = array.getInt(R.styleable.ProgressView_barSpinCycleTime, mBarSpinCycleTime.toInt()).toDouble()
         mBarColor = array.getColor(R.styleable.ProgressView_barColor, mBarColor)
         mRimColor = array.getColor(R.styleable.ProgressView_rimColor, mRimColor)
         mLinearProgress = array.getBoolean(R.styleable.ProgressView_linearProgress, false)
@@ -643,9 +596,7 @@ class ProgressView @JvmOverloads constructor(
         }
         array.recycle()
         val animationValue = Settings.Global.getFloat(
-            getContext().contentResolver,
-            Settings.Global.ANIMATOR_DURATION_SCALE,
-            1f
+            getContext().contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f
         )
         mShouldAnimate = animationValue != 0f
     }

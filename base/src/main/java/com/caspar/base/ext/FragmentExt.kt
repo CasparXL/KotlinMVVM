@@ -10,14 +10,10 @@ import androidx.fragment.app.Fragment
  *  @Create 2020/6/25.
  *  @Use CasparXL
  */
-
 /**
  * Fragment扩展函数，用于给视图添加点击事件
  */
-fun Fragment.setOnClickListener(
-    listener: View.OnClickListener,
-    @IdRes vararg viewId: Int
-) {
+fun Fragment.setOnClickListener(listener: View.OnClickListener, @IdRes vararg viewId: Int) {
     for (id in viewId) {
         activity?.findViewById<View>(id)?.setOnClickListener(listener)
     }
@@ -33,14 +29,14 @@ fun Fragment.setOnClickListener(
  *         putInt("key",123)
  *    }
  */
-fun Fragment.acStart(url: Class<*>, block: intentVoid = null) =
-    run {
-        val intent = Intent(this.context, url)
-        block?.let {
-            it(intent)
-        }
-        startActivity(intent)
+fun Fragment.acStart(url: Class<*>, block: intentVoid = null) = run {
+    val intent = Intent(this.context, url)
+    block?.let {
+        it(intent)
     }
+    startActivity(intent)
+}
+
 /**
  * 扩展函数，startActivityForResult(intent,requestCode)
  * 回调接收时会走onActivityForResult方法
@@ -52,11 +48,10 @@ fun Fragment.acStart(url: Class<*>, block: intentVoid = null) =
  *         putInt("key",123)
  *    }
  */
-fun Fragment.acStartForResult(url: Class<*>, requestCode: Int = 0, block: intentVoid = null) =
-    run {
-        val intent = Intent(this.context, url)
-        block?.let {
-            it(intent)
-        }
-        startActivityForResult(intent, requestCode)
+fun Fragment.acStartForResult(url: Class<*>, requestCode: Int = 0, block: intentVoid = null) = run {
+    val intent = Intent(this.context, url)
+    block?.let {
+        it(intent)
     }
+    startActivityForResult(intent, requestCode)
+}

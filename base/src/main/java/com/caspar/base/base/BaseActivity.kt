@@ -23,21 +23,17 @@ import com.caspar.base.ext.ARouterStartResult
 import com.caspar.base.ext.immersionBar
 import com.caspar.base.helper.KeyBoardUtils
 
-
 /**
  * @author CasparXL
  * @description 如果使用了ARouter,Activity顶部需要加上@Router注解，参数path为标注路径，示例:@Route(path = ARouterApi.MAIN)
  * @time 2020/4/2
  */
-abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId: Int) :
-    AppCompatActivity(), ToastAction {
+abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId: Int) : AppCompatActivity(), ToastAction {
     /***************************************初始化视图以及变量,相关生命周期**********************************************/
-
     /**
      * 绑定布局的ViewDataBinding,本项目中主要用于findViewById的作用，未来可用ViewBinding代替
      */
     protected lateinit var mBindingView: SV
-
     private var mBaseDialog: BaseDialog? = null
 
     //判断是否显示
@@ -78,7 +74,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ARouter.getInstance().inject(this);//初始化路由器
+        ARouter.getInstance().inject(this); //初始化路由器
         mBindingView = DataBindingUtil.setContentView(this, contentLayoutId)
         mBindingView.lifecycleOwner = this
         //沉浸式的拓展方法
@@ -98,11 +94,10 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
         initView(savedInstanceState)
     }
 
-    override fun onNewIntent(intent: Intent?) {//页面特殊销毁的话通过该方法重新赋值
+    override fun onNewIntent(intent: Intent?) { //页面特殊销毁的话通过该方法重新赋值
         super.onNewIntent(intent)
         setIntent(intent)
     }
-
 
     /***初始化获取Intent数据***/
     protected abstract fun initIntent()
@@ -125,8 +120,8 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
         val res = super.getResources()
         val config = res.configuration
         config.fontScale = 1f
-//        res.updateConfiguration(config, res.displayMetrics)
-        createConfigurationContext(config)//上面的方法被弃用了，改用该方法
+        //        res.updateConfiguration(config, res.displayMetrics)
+        createConfigurationContext(config) //上面的方法被弃用了，改用该方法
         return res
     }
 
@@ -146,11 +141,8 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
         // 查看源码得知 startActivity 最终也会调用 startActivityForResult
         super.startActivityForResult(intent, requestCode, options)
     }
-
     /***************************************初始化视图以及变量,相关生命周期**********************************************/
-
     /*******************************************拓展方法以及函数**************************************************/
-
     /***默认界面跳转,不带传值的***/
     fun arStart(url: String) {
         //ARouter自带API跳转界面
@@ -178,9 +170,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
             block()
         }
     }
-
     /***************************************隐藏软键盘相关方法**********************************************/
-
     /**
      * 隐藏软键盘
      */
@@ -189,7 +179,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
         val view = currentFocus
         view?.run {
             val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            manager?.hideSoftInputFromWindow(this.windowToken, 0)//这里编译器告诉我们不需要判空，不过避免出问题，还是判空一下比较好
+            manager?.hideSoftInputFromWindow(this.windowToken, 0) //这里编译器告诉我们不需要判空，不过避免出问题，还是判空一下比较好
         }
     }
 
@@ -237,8 +227,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
             view.getLocationOnScreen(location)
             val x = location[0]
             val y = location[1]
-            if (ev.x > x && ev.x < x + view.width && ev.y > y && ev.y < y + view.height
-            ) {
+            if (ev.x > x && ev.x < x + view.width && ev.y > y && ev.y < y + view.height) {
                 return true
             }
         }
@@ -253,8 +242,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
             view.getLocationOnScreen(location)
             val x = location[0]
             val y = location[1]
-            if (ev.x > x && ev.x < x + view.width && ev.y > y && ev.y < y + view.height
-            ) {
+            if (ev.x > x && ev.x < x + view.width && ev.y > y && ev.y < y + view.height) {
                 return true
             }
         }
@@ -300,5 +288,4 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
         return null
     }
     /***************************************隐藏软键盘相关方法**********************************************/
-
 }

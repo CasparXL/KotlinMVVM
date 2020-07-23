@@ -10,17 +10,7 @@ class VerticalImageSpan : ImageSpan {
     constructor(drawable: Drawable?) : super(drawable!!) {}
     constructor(b: Bitmap?) : super(b!!) {}
 
-    override fun draw(
-        canvas: Canvas,
-        text: CharSequence,
-        start: Int,
-        end: Int,
-        x: Float,
-        top: Int,
-        y: Int,
-        bottom: Int,
-        paint: Paint
-    ) {
+    override fun draw(canvas: Canvas, text: CharSequence, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
         val b = drawable
         val fm = paint.fontMetricsInt
         val transY = (y + fm.descent + y + fm.ascent) / 2 - b.bounds.bottom / 2 //计算y方向的位移

@@ -9,8 +9,7 @@ import com.caspar.base.action.AnimAction
 import com.caspar.base.base.BaseDialog
 
 class WaitDialog {
-    class Builder(activity: FragmentActivity) :
-        BaseDialog.Builder<Builder>(activity) {
+    class Builder(activity: FragmentActivity) : BaseDialog.Builder<Builder>(activity) {
         private val mMessageView: TextView
 
         fun setMessage(@StringRes id: Int): Builder {

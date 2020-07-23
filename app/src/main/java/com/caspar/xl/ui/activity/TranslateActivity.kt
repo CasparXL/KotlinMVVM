@@ -14,21 +14,19 @@ import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.viewmodel.TranslateViewModel
 
 @Route(path = ARouterApi.TRANSLATE)
-class TranslateActivity : BaseActivity<ActivityTranslateBinding>(R.layout.activity_translate),
-    View.OnClickListener {
-
+class TranslateActivity : BaseActivity<ActivityTranslateBinding>(R.layout.activity_translate), View.OnClickListener {
     private val mViewModel: TranslateViewModel by viewModels()
 
     override fun initIntent() {
-        mBindingView.title.tvCenter.text="翻译"
-        setOnClickListener(this,R.id.tv_left)
+        mBindingView.title.tvCenter.text = "翻译"
+        setOnClickListener(this, R.id.tv_left)
     }
 
     override fun initView(savedInstanceState: Bundle?) {
         mViewModel.mData.observe(this, Observer {
-            if (it.first){
+            if (it.first) {
                 mBindingView.tvText.text = "原文:\n${mBindingView.etEnter.text}\n译文:\n ${it.second?.translateResult?.get(0)?.get(0)?.tgt}"
-            }else{
+            } else {
                 mBindingView.tvText.text = "请检查网络，并重试"
             }
         })
@@ -48,7 +46,7 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(R.layout.activi
     }
 
     override fun onClick(v: View) {
-        when(v.id){
+        when (v.id) {
             R.id.tv_left -> finish()
         }
     }

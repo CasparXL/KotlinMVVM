@@ -9,7 +9,6 @@ import java.util.*
 
 object ActivityStackManager : ActivityLifecycleCallbacks {
     private val mActivitySet = Stack<Activity>()
-
     /**
      * 获取 Application 对象
      */
@@ -23,6 +22,7 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
      * 当前 Activity 对象标记
      */
     private var mCurrentTag: String? = null
+
     fun init(application: Application) {
         this.application = application
         application.registerActivityLifecycleCallbacks(this)
@@ -47,7 +47,6 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
     @SafeVarargs
     fun finishAllActivities(vararg classArray: Class<out Activity>?) {
         for (key in mActivitySet) {
-
             if (key != null && !key.isFinishing) {
                 var whiteClazz = false
                 for (clazz in classArray) {
@@ -88,26 +87,17 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
         }
     }
 
-    override fun onActivityCreated(
-        activity: Activity,
-        savedInstanceState: Bundle?
-    ) {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         mActivitySet.add(activity)
     }
 
-    override fun onActivityStarted(activity: Activity) {
-    }
+    override fun onActivityStarted(activity: Activity) {}
 
-    override fun onActivityResumed(activity: Activity) {
-    }
+    override fun onActivityResumed(activity: Activity) {}
 
     override fun onActivityPaused(activity: Activity) {}
     override fun onActivityStopped(activity: Activity) {}
-    override fun onActivitySaveInstanceState(
-        activity: Activity,
-        outState: Bundle
-    ) {
-    }
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
     override fun onActivityDestroyed(activity: Activity) {
         mActivitySet.remove(activity)

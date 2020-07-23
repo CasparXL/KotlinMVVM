@@ -19,21 +19,12 @@ import java.util.*
  * 配合Brvah的Section使用，不对Head生效，仅对每个Head的子Grid列表生效<br></br>
  * Section Grid中Item的宽度应设为MATCH_PARAENT
  *
- * @author : renpeng
- * @since : 2018/9/29
- */
-class GridSectionAverageGapItemDecoration
-/**
  * @param gapHorizontalDp       item之间的水平间距
  * @param gapVerticalDp         item之间的垂直间距
  * @param sectionEdgeHPaddingDp section左右两端的padding大小
  * @param sectionEdgeVPaddingDp section上下两端的padding大小
- */(
-    private val gapHorizontalDp: Float,
-    private val gapVerticalDp: Float,
-    private val sectionEdgeHPaddingDp: Float,
-    private val sectionEdgeVPaddingDp: Float
-) : ItemDecoration() {
+ */
+class GridSectionAverageGapItemDecoration(private val gapHorizontalDp: Float, private val gapVerticalDp: Float, private val sectionEdgeHPaddingDp: Float, private val sectionEdgeVPaddingDp: Float) : ItemDecoration() {
     private inner class Section {
         var startPos = 0
         var endPos = 0
@@ -45,10 +36,7 @@ class GridSectionAverageGapItemDecoration
         }
 
         override fun toString(): String {
-            return "Section{" +
-                    "startPos=" + startPos +
-                    ", endPos=" + endPos +
-                    '}'
+            return "Section{" + "startPos=" + startPos + ", endPos=" + endPos + '}'
         }
     }
 
@@ -57,8 +45,7 @@ class GridSectionAverageGapItemDecoration
     private var sectionEdgeHPaddingPx = 0
     private var eachItemHPaddingPx = 0 //每个条目应该在水平方向上加的padding 总大小，即=paddingLeft+paddingRight
     private var sectionEdgeVPaddingPx = 0
-    private val mSectionList: MutableList<Section?> =
-        ArrayList()
+    private val mSectionList: MutableList<Section?> = ArrayList()
     private var mAdapter: BaseSectionQuickAdapter<*, *>? = null
     private val mDataObserver: AdapterDataObserver = object : AdapterDataObserver() {
         override fun onChanged() {
@@ -69,11 +56,7 @@ class GridSectionAverageGapItemDecoration
             markSections()
         }
 
-        override fun onItemRangeChanged(
-            positionStart: Int,
-            itemCount: Int,
-            payload: Any?
-        ) {
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
             markSections()
         }
 
@@ -85,25 +68,15 @@ class GridSectionAverageGapItemDecoration
             markSections()
         }
 
-        override fun onItemRangeMoved(
-            fromPosition: Int,
-            toPosition: Int,
-            itemCount: Int
-        ) {
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
             markSections()
         }
     }
 
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         if (parent.layoutManager is GridLayoutManager && parent.adapter is BaseSectionQuickAdapter<*, *>) {
             val layoutManager = parent.layoutManager as GridLayoutManager?
-            val adapter: BaseSectionQuickAdapter<SectionEntity, BaseViewHolder> =
-                parent.adapter as BaseSectionQuickAdapter<SectionEntity, BaseViewHolder>
+            val adapter: BaseSectionQuickAdapter<SectionEntity, BaseViewHolder> = parent.adapter as BaseSectionQuickAdapter<SectionEntity, BaseViewHolder>
             if (mAdapter !== adapter) {
                 setUpWithAdapter(adapter)
             }
@@ -116,14 +89,12 @@ class GridSectionAverageGapItemDecoration
                 //                Log.w("GridAverageGapItem", "pos=" + position + "," + outRect.toShortString());
                 return
             }
-            val section =
-                findSectionLastItemPos(position)
+            val section = findSectionLastItemPos(position)
             if (gapHSizePx < 0 || gapVSizePx < 0) {
                 transformGapDefinition(parent, spanCount)
             }
             outRect.top = gapVSizePx
             outRect.bottom = 0
-
             //下面的visualPos为单个Section内的视觉Pos
             val visualPos = position + 1 - section!!.startPos
             if (visualPos % spanCount == 1) {
@@ -165,7 +136,7 @@ class GridSectionAverageGapItemDecoration
             val adapter = mAdapter
             mSectionList.clear()
             var sectionEntity: SectionEntity
-            var section :Section = Section()
+            var section: Section = Section()
             var i = 0
             val size = adapter?.itemCount
             size?.apply {
@@ -178,8 +149,7 @@ class GridSectionAverageGapItemDecoration
                             section.endPos = i - 1
                             mSectionList.add(section)
                         }
-                        section =
-                            Section()
+                        section = Section()
                         section.startPos = i + 1
                     } else {
                         section.endPos = i
@@ -187,13 +157,11 @@ class GridSectionAverageGapItemDecoration
                     i++
                 }
             }
-
             //处理末尾情况
             if (!mSectionList.contains(section)) {
                 mSectionList.add(section)
             }
-
-//            Log.w("GridAverageGapItem", "section list=" + mSectionList);
+            //            Log.w("GridAverageGapItem", "section list=" + mSectionList);
         }
     }
 
@@ -203,24 +171,16 @@ class GridSectionAverageGapItemDecoration
             parent.display.getMetrics(displayMetrics)
         }
         gapHSizePx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            gapHorizontalDp,
-            displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP, gapHorizontalDp, displayMetrics
         ).toInt()
         gapVSizePx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            gapVerticalDp,
-            displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP, gapVerticalDp, displayMetrics
         ).toInt()
         sectionEdgeHPaddingPx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            sectionEdgeHPaddingDp,
-            displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP, sectionEdgeHPaddingDp, displayMetrics
         ).toInt()
         sectionEdgeVPaddingPx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            sectionEdgeVPaddingDp,
-            displayMetrics
+            TypedValue.COMPLEX_UNIT_DIP, sectionEdgeVPaddingDp, displayMetrics
         ).toInt()
         eachItemHPaddingPx = (sectionEdgeHPaddingPx * 2 + gapHSizePx * (spanCount - 1)) / spanCount
     }

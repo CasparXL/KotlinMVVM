@@ -12,11 +12,8 @@ import com.caspar.xl.ui.adapter.BaseFragmentAdapter
 import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment
 
-
 @Route(path = ARouterApi.MAIN)
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
-    View.OnClickListener {
-
+class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), View.OnClickListener {
     lateinit var mPagerAdapter: BaseFragmentAdapter<Fragment>
 
     override fun initIntent() {
@@ -37,13 +34,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         mBindingView.nvPager.offscreenPageLimit = mPagerAdapter.count
     }
 
-
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_home -> {
                 mBindingView.nvPager.currentItem = 0
             }
-
             R.id.tv_mine -> {
                 mBindingView.nvPager.currentItem = 1
             }

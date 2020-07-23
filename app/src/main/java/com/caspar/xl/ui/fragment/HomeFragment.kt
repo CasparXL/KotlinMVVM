@@ -18,9 +18,7 @@ import com.caspar.xl.viewmodel.HomeViewModel
  *  @Use
  */
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
-
     private val mAdapter: HomeMenuAdapter by lazy { HomeMenuAdapter() }
-
     private val mViewModel: HomeViewModel by viewModels()
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -32,9 +30,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         mBindingView.rvList.layoutManager = GridLayoutManager(context, 2)
         mBindingView.rvList.addItemDecoration(
             Decoration.GridDecoration(
-                2,
-                10.dp,
-                true
+                2, 10.dp, true
             )
         )
         mBindingView.rvList.adapter = mAdapter
@@ -45,7 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     arStart(ARouterApi.TRANSLATE)
                 } else if (position == 1) {
                     mViewModel.permission()
-                }else if (position == 2) {
+                } else if (position == 2) {
                     arStart(ARouterApi.ROOM)
                 }
             }

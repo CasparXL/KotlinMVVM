@@ -13,22 +13,19 @@ import java.security.*
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.*
+
 /**
  * "CasparXL" 创建 2019/7/1.
  * 界面名称以及功能:网络请求Retrofit2+Coroutine(协程)
  */
 object Api {
     private const val DEFAULT_TIMEOUT: Long = 30
-
     val api: ApiService by lazy {
         //支持RxJava2
-        val retrofit = Retrofit.Builder()
-            .baseUrl(ApiConfig.BaseUrl) //添加ScalarsConverterFactory支持
+        val retrofit = Retrofit.Builder().baseUrl(ApiConfig.BaseUrl) //添加ScalarsConverterFactory支持
             .addConverterFactory(ScalarsConverterFactory.create()) //可以接收自定义的Gson，当然也可以不传
             .addConverterFactory(GsonConverterFactory.create()) //支持RxJava2
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(unsafeOkHttpClient)
-            .build()
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).client(unsafeOkHttpClient).build()
         return@lazy retrofit.create(ApiService::class.java)
     }
 
@@ -41,10 +38,7 @@ object Api {
             // Create an ssl socket factory with our all-trusting manager
             val sslSocketFactory = sslContext.socketFactory
             val okBuilder = OkHttpClient.Builder()
-            okBuilder.sslSocketFactory(
-                sslSocketFactory,
-                trustAllCerts[0] as X509TrustManager
-            )
+            okBuilder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
             okBuilder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             okBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             okBuilder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -62,52 +56,11 @@ object Api {
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
-    //由于HttpLoggingInterceptor和AppSigningInterceptor中的流文件冲突，因此下载文件时最好使用downApi比较合适
-    val downApi: ApiService by lazy {
-        //支持RxJava2
-        val retrofit = Retrofit.Builder()
-            .baseUrl(ApiConfig.BaseUrl) //添加ScalarsConverterFactory支持
-            .addConverterFactory(ScalarsConverterFactory.create()) //可以接收自定义的Gson，当然也可以不传
-            .addConverterFactory(GsonConverterFactory.create()) //支持RxJava2
-            .client(downOkHttpClient)
-            .build()
-        return@lazy retrofit.create(ApiService::class.java)
-    }
-    // Install the all-trusting trust manager TLS
-    private val downOkHttpClient: OkHttpClient
-        get() = try {
-            // Install the all-trusting trust manager TLS
-            val sslContext = SSLContext.getInstance("TLS")
-            sslContext.init(null, trustAllCerts, SecureRandom())
-            // Create an ssl socket factory with our all-trusting manager
-            val sslSocketFactory = sslContext.socketFactory
-            val okBuilder = OkHttpClient.Builder()
-            okBuilder.sslSocketFactory(
-                sslSocketFactory,
-                trustAllCerts[0] as X509TrustManager
-            )
-            okBuilder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            okBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            okBuilder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            /*okBuilder.addInterceptor { chain ->
-                val request: Request = chain.request().newBuilder()
-                                       .header("Cache-Control", "public") //如果只有一个请求头，就使用这
-                                       .addHeader("header2","aa") //如果是多个请求头，就是用addHeader
-                                       .removeHeader("Pragma")//删除掉请求过程中的所有key为Pragma的请求头
-                                       .build()
-                chain.proceed(request);
-            }*/
-            okBuilder.addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.HEADERS else HttpLoggingInterceptor.Level.NONE))
-            okBuilder.addInterceptor(AppSigningInterceptor())
-            okBuilder.hostnameVerifier { _, _ -> true }
-            okBuilder.build()
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
     private val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
         @SuppressLint("TrustAllX509TrustManager")
         override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {
         }
+
         @SuppressLint("TrustAllX509TrustManager")
         override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) {
             /*for (cert in chain) {
@@ -149,7 +102,5 @@ object Api {
             return arrayOf()
         }
     })
-
-
 
 }

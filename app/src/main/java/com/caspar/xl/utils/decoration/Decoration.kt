@@ -16,8 +16,7 @@ object Decoration {
      * @return
      */
     fun decoration(top: Int, bottom: Int, left: Int, right: Int): RecyclerViewSpacesItemDecoration {
-        val stringIntegerHashMap =
-            HashMap<String, Int>()
+        val stringIntegerHashMap = HashMap<String, Int>()
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.TOP_DECORATION] = top //top间距
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.BOTTOM_DECORATION] = bottom //底部间距
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.LEFT_DECORATION] = left //左间距
@@ -35,14 +34,8 @@ object Decoration {
      * @param right  右
      * @return
      */
-    fun decoration2(
-        top: Int,
-        bottom: Int,
-        left: Int,
-        right: Int
-    ): RecyclerViewSpacesItemDecoration2 {
-        val stringIntegerHashMap =
-            HashMap<String, Int>()
+    fun decoration2(top: Int, bottom: Int, left: Int, right: Int): RecyclerViewSpacesItemDecoration2 {
+        val stringIntegerHashMap = HashMap<String, Int>()
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.TOP_DECORATION] = top //top间距
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.BOTTOM_DECORATION] = bottom //底部间距
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.LEFT_DECORATION] = left //左间距
@@ -58,11 +51,7 @@ object Decoration {
      * @param includeEdge 是否判断最左边和最右边有空格
      * @return
      */
-    fun GridDecoration(
-        spanCount: Int,
-        spacing: Int,
-        includeEdge: Boolean
-    ): RecyclerViewGridDecoration {
+    fun GridDecoration(spanCount: Int, spacing: Int, includeEdge: Boolean): RecyclerViewGridDecoration {
         return RecyclerViewGridDecoration(spanCount, spacing, includeEdge)
     }
 }

@@ -69,10 +69,7 @@ object LogUtil {
      *  }
      * Logcat -----> [thread:main]⇢[test()]⇢(MainActivity.kt:124) -> test
      */
-    fun content(
-        index: Int,
-        msg: String?
-    ): String {
+    fun content(index: Int, msg: String?): String {
         val stackTraceElement = Throwable().stackTrace[index]
         val clazz = stackTraceElement.fileName
         val method = stackTraceElement.methodName
@@ -97,8 +94,7 @@ object LogUtil {
         if (stackTraceString.length > MAX_STACK_TRACE_SIZE) {
             val disclaimer = " [stack trace too large]"
             stackTraceString = stackTraceString.substring(
-                0,
-                MAX_STACK_TRACE_SIZE - disclaimer.length
+                0, MAX_STACK_TRACE_SIZE - disclaimer.length
             ) + disclaimer
         }
         Log.e(mTag, content(index = index, msg = stackTraceString))
@@ -110,13 +106,11 @@ object LogUtil {
         }
     }
 
-
     fun d(msg: String?, index: Int = mIndex) {
         if (debug) {
             Log.d(mTag, content(index = index, msg = msg))
         }
     }
-
 
     fun i(msg: String?, index: Int = mIndex) {
         if (debug) {
@@ -124,20 +118,17 @@ object LogUtil {
         }
     }
 
-
     fun w(msg: String?, index: Int = mIndex) {
         if (debug) {
             Log.w(mTag, content(index = index, msg = msg))
         }
     }
 
-
     fun wtf(msg: String?, index: Int = mIndex) {
         if (debug) {
             Log.wtf(mTag, content(index = index, msg = msg))
         }
     }
-
 
     fun e(msg: String?, index: Int = mIndex) {
         if (debug) {
@@ -149,9 +140,9 @@ object LogUtil {
      * 打印json格式文本
      * Print text in JSON format
      */
-    fun json(msg: String?,index:Int = mIndex) {
+    fun json(msg: String?, index: Int = mIndex) {
         if (msg.isNullOrEmpty()) {
-            e("Json is Empty",index+1)
+            e("Json is Empty", index + 1)
             return
         }
         var message: String
@@ -165,27 +156,27 @@ object LogUtil {
                     val jsonArray = JSONArray(msg)
                     jsonArray.toString(4)
                 }
-                else -> {
+                else                -> {
                     msg
                 }
             }
         } catch (e: JSONException) {
             msg
         }
-        i("╔═══════════════════════════════════════════════════════════════════════════════════════",index = index +1)
+        i("╔═══════════════════════════════════════════════════════════════════════════════════════", index = index + 1)
         message = "Json:$LINE_SEPARATOR$message"
         val lines = message.split(LINE_SEPARATOR).toTypedArray()
         for (line in lines) {
-            i(msg = "║ $line",index = index +1)
+            i(msg = "║ $line", index = index + 1)
         }
-        i("╚═══════════════════════════════════════════════════════════════════════════════════════",index = index +1)
+        i("╚═══════════════════════════════════════════════════════════════════════════════════════", index = index + 1)
     }
 
     /**
      * 打印xml格式文本
      * Print text in XML format
      */
-    fun xml(xml: String?,index: Int = mIndex) {
+    fun xml(xml: String?, index: Int = mIndex) {
         var xml = xml
         if (xml != null) {
             xml = formatXML(xml)
@@ -193,25 +184,21 @@ object LogUtil {
         } else {
             xml = "Xml:End"
         }
-        e("╔═══════════════════════════════════════════════════════════════════════════════════════",index = index +1)
-        val lines =
-            xml.split(LINE_SEPARATOR).toTypedArray()
+        e("╔═══════════════════════════════════════════════════════════════════════════════════════", index = index + 1)
+        val lines = xml.split(LINE_SEPARATOR).toTypedArray()
         for (line in lines) {
             if (!TextUtils.isEmpty(line)) {
                 e("║ $line")
             }
         }
-        e("╚═══════════════════════════════════════════════════════════════════════════════════════",index = index +1)
+        e("╚═══════════════════════════════════════════════════════════════════════════════════════", index = index + 1)
     }
 
     private fun formatXML(inputXML: String): String {
         return try {
-            val xmlInput: Source =
-                StreamSource(StringReader(inputXML))
-            val xmlOutput =
-                StreamResult(StringWriter())
-            val transformer =
-                TransformerFactory.newInstance().newTransformer()
+            val xmlInput: Source = StreamSource(StringReader(inputXML))
+            val xmlOutput = StreamResult(StringWriter())
+            val transformer = TransformerFactory.newInstance().newTransformer()
             transformer.setOutputProperty(OutputKeys.INDENT, "yes")
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
             transformer.transform(xmlInput, xmlOutput)

@@ -20,26 +20,14 @@ import com.caspar.base.ext.ARouterStartResult
  * @description2 如果使用了InjectManager.inject方式注入布局layout，同样，顶部使用注解@ContentView，参数value为布局xml，示例:@ContentView(R.layout.activity_main)
  * @time 2020/4/2
  */
-abstract class BaseFragment< SV : ViewDataBinding>(@LayoutRes val contentLayoutId:Int) : Fragment() {
-
-
+abstract class BaseFragment<SV : ViewDataBinding>(@LayoutRes val contentLayoutId: Int) : Fragment() {
     /**
      * 绑定布局的ViewDatabinding,本项目中主要用于findViewById的作用，未来可用ViewBinding代替
      */
     protected lateinit var mBindingView: SV
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        mBindingView = DataBindingUtil.inflate(
-            inflater,
-            contentLayoutId,
-            null,
-            false
-        )
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        mBindingView = DataBindingUtil.inflate(inflater, contentLayoutId, null, false)
         return mBindingView.root
     }
 
@@ -47,7 +35,6 @@ abstract class BaseFragment< SV : ViewDataBinding>(@LayoutRes val contentLayoutI
     private fun getParentActivity(): Activity? {
         return activity
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -60,9 +47,7 @@ abstract class BaseFragment< SV : ViewDataBinding>(@LayoutRes val contentLayoutI
         mBindingView.unbind()
         super.onDestroy()
     }
-
     /*******************************************拓展方法以及函数**************************************************/
-
     /***默认界面跳转,不带传值的***/
     fun arStart(url: String) {
         //ARouter自带API跳转界

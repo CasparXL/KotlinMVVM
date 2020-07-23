@@ -20,9 +20,7 @@ import com.caspar.xl.viewmodel.RoomViewModel
 import kotlinx.coroutines.*
 
 @Route(path = ARouterApi.ROOM)
-class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room),
-    View.OnClickListener {
-
+class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), View.OnClickListener {
     private val mViewModel: RoomViewModel by viewModels()
     var str = ""
     var teacherId = -1L
@@ -34,31 +32,21 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room),
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.tvLogcat.movementMethod = ScrollingMovementMethod.getInstance()
         searchAll()
-        setOnClickListener(
-            this,
-            R.id.btnSearch,
-            R.id.tv_left,
-            R.id.btnInsert,
-            R.id.btnClear,
-            R.id.btnSearchAll
-        )
+        setOnClickListener(this, R.id.btnSearch, R.id.tv_left, R.id.btnInsert, R.id.btnClear, R.id.btnSearchAll)
     }
 
     private fun searchAll() {
         lifecycleScope.launch {
-            str =
-                "学生数据\n" + GsonUtils.toJson(mViewModel.user.getAllUser()) + "\n\n老师数据:\n\n" + GsonUtils.toJson(
-                    mViewModel.teacher.getAllTeacher()
-                )
+            str = "学生数据\n" + GsonUtils.toJson(mViewModel.user.getAllUser()) + "\n\n老师数据:\n\n" + GsonUtils.toJson(mViewModel.teacher.getAllTeacher())
             mBindingView.tvLogcat.text = str
         }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_left -> finish()
+            R.id.tv_left      -> finish()
             R.id.btnSearchAll -> searchAll()
-            R.id.btnSearch -> {
+            R.id.btnSearch    -> {
                 lifecycleScope.launch {
                     val size = mViewModel.getTeacherSize()
                     LogUtil.e("随机查询某老师对应的学生：老师数量$size")
@@ -80,7 +68,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room),
                     }
                 }
             }
-            R.id.btnInsert -> {
+            R.id.btnInsert    -> {
                 val error = CoroutineExceptionHandler { coroutineContext, throwable ->
                     run {
                         //数据库添加失败,可能因为其他原因导致的异常[比如学生表插入的teacherId在老师表中实际上目前不存在该数据，那会进入当前界面]
@@ -93,20 +81,14 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room),
                             } else if (userId == -1L) {
                                 mBindingView.tvLogcat.text = "添加学生时的老师信息是错误的，因此老师添加成功了，但学生添加失败"
                             } else {
-                                mBindingView.tvLogcat.text =
-                                    "准备加入到用户id里" + userId + "对应的老师id" + teacherId + "但是失败了,以下是这两组数据的信息:\n 老师:\n $teacher \n学生:\n $user"
+                                mBindingView.tvLogcat.text = "准备加入到用户id里" + userId + "对应的老师id" + teacherId + "但是失败了,以下是这两组数据的信息:\n 老师:\n $teacher \n学生:\n $user"
                             }
-
                         }
                     }
                 }
                 lifecycleScope.launch(error) {
                     //模拟随机添加学生和老师数据
-                    val teacherBean = TeacherBean(
-                        id = (0..100).random().toLong(),
-                        name = "老师" + (0..100).random(),
-                        age = (0..100).random()
-                    )
+                    val teacherBean = TeacherBean(id = (0..100).random().toLong(), name = "老师" + (0..100).random(), age = (0..100).random())
                     val teacherId = mViewModel.insertTeacher(teacherBean)
                     this@RoomActivity.teacherId = teacherId
                     str = if (teacherId != -1L) {
@@ -114,12 +96,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room),
                     } else {
                         "添加老师数据失败[id:${teacherBean.id},name=${teacherBean.name}]\n请进行重新添加老师信息[错误原因可能是因为随机数产生时，当前id在表中已存在]\n"
                     }
-                    val user = UserBean(
-                        id = (0..100).random().toLong(),
-                        name = "学生" + (0..100).random(),
-                        age = (0..100).random(),
-                        tId = teacherBean.id
-                    )
+                    val user = UserBean(id = (0..100).random().toLong(), name = "学生" + (0..100).random(), age = (0..100).random(), tId = teacherBean.id)
                     this@RoomActivity.userId = user.id
                     LogUtil.e("老师id $teacherId,学生id $userId")
                     val userId = mViewModel.insertUser(user)
@@ -132,7 +109,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room),
                     mBindingView.tvLogcat.text = str
                 }
             }
-            R.id.btnClear -> {
+            R.id.btnClear     -> {
                 val error = CoroutineExceptionHandler { coroutineContext, throwable ->
                     run {
                         //数据库删除失败
@@ -147,7 +124,6 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room),
                     mBindingView.tvLogcat.text = "数据清空成功"
                 }
             }
-
         }
     }
 }

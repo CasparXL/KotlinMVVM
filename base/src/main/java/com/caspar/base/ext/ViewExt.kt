@@ -6,7 +6,6 @@ import android.view.View
  *  @Create 2020/6/25.
  *  @Use
  */
-
 fun View.show() {
     this.visibility = View.VISIBLE
 }

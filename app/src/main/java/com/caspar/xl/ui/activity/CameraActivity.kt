@@ -26,16 +26,13 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 @Route(path = ARouterApi.CAMERA)
-class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_camera),
-    View.OnClickListener {
+class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_camera), View.OnClickListener {
     var cameraControl: CameraControl? = null
     lateinit var scaleGestureDetector: ScaleGestureDetector
-
     private lateinit var imageAnalyzer: ImageAnalysis
     private var preview: Preview? = null
     private var camera: Camera? = null
     private var imageCapture: ImageCapture? = null
-
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
 
@@ -55,23 +52,18 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
         }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else filesDir
+        return if (mediaDir != null && mediaDir.exists()) mediaDir else filesDir
     }
 
     //开始预览，CameraX绑定Activity，随生命周期销毁而自动销毁
     @SuppressLint("ClickableViewAccessibility")
     private fun startCamera() {
-        scaleGestureDetector = ScaleGestureDetector(this, listener)//初始化双指缩放的控制器
+        scaleGestureDetector = ScaleGestureDetector(this, listener) //初始化双指缩放的控制器
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener(Runnable {
-            imageCapture = ImageCapture.Builder()
-                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                .build()
+            imageCapture = ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build()
 
-            imageAnalyzer = ImageAnalysis.Builder()
-                .build()
-                .also {
+            imageAnalyzer = ImageAnalysis.Builder().build().also {
                     it.setAnalyzer(cameraExecutor, LuminosityAnalyzer())
                 }
             // Used to bind the lifecycle of cameras to the lifecycle owner
@@ -79,12 +71,10 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             // Preview
             //预览
-            preview = Preview.Builder()
-                .build()
+            preview = Preview.Builder().build()
             // Select back camera
             // 使用相机
-            val cameraSelector =
-                CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+            val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
             try {
                 // Unbind use cases before rebinding
                 //在重新绑定之前解除用例绑定
@@ -99,7 +89,6 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
             } catch (exc: Exception) {
                 LogUtil.e(exc)
             }
-
         }, ContextCompat.getMainExecutor(this))
         initImageCapture()
         mBindingView.viewFinder.setOnTouchListener(View.OnTouchListener { v, event ->
@@ -118,7 +107,6 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             // 获取当前的摄像头的缩放比例
             val currentZoomRatio: Float = camera?.cameraInfo?.zoomState?.value?.zoomRatio ?: 1F
-
             // 获取用户捏拉手势所更改的缩放比例
             val delta = detector.scaleFactor
             LogUtil.e("当前比例:$currentZoomRatio 手势更改比例 $delta")
@@ -127,11 +115,11 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
             return true
         }
     }
+
     // 点击聚焦的方法
     private fun onTouch(x: Float, y: Float) {
         // 创建 MeteringPoint，命名为 factory
-        val factory =
-            mBindingView.viewFinder.createMeteringPointFactory(CameraSelector.DEFAULT_FRONT_CAMERA)
+        val factory = mBindingView.viewFinder.createMeteringPointFactory(CameraSelector.DEFAULT_FRONT_CAMERA)
         // 将 UI 界面的坐标转换为摄像头传感器的坐标
         val point = factory.createPoint(x, y)
         // 创建对焦需要用的 action
@@ -149,10 +137,8 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
         // Create timestamped output file to hold the image
         // 创建带有时间戳的输出文件来保存图像
         val photoFile = File(
-            outputDirectory,
-            SimpleDateFormat(
-                "yyyy-MM-dd-HH-mm-ss-SSS",
-                Locale.US
+            outputDirectory, SimpleDateFormat(
+                "yyyy-MM-dd-HH-mm-ss-SSS", Locale.US
             ).format(System.currentTimeMillis()) + ".jpg"
         )
         // Create output options object which contains file + metadata
@@ -160,24 +146,22 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
         // Setup image capture listener which is triggered after photo has been taken
         // 设置图片捕捉监听器，在拍照后触发
-        imageCapture.takePicture(
-            outputOptions,
-            ContextCompat.getMainExecutor(this),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onError(exc: ImageCaptureException) {
-                    hideDialog()
-                    LogUtil.e(exc)
-                }
+        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
+            override fun onError(exc: ImageCaptureException) {
+                hideDialog()
+                LogUtil.e(exc)
+            }
 
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    hideDialog()
-                    val savedUri = Uri.fromFile(photoFile)
-                    val msg = "拍照成功，图片被保存到app内部储存，路径为: $savedUri"
-                    ToastUtils.show(msg)
-                    LogUtil.d(msg)
-                }
-            })
+            override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                hideDialog()
+                val savedUri = Uri.fromFile(photoFile)
+                val msg = "拍照成功，图片被保存到app内部储存，路径为: $savedUri"
+                ToastUtils.show(msg)
+                LogUtil.d(msg)
+            }
+        })
     }
+
     //图片像素解析器
     private class LuminosityAnalyzer : ImageAnalysis.Analyzer {
         private fun ByteBuffer.toByteArray(): ByteArray {
@@ -208,22 +192,21 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
 
     private fun initImageCapture() {
         // 旋转监听
-        val orientationEventListener: OrientationEventListener =
-            object : OrientationEventListener(this as Context) {
-                override fun onOrientationChanged(orientation: Int) {
-                    // Monitors orientation values to determine the target rotation value
-                    val rotation: Int = if (orientation in 45..134) {
-                        Surface.ROTATION_270
-                    } else if (orientation in 135..224) {
-                        Surface.ROTATION_180
-                    } else if (orientation in 225..314) {
-                        Surface.ROTATION_90
-                    } else {
-                        Surface.ROTATION_0
-                    }
-                    imageCapture?.targetRotation = rotation
+        val orientationEventListener: OrientationEventListener = object : OrientationEventListener(this as Context) {
+            override fun onOrientationChanged(orientation: Int) {
+                // Monitors orientation values to determine the target rotation value
+                val rotation: Int = if (orientation in 45..134) {
+                    Surface.ROTATION_270
+                } else if (orientation in 135..224) {
+                    Surface.ROTATION_180
+                } else if (orientation in 225..314) {
+                    Surface.ROTATION_90
+                } else {
+                    Surface.ROTATION_0
                 }
+                imageCapture?.targetRotation = rotation
             }
+        }
         orientationEventListener.enable()
     }
 
