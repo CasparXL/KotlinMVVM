@@ -22,6 +22,22 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
     }
+    /*Partial dependency libraries introduce existing dependencies, which are handled in the following way in order to unify their versions*/
+    /*部分依赖项库引入了现有的依赖项，为了统一它们的版本，可以按照以下方式处理它们*/
+    /*configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            def requested = details.requested
+            if (requested.group == 'androidx.fragment') {
+                details.useVersion '1.2.4'
+            } else if (requested.group == 'androidx.lifecycle') {
+                details.useVersion '2.2.0'
+            } else if (requested.group == 'io.reactivex.rxjava2') {
+                if (!requested.name.startsWith("rxandroid")) {
+                    details.useVersion '2.2.9'
+                }
+            }
+        }
+    }*/
 }
 
 task clean(type: Delete) {
