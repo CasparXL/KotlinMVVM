@@ -81,7 +81,12 @@ dependencies {
     implementation fileTree(include: ['*.aar'], dir: 'libs')
     // 基础库
     implementation project(':base')
-
+    /*
+    *如果有的库和本库存在依赖冲突，可以使用以下用法解决冲突的库
+    *implementation ("xxxxx") {
+    *    exclude group: 'com.android.support'
+    *}
+    */
     implementation libsImplementation.kotlin_stdlib_jdk7
     implementation libsImplementation.androidx_appcompat
     implementation libsImplementation.androidx_constraintlayout
