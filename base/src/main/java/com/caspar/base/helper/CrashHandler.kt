@@ -54,6 +54,10 @@ class CrashHandler private constructor(context: Context) : Thread.UncaughtExcept
             Thread.sleep(2000)
         } catch (ex: Exception) {
         }
+        /* val i: Intent? = mContext.packageManager.getLaunchIntentForPackage(mContext.packageName)
+        i?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        mContext.startActivity(i)*/
+        Process.killProcess(Process.myPid())
         exitProcess(0)
     }
 
