@@ -56,11 +56,19 @@ class CrashHandler private constructor(context: Context) : Thread.UncaughtExcept
         }
         /* val i: Intent? = mContext.packageManager.getLaunchIntentForPackage(mContext.packageName)
         i?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        mContext.startActivity(i)*/
+        mContext.startActivity(i)
         Process.killProcess(Process.myPid())
-        exitProcess(0)
+        exitProcess(0)*/
+        killAppProcess()
     }
-
+    
+    private fun killAppProcess() {
+        val appTaskList : ActivityManager = mContext.applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (appTask in appTaskList.appTasks) {
+            appTask.finishAndRemoveTask()
+        }
+    }
+    
     /**
      * 自定义错误处理
      * @param e
