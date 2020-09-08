@@ -68,6 +68,18 @@ android {
     androidExtensions {//Kotlin序列化
         experimental = true
     }
+    //apk输出格式
+    applicationVariants.all {
+        variant ->
+            // Apk 输出配置
+            variant.outputs.all { output ->
+                if (variant.buildType.name == buildTypes.debug.getName()) {
+                    outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + variant.buildType.name + '.apk'
+                } else {
+                    outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + new Date().format("yyyyMMdd") + '_' + variant.buildType.name + '.apk'
+                }
+            }
+     }
 }
 
 dependencies {
