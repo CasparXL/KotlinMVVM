@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.View
 import androidx.annotation.IdRes
 
-typealias intentVoid = (Intent.() -> Unit)?
+typealias intentVoid = (Intent.() -> Unit)
 
 /**
  * Activity扩展函数，用于给视图添加点击事件
@@ -26,11 +26,14 @@ fun Activity.setOnClickListener(listener: View.OnClickListener, @IdRes vararg vi
  *         putInt("key",123)
  *    }
  */
-fun Activity.acStart(url: Class<*>, block: intentVoid = null) = run {
+fun Activity.acStart(url: Class<*>) = run {
     val intent = Intent(this, url)
-    block?.let {
-        it(intent)
-    }
+    startActivity(intent)
+}
+
+inline fun Activity.acStart(url: Class<*>, block: intentVoid) = run {
+    val intent = Intent(this, url)
+    block(intent)
     startActivity(intent)
 }
 
@@ -45,10 +48,13 @@ fun Activity.acStart(url: Class<*>, block: intentVoid = null) = run {
  *         putInt("key",123)
  *    }
  */
-fun Activity.acStartForResult(url: Class<*>, requestCode: Int = 0, block: intentVoid = null) = run {
+fun Activity.acStartForResult(url: Class<*>, requestCode: Int = 0) = run {
     val intent = Intent(this, url)
-    block?.let {
-        it(intent)
-    }
+    startActivityForResult(intent, requestCode)
+}
+
+inline fun Activity.acStartForResult(url: Class<*>, requestCode: Int = 0, block: intentVoid) = run {
+    val intent = Intent(this, url)
+    block(intent)
     startActivityForResult(intent, requestCode)
 }

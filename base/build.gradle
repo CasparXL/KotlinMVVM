@@ -60,7 +60,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api libsImplementation.kt_activity
     api libsImplementation.kt_fragment
-    implementation libsImplementation.kotlin_stdlib_jdk7
+    implementation libsImplementation.kotlin_stdlib
     implementation libsImplementation.androidx_appcompat
     implementation libsImplementation.coroutines_android
     implementation libsImplementation.coroutines_kotlin

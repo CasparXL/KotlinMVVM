@@ -79,7 +79,7 @@ android {
                     outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + new Date().format("yyyyMMdd") + '_' + variant.buildType.name + '.apk'
                 }
             }
-     }
+    }
 }
 
 dependencies {
@@ -90,7 +90,7 @@ dependencies {
     def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
     //依赖库配置
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation fileTree(include: ['*.aar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
     // 基础库
     implementation project(':base')
     /*
@@ -99,7 +99,7 @@ dependencies {
     *    exclude group: 'com.android.support'
     *}
     */
-    implementation libsImplementation.kotlin_stdlib_jdk7
+    implementation libsImplementation.kotlin_stdlib
     implementation libsImplementation.androidx_appcompat
     implementation libsImplementation.androidx_constraintlayout
     implementation libsImplementation.coroutines_android

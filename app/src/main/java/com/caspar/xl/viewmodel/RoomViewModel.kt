@@ -11,13 +11,25 @@ import com.caspar.xl.repository.RoomRepository
  *  @Use
  */
 class RoomViewModel(application: Application) : AndroidViewModel(application) {
-    val user by lazy {
+   private val user by lazy {
         RoomRepository.userDao
     }
-    val teacher by lazy {
+    private val teacher by lazy {
         RoomRepository.teacherDao
     }
 
+    /**
+     * 获取学生数量
+     */
+    suspend fun getAllUser(): List<UserBean> {
+        return user.getAllUser()
+    }
+    /**
+     * 获取老师数量
+     */
+    suspend fun getAllTeacher(): List<TeacherBean> {
+        return teacher.getAllTeacher()
+    }
     /**
      * 获取老师数量
      */

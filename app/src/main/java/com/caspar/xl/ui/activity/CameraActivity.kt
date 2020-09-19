@@ -14,6 +14,7 @@ import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.R
+import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.config.ARouterApi
 import com.caspar.xl.databinding.ActivityCameraBinding
 import com.google.common.util.concurrent.ListenableFuture
@@ -33,7 +34,6 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
     private var preview: Preview? = null
     private var camera: Camera? = null
     private var imageCapture: ImageCapture? = null
-    private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
 
     override fun initIntent() {
@@ -43,16 +43,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
 
     override fun initView(savedInstanceState: Bundle?) {
         startCamera()
-        outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
-    }
-
-    //图片将要保存的路径
-    private fun getOutputDirectory(): File {
-        val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-        return if (mediaDir != null && mediaDir.exists()) mediaDir else filesDir
     }
 
     //开始预览，CameraX绑定Activity，随生命周期销毁而自动销毁
@@ -64,8 +55,8 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
             imageCapture = ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build()
 
             imageAnalyzer = ImageAnalysis.Builder().build().also {
-                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer())
-                }
+                it.setAnalyzer(cameraExecutor, LuminosityAnalyzer())
+            }
             // Used to bind the lifecycle of cameras to the lifecycle owner
             //用于将相机的生命周期绑定到生命周期所有者
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -81,11 +72,9 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
                 cameraProvider.unbindAll()
                 // Bind use cases to camera
                 //将用例绑定到摄像机
-                camera = cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture, imageAnalyzer
-                )
+                camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalyzer)
                 cameraControl = camera?.cameraControl
-                preview?.setSurfaceProvider(mBindingView.viewFinder.createSurfaceProvider(camera?.cameraInfo))
+                preview?.setSurfaceProvider(mBindingView.viewFinder.surfaceProvider)
             } catch (exc: Exception) {
                 LogUtil.e(exc)
             }
@@ -119,7 +108,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
     // 点击聚焦的方法
     private fun onTouch(x: Float, y: Float) {
         // 创建 MeteringPoint，命名为 factory
-        val factory = mBindingView.viewFinder.createMeteringPointFactory(CameraSelector.DEFAULT_FRONT_CAMERA)
+        val factory = mBindingView.viewFinder.meteringPointFactory
         // 将 UI 界面的坐标转换为摄像头传感器的坐标
         val point = factory.createPoint(x, y)
         // 创建对焦需要用的 action
@@ -136,14 +125,10 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
         val imageCapture = imageCapture ?: return
         // Create timestamped output file to hold the image
         // 创建带有时间戳的输出文件来保存图像
-        val photoFile = File(
-            outputDirectory, SimpleDateFormat(
-                "yyyy-MM-dd-HH-mm-ss-SSS", Locale.US
-            ).format(System.currentTimeMillis()) + ".jpg"
-        )
+        val photoFile = File(BaseApplication.context.filesDir, SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis()) + ".jpg")
         // Create output options object which contains file + metadata
         // 创建包含文件+元数据的输出选项对象
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile.outputStream()).build()
         // Setup image capture listener which is triggered after photo has been taken
         // 设置图片捕捉监听器，在拍照后触发
         imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
@@ -183,7 +168,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_left -> finish()
+            R.id.tv_left       -> finish()
             R.id.iv_take_photo -> {
                 takePhoto()
             }

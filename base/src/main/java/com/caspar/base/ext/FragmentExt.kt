@@ -29,11 +29,14 @@ fun Fragment.setOnClickListener(listener: View.OnClickListener, @IdRes vararg vi
  *         putInt("key",123)
  *    }
  */
-fun Fragment.acStart(url: Class<*>, block: intentVoid = null) = run {
+fun Fragment.acStart(url: Class<*>) = run {
     val intent = Intent(this.context, url)
-    block?.let {
-        it(intent)
-    }
+    startActivity(intent)
+}
+
+inline fun Fragment.acStart(url: Class<*>, block: intentVoid) = run {
+    val intent = Intent(this.context, url)
+    block(intent)
     startActivity(intent)
 }
 
@@ -48,10 +51,13 @@ fun Fragment.acStart(url: Class<*>, block: intentVoid = null) = run {
  *         putInt("key",123)
  *    }
  */
-fun Fragment.acStartForResult(url: Class<*>, requestCode: Int = 0, block: intentVoid = null) = run {
+fun Fragment.acStartForResult(url: Class<*>, requestCode: Int = 0) = run {
     val intent = Intent(this.context, url)
-    block?.let {
-        it(intent)
-    }
+    startActivityForResult(intent, requestCode)
+}
+
+inline fun Fragment.acStartForResult(url: Class<*>, requestCode: Int = 0, block: intentVoid) = run {
+    val intent = Intent(this.context, url)
+    block(intent)
     startActivityForResult(intent, requestCode)
 }

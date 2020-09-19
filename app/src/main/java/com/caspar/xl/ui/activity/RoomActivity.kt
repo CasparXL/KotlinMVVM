@@ -37,7 +37,9 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), 
 
     private fun searchAll() {
         lifecycleScope.launch {
-            str = "学生数据\n" + GsonUtils.toJson(mViewModel.user.getAllUser()) + "\n\n老师数据:\n\n" + GsonUtils.toJson(mViewModel.teacher.getAllTeacher())
+            withContext(Dispatchers.IO) {
+                str = "学生数据\n" + GsonUtils.toJson(mViewModel.getAllUser()) + "\n\n老师数据:\n\n" + GsonUtils.toJson(mViewModel.getAllTeacher())
+            }
             mBindingView.tvLogcat.text = str
         }
     }
@@ -117,9 +119,11 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), 
                     }
                 }
                 lifecycleScope.launch(error) {
+                    withContext(Dispatchers.IO){
+                        RoomManager.instance.getUserDao().deleteAll()
+                        RoomManager.instance.getTeacherDao().deleteAll()
+                    }
                     //若要删除失败，下面两个方法互相调换一下顺序
-                    RoomManager.instance.getUserDao().deleteAll()
-                    RoomManager.instance.getTeacherDao().deleteAll()
                     str = ""
                     mBindingView.tvLogcat.text = "数据清空成功"
                 }

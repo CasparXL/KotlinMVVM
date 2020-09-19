@@ -14,16 +14,16 @@ ext {
             /***基础依赖库版本号Start***/
             kt_activity              : "1.1.0",
             kt_fragment              : "1.2.4",
-            kotlin_version           : "1.3.72",
-            androidx_appcompat       : "1.1.0",
-            androidx_constraintlayout: "1.1.3",
+            kotlin_version           : '1.4.10',
+            androidx_appcompat       : '1.2.0',
+            androidx_constraintlayout: '2.0.1',
             multidex                 : "2.0.1",
             recyclerview             : "1.1.0",
-            material                 : '1.1.0',
+            material                 : '1.2.1',
             junit                    : '4.13',
-            ext                      : "1.1.1",
-            espresso                 : "3.2.0",
-            core_ktx                 : "1.3.0-alpha02",
+            ext                      : '1.1.2',
+            espresso                 : '3.3.0',
+            core_ktx                 : '1.5.0-alpha03',
             kotlinx_coroutines       : "1.3.5",
             room                     : "2.2.5",
             /***基础依赖库版本号End***/
@@ -43,8 +43,8 @@ ext {
             bingoogolapple           : '1.3.7',
             mmkv                     : '1.1.1',
             autosize                 : '1.2.1',
-            camera                   : '1.0.0-beta05',
-            camera_view              : '1.0.0-alpha10',
+            camera                   : '1.0.0-beta09',
+            camera_view              : '1.0.0-alpha16',
             /***第三方依赖库End***/
     ]
     //app导入依赖
@@ -59,7 +59,7 @@ ext {
                     google_material          : "com.google.android.material:material:${dependVersion.material}",//谷歌风格UI依赖
                     androidx_multidex        : "androidx.multidex:multidex:${dependVersion.multidex}",//androidx分包
                     core_ktx                 : "androidx.core:core-ktx:${dependVersion.core_ktx}",//Kotlin 的扩展库
-                    kotlin_stdlib_jdk7       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${dependVersion.kotlin_version}",//Kotlin基础库
+                    kotlin_stdlib            : "org.jetbrains.kotlin:kotlin-stdlib:${dependVersion.kotlin_version}",//Kotlin基础库
                     coroutines_kotlin        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${dependVersion.kotlinx_coroutines}",//kotlin协程库
                     coroutines_android       : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${dependVersion.kotlinx_coroutines}",//kotlin协程库
                     /****基础依赖库****/
@@ -97,7 +97,7 @@ ext {
             ],
             testImplementation       : [
                     junit: "junit:junit:${dependVersion.junit}",//测试板块组件之一,核心testImplementation,
-                    room: "androidx.room:room-testing:${dependVersion.room}"//测试板块组件之一,核心testImplementation,
+                    room : "androidx.room:room-testing:${dependVersion.room}"//测试板块组件之一,核心testImplementation,
             ],
             androidTestImplementation: [
                     test_ext     : "androidx.test.ext:junit:${dependVersion.ext}",//测试板块组件之一，组件一androidTestImplementation

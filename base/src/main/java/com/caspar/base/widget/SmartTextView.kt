@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 
-class SmartTextView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = android.R.attr.textViewStyle) : AppCompatTextView(context, attrs, defStyleAttr), TextWatcher {
+class SmartTextView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = android.R.attr.textViewStyle) : AppCompatTextView(context, attrs, defStyleAttr), TextWatcher {
     /**
      * [TextWatcher]
      */
