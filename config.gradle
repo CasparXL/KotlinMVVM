@@ -13,14 +13,14 @@ ext {
     dependVersion = [
             /***基础依赖库版本号Start***/
             kt_activity              : "1.1.0",
-            kt_fragment              : "1.2.4",
+            kt_fragment              : '1.2.5',
             kotlin_version           : '1.4.10',
             androidx_appcompat       : '1.2.0',
-            androidx_constraintlayout: '2.0.1',
+            androidx_constraintlayout: '2.0.2',
             multidex                 : "2.0.1",
             recyclerview             : "1.1.0",
             material                 : '1.2.1',
-            junit                    : '4.13',
+            junit                    : '4.13.1',
             ext                      : '1.1.2',
             espresso                 : '3.3.0',
             core_ktx                 : '1.5.0-alpha03',

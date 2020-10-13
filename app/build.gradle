@@ -50,8 +50,11 @@ android {
 
         }
     }
-    dataBinding {
-        enabled = true
+
+    buildFeatures{
+        dataBinding = true
+        // for view binding :
+        // viewBinding = true
     }
 
     compileOptions {//使用JAVA8语法解析

@@ -119,7 +119,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), 
                     }
                 }
                 lifecycleScope.launch(error) {
-                    withContext(Dispatchers.IO){
+                    withContext(Dispatchers.IO) {
                         RoomManager.instance.getUserDao().deleteAll()
                         RoomManager.instance.getTeacherDao().deleteAll()
                     }
