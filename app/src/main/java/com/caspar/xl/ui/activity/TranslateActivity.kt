@@ -5,15 +5,12 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.R
-import com.caspar.xl.config.ARouterApi
 import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.viewmodel.TranslateViewModel
 
-@Route(path = ARouterApi.TRANSLATE)
 class TranslateActivity : BaseActivity<ActivityTranslateBinding>(R.layout.activity_translate), View.OnClickListener {
     private val mViewModel: TranslateViewModel by viewModels()
 

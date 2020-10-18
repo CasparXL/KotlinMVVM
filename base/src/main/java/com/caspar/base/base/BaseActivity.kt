@@ -13,13 +13,9 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.alibaba.android.arouter.facade.Postcard
-import com.alibaba.android.arouter.launcher.ARouter
 import com.caspar.base.R
 import com.caspar.base.action.ToastAction
 import com.caspar.base.dialog.WaitDialog
-import com.caspar.base.ext.ARouterStart
-import com.caspar.base.ext.ARouterStartResult
 import com.caspar.base.ext.immersionBar
 import com.caspar.base.helper.KeyBoardUtils
 
@@ -74,7 +70,6 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ARouter.getInstance().inject(this); //初始化路由器
         mBindingView = DataBindingUtil.setContentView(this, contentLayoutId)
         mBindingView.lifecycleOwner = this
         //沉浸式的拓展方法
@@ -143,33 +138,6 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
     }
     /***************************************初始化视图以及变量,相关生命周期**********************************************/
     /*******************************************拓展方法以及函数**************************************************/
-    /***默认界面跳转,不带传值的***/
-    fun arStart(url: String) {
-        //ARouter自带API跳转界面
-        ARouter.getInstance().build(url).navigation()
-    }
-
-    /***默认界面跳转,带传值的***/
-    fun arStart(url: String, block: Postcard.() -> Unit) {
-        //使用扩展函数进行跳转界面，方法体包含传参的方法
-        ARouterStart(url) {
-            block()
-        }
-    }
-
-    /***默认界面跳转,支持onActivityResult***/
-    fun arStartResult(url: String, code: Int) {
-        //ARouter自带API跳转界面，支持onActivityResult回调方法
-        ARouter.getInstance().build(url).navigation(this, code)
-    }
-
-    /***默认界面跳转,带传值的支持onActivityResult***/
-    fun arStartResult(url: String, code: Int, block: Postcard.() -> Unit) {
-        //使用扩展函数进行跳转界面，方法体包含传参的方法，支持onActivityResult回调方法
-        ARouterStartResult(url, code) {
-            block()
-        }
-    }
     /***************************************隐藏软键盘相关方法**********************************************/
     /**
      * 隐藏软键盘

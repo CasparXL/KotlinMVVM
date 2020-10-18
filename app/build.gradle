@@ -18,11 +18,6 @@ android {
         // 使用矢量图支持库（为了兼容 API 21 以下）
         // 阿里巴巴矢量图库：https://www.iconfont.cn/
         vectorDrawables.useSupportLibrary = true
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
-            }
-        }
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
@@ -103,7 +98,9 @@ dependencies {
     *}
     */
     implementation libsImplementation.kotlin_stdlib
+//    implementation libsImplementation.kotlin_reflect
     implementation libsImplementation.androidx_appcompat
+    implementation libsImplementation.androidx_recyclerview
     implementation libsImplementation.androidx_constraintlayout
     implementation libsImplementation.coroutines_android
     implementation libsImplementation.coroutines_kotlin
@@ -118,8 +115,6 @@ dependencies {
     implementation libsImplementation.retrofit_scalars
     implementation libsImplementation.gson
     implementation libsImplementation.immersionbar
-    implementation libsImplementation.arouter_api
-    implementation libsImplementation.androidx_recyclerview
     implementation libsImplementation.rxandroid
     implementation libsImplementation.toast
     implementation libsImplementation.base_adapter
@@ -132,9 +127,6 @@ dependencies {
     implementation libsImplementation.camera_camera
     implementation libsImplementation.camera_view
     implementation libsImplementation.camera_lifecycle
-    //用于使用浏览器查看数据库内容，可以删掉 //adb forward tcp:8090 tcp:8090
-//    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
-    kapt libsAnnotationProcessor.arouter_compiler
     kapt libsAnnotationProcessor.room_compiler
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'  //检测代码内存泄漏
     implementation 'cat.ereza:customactivityoncrash:2.3.0'

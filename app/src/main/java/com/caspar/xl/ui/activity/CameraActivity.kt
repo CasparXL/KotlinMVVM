@@ -8,16 +8,12 @@ import android.view.*
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.app.BaseApplication
-import com.caspar.xl.config.ARouterApi
 import com.caspar.xl.databinding.ActivityCameraBinding
-import com.google.common.util.concurrent.ListenableFuture
 import com.hjq.toast.ToastUtils
 import java.io.File
 import java.nio.ByteBuffer
@@ -26,7 +22,6 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-@Route(path = ARouterApi.CAMERA)
 class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_camera), View.OnClickListener {
     var cameraControl: CameraControl? = null
     lateinit var scaleGestureDetector: ScaleGestureDetector

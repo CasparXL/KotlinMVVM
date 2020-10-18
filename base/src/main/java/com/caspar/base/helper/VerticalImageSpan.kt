@@ -6,10 +6,7 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.style.ImageSpan
 
-class VerticalImageSpan : ImageSpan {
-    constructor(drawable: Drawable?) : super(drawable!!) {}
-    constructor(b: Bitmap?) : super(b!!) {}
-
+class VerticalImageSpan(drawable: Drawable) : ImageSpan(drawable) {
     override fun draw(canvas: Canvas, text: CharSequence, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
         val b = drawable
         val fm = paint.fontMetricsInt

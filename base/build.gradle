@@ -13,11 +13,6 @@ android {
         versionName rootProject.ext.android.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
-            }
-        }
     }
 
     buildTypes {
@@ -63,6 +58,7 @@ dependencies {
     api libsImplementation.kt_activity
     api libsImplementation.kt_fragment
     implementation libsImplementation.kotlin_stdlib
+//    implementation libsImplementation.kotlin_reflect
     implementation libsImplementation.androidx_appcompat
     implementation libsImplementation.coroutines_android
     implementation libsImplementation.coroutines_kotlin
@@ -75,10 +71,6 @@ dependencies {
     api libsImplementation.lifecycle_livedata
     api libsImplementation.lifecycle_common
     implementation libsImplementation.toast //第三方框架
-
-    api libsImplementation.arouter_api //第三方框架
-
-    kapt libsAnnotationProcessor.arouter_compiler //第三方框架
 
     testImplementation libsTestImplementation.junit
     androidTestImplementation libsAndroidTestImplementation.test_ext

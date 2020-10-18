@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
-import com.caspar.xl.config.ARouterApi
+import com.caspar.base.ext.acStart
 import com.caspar.xl.databinding.ActivitySplashBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     //两秒后跳转首页，由于初始化问题，可能时间会久一点，此时就不延时跳转了，根据手机性能决定什么时候跳转
     private fun startMain() {
-        arStart(ARouterApi.MAIN)
+        acStart(MainActivity::class.java)
         finish()
     }
 

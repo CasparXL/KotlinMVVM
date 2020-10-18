@@ -18,7 +18,6 @@ import java.io.IOException
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-
 /**
  * 获取gateway网关列表
  */
@@ -29,19 +28,15 @@ class NsdHelper : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-
     //网关的管理工具
     private var mNsdManager: NsdManager? = null
 
     //扫描网关的数据
     private var mDiscoveryListener: DiscoveryListener? = null
 
-
     //错误解析的次数，三次以后就解析失败。
     private var errorTimes = 0
-
     private val SERVICE_TYPE = "_http._tcp."
-
     val map: Map<String, String> = mapOf()
 
     /**
@@ -51,27 +46,17 @@ class NsdHelper : CoroutineScope {
         unregisterNsdService()
         initDiscoveryListener()
         mNsdManager = BaseApplication.context.getSystemService(Context.NSD_SERVICE) as NsdManager
-        mNsdManager?.discoverServices(
-            SERVICE_TYPE,
-            NsdManager.PROTOCOL_DNS_SD,
-            mDiscoveryListener
-        )
+        mNsdManager?.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, mDiscoveryListener)
 
     }
 
     private fun initDiscoveryListener() {
         mDiscoveryListener = object : DiscoveryListener {
-            override fun onStartDiscoveryFailed(
-                serviceType: String,
-                errorCode: Int
-            ) {
+            override fun onStartDiscoveryFailed(serviceType: String, errorCode: Int) {
                 mNsdManager!!.stopServiceDiscovery(this)
             }
 
-            override fun onStopDiscoveryFailed(
-                serviceType: String,
-                errorCode: Int
-            ) {
+            override fun onStopDiscoveryFailed(serviceType: String, errorCode: Int) {
                 mNsdManager!!.stopServiceDiscovery(this)
             }
 
@@ -102,10 +87,7 @@ class NsdHelper : CoroutineScope {
 
     private fun resolveListener(): ResolveListener {
         return object : ResolveListener {
-            override fun onResolveFailed(
-                serviceInfo: NsdServiceInfo,
-                errorCode: Int
-            ) {
+            override fun onResolveFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
                 i("解析失败设备" + Thread.currentThread())
                 e("onResolveFailed:$errorCode")
                 errorTimes++
@@ -117,12 +99,11 @@ class NsdHelper : CoroutineScope {
                     NsdManager.FAILURE_INTERNAL_ERROR -> e("FAILURE_INTERNAL_ERROR")
                     NsdManager.FAILURE_MAX_LIMIT -> e("FAILURE_MAX_LIMIT")
                 }
-//                post(RxGateWay(false, null))
+                //                post(RxGateWay(false, null))
             }
 
             override fun onServiceResolved(serviceInfo: NsdServiceInfo) {
-                var s: String? = null
-                s = if (serviceInfo.attributes["mac"] != null) {
+                val s: String? = if (serviceInfo.attributes["mac"] != null) {
                     serviceInfo.attributes["mac"]?.let { String(it) }
                 } else {
                     getClientList(serviceInfo.host.hostAddress)
@@ -151,16 +132,13 @@ class NsdHelper : CoroutineScope {
 
     //无法通过手动获取Mac地址，则通过模拟的虚拟机来获取对应的Mac地址
     //https://blog.csdn.net/Elsa_Rong/article/details/47136725
-    fun getClientList(
-        ip: String
-    ): String? {
+    fun getClientList(ip: String): String? {
         var br: BufferedReader? = null
         var result: String? = null
         try {
             br = BufferedReader(FileReader("/proc/net/arp"))
             var line: String
-            while (!br.readLine().also { line = if (it.isNullOrEmpty()) "" else it.trim() }
-                    .isNullOrEmpty()) {
+            while (!br.readLine().also { line = if (it.isNullOrEmpty()) "" else it.trim() }.isNullOrEmpty()) {
                 val splitted: List<String> = line.split(" ").filter { it.isNotEmpty() }
                 e("系统api获取不到，手动查找数据:" + GsonUtils.toJson(splitted))
                 splitted.apply {
@@ -187,7 +165,6 @@ class NsdHelper : CoroutineScope {
         return result
     }
 
-
     //取消注册
     private fun unregisterNsdService() {
         mNsdManager?.let {
@@ -203,6 +180,5 @@ class NsdHelper : CoroutineScope {
         job.cancel()
         unregisterNsdService()
     }
-
 
 }

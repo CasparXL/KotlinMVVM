@@ -26,10 +26,7 @@ object PostType {
      * @return
      */
     fun toFileRequestBody(value: File?): RequestBody? {
-        return if (value != null) RequestBody.create(
-            MediaType.parse("multipart/form-data"),
-            value
-        ) else null
+        return if (value != null) RequestBody.create(MediaType.parse("multipart/form-data"), value) else null
     }
 
     /**
@@ -39,7 +36,7 @@ object PostType {
     fun toMapRequestBody(requestDataMap: Map<String, String>): Map<String, RequestBody> {
         val requestBodyMap: MutableMap<String, RequestBody> = HashMap()
         for (key in requestDataMap.keys) {
-            val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), requestDataMap[key])
+            val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), requestDataMap[key] ?: "")
             requestBodyMap[key] = requestBody
         }
         return requestBodyMap
@@ -51,9 +48,7 @@ object PostType {
      */
     fun toMapRequestBody(Files: List<File>): Map<String, RequestBody> {
         val gson = Gson()
-        val info = RequestBody.create(MultipartBody.FORM, gson.toJson(Files))
-        val map =
-            HashMap<String, RequestBody>()
+        val map = HashMap<String, RequestBody>()
         for (file in Files) {
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             map["pictures\";filename=\"" + file.name] = requestFile

@@ -14,8 +14,7 @@ object CheckNetwork {
      */
     fun isNetworkConnected(context: Context?): Boolean {
         return if (context != null) {
-            val cm = context
-                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val info = cm.activeNetworkInfo
             info != null && info.isConnected
         } else {
@@ -26,8 +25,7 @@ object CheckNetwork {
 
     fun isWifiConnected(context: Context?): Boolean {
         return if (context != null) {
-            val cm = context
-                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val info = cm.activeNetworkInfo
             info != null && info.type == ConnectivityManager.TYPE_WIFI
         } else {

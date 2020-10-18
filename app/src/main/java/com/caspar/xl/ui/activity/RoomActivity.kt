@@ -5,21 +5,18 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.bean.db.TeacherBean
 import com.caspar.xl.bean.db.UserBean
-import com.caspar.xl.config.ARouterApi
 import com.caspar.xl.databinding.ActivityRoomBinding
 import com.caspar.xl.db.RoomManager
 import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.viewmodel.RoomViewModel
 import kotlinx.coroutines.*
 
-@Route(path = ARouterApi.ROOM)
 class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), View.OnClickListener {
     private val mViewModel: RoomViewModel by viewModels()
     var str = ""
@@ -71,7 +68,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), 
                 }
             }
             R.id.btnInsert    -> {
-                val error = CoroutineExceptionHandler { coroutineContext, throwable ->
+                val error = CoroutineExceptionHandler { _, throwable ->
                     run {
                         //数据库添加失败,可能因为其他原因导致的异常[比如学生表插入的teacherId在老师表中实际上目前不存在该数据，那会进入当前界面]
                         LogUtil.e(throwable)
@@ -112,7 +109,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), 
                 }
             }
             R.id.btnClear     -> {
-                val error = CoroutineExceptionHandler { coroutineContext, throwable ->
+                val error = CoroutineExceptionHandler { _, throwable ->
                     run {
                         //数据库删除失败
                         LogUtil.e(throwable)

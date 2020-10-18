@@ -61,23 +61,15 @@ object Utils {
      */
     fun textAfter(textView: TextView, start: String, content: String, startSize: Int, endSize: Int, startColor: Int, endColor: Int) {
         val spannableString: SpannableString = SpannableString(start + content)
-        spannableString.setSpan(
-            AbsoluteSizeSpan(startSize), 0, start.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        );
-        spannableString.setSpan(
-            ForegroundColorSpan(startColor), 0, start.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        );
-        spannableString.setSpan(
-            AbsoluteSizeSpan(endSize), start.length, start.length + content.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        );
-        spannableString.setSpan(
-            ForegroundColorSpan(endColor), start.length, start.length + content.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        );
+        spannableString.setSpan(AbsoluteSizeSpan(startSize), 0, start.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(ForegroundColorSpan(startColor), 0, start.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(AbsoluteSizeSpan(endSize), start.length, start.length + content.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(ForegroundColorSpan(endColor), start.length, start.length + content.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         textView.text = spannableString
     }
 
     //可根据需要自行截取数据显示
-    fun getTimeHour(date: Date?): String {
+    fun getTimeHour(date: Date): String {
         val format = SimpleDateFormat("HH:mm")
         return format.format(date)
     }
@@ -249,19 +241,20 @@ object Utils {
      * @return byte[]
      */
     fun hexStringToBytes(hexString: String?): ByteArray? {
-        var hexString = hexString
-        if (hexString == null || hexString == "") {
+        var mHexString = hexString
+        if (mHexString?.apply {
+                mHexString = this.toUpperCase()
+                val length = this.length / 2
+                val hexChars = this.toCharArray()
+                val d = ByteArray(length)
+                for (i in 0 until length) {
+                    val pos = i * 2
+                    d[i] = (charToByte(hexChars[pos]).toInt() shl 4 or charToByte(hexChars[pos + 1]).toInt()).toByte()
+                }
+            }.isNullOrEmpty()) {
             return null
         }
-        hexString = hexString.toUpperCase()
-        val length = hexString.length / 2
-        val hexChars = hexString.toCharArray()
-        val d = ByteArray(length)
-        for (i in 0 until length) {
-            val pos = i * 2
-            d[i] = (charToByte(hexChars[pos]).toInt() shl 4 or charToByte(hexChars[pos + 1]).toInt()).toByte()
-        }
-        return d
+        return null
     }
 
     /**

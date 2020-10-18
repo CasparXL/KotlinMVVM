@@ -89,7 +89,7 @@ class CrashHandler private constructor(context: Context) : Thread.UncaughtExcept
     }
 
     fun saveSettingFile(fileName: String, content: String) {
-        var fos: FileOutputStream? = null
+        val fos: FileOutputStream?
         val file = File(fileName)
         try {
             fos = FileOutputStream(file)

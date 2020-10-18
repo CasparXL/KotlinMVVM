@@ -3,16 +3,13 @@ package com.caspar.xl
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.xl.config.ARouterApi
 import com.caspar.xl.databinding.ActivityMainBinding
 import com.caspar.xl.ui.adapter.BaseFragmentAdapter
 import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment
 
-@Route(path = ARouterApi.MAIN)
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), View.OnClickListener {
     lateinit var mPagerAdapter: BaseFragmentAdapter<Fragment>
 

@@ -1,14 +1,13 @@
 package com.caspar.xl.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import com.alibaba.android.arouter.launcher.ARouter
 import com.caspar.base.base.BaseViewModel
+import com.caspar.base.ext.acStart
 import com.caspar.base.helper.ActivityStackManager
 import com.caspar.base.utils.permissions.OnPermission
 import com.caspar.base.utils.permissions.Permission
 import com.caspar.base.utils.permissions.XXPermissions
-import com.caspar.xl.config.ARouterApi
+import com.caspar.xl.ui.activity.CameraActivity
 
 /**
  *  "CasparXL" 创建 2020/5/12.
@@ -19,10 +18,11 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
     val mData: List<String> = arrayListOf("翻译", "CameraX", "Room")
 
     fun permission() {
-        XXPermissions.with(ActivityStackManager.topActivity).permission(Permission.Group.CAMERA).request(object : OnPermission {
+        XXPermissions.with(ActivityStackManager.topActivity).permission(Permission.Group.CAMERA).request(object :
+            OnPermission {
             override fun hasPermission(granted: List<String?>?, isAll: Boolean) {
                 if (isAll) {
-                    ARouter.getInstance().build(ARouterApi.CAMERA).navigation()
+                    ActivityStackManager.topActivity.acStart(CameraActivity::class.java)
                 } else {
                     toast("请先同意权限")
                 }

@@ -177,15 +177,15 @@ object LogUtil {
      * Print text in XML format
      */
     fun xml(xml: String?, index: Int = mIndex) {
-        var xml = xml
-        if (xml != null) {
-            xml = formatXML(xml)
-            xml = "Xml:\n$xml"
+        var mXml = xml
+        if (mXml != null) {
+            mXml = formatXML(mXml)
+            mXml = "Xml:\n$mXml"
         } else {
-            xml = "Xml:End"
+            mXml = "Xml:End"
         }
         e("╔═══════════════════════════════════════════════════════════════════════════════════════", index = index + 1)
-        val lines = xml.split(LINE_SEPARATOR).toTypedArray()
+        val lines = mXml.split(LINE_SEPARATOR).toTypedArray()
         for (line in lines) {
             if (!TextUtils.isEmpty(line)) {
                 e("║ $line")
