@@ -1,6 +1,5 @@
 package com.caspar.xl.network
 
-
 import com.caspar.xl.bean.response.City
 import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.config.ApiConfig
@@ -13,7 +12,6 @@ import retrofit2.http.*
  * 界面名称以及功能:Http的接口
  */
 interface ApiService {
-
     /**
      * 下载文件
      * @param range 下载的范围，一般只有流文件才会生效，其他类型的下载需要做文件过滤 格式为:bytes = 全部[0-],范围[0-100]
@@ -21,8 +19,7 @@ interface ApiService {
      */
     @Streaming
     @GET
-    suspend fun download(@Header("Range") range :String, @Url url: String): ResponseBody
-
+    suspend fun download(@Header("Range") range: String, @Url url: String): ResponseBody
 
     /**
      * config设置
@@ -34,11 +31,6 @@ interface ApiService {
      * 翻译
      */
     @GET(ApiConfig.Translate)
-    suspend fun Translate(
-        @Query("doctype") doctype: String = "json",
-        @Query("type") type: String = "AUTO",
-        @Query("i") text: String
-    ): TranslateBean
-
+    suspend fun Translate(@Query("doctype") doctype: String = "json", @Query("type") type: String = "AUTO", @Query("i") text: String): TranslateBean
 
 }

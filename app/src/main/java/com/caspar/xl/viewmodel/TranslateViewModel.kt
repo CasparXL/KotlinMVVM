@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.caspar.base.base.BaseViewModel
 import com.caspar.xl.bean.Resource
-import com.caspar.xl.bean.response.City
 import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.repository.MenuRepository
 import kotlinx.coroutines.launch

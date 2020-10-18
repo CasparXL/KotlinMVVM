@@ -98,7 +98,7 @@ dependencies {
     *}
     */
     implementation libsImplementation.kotlin_stdlib
-//    implementation libsImplementation.kotlin_reflect
+    implementation libsImplementation.kotlin_reflect
     implementation libsImplementation.androidx_appcompat
     implementation libsImplementation.androidx_recyclerview
     implementation libsImplementation.androidx_constraintlayout
@@ -127,6 +127,8 @@ dependencies {
     implementation libsImplementation.camera_camera
     implementation libsImplementation.camera_view
     implementation libsImplementation.camera_lifecycle
+    implementation 'com.squareup.moshi:moshi:1.11.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.11.0'
     kapt libsAnnotationProcessor.room_compiler
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'  //检测代码内存泄漏
     implementation 'cat.ereza:customactivityoncrash:2.3.0'

@@ -209,14 +209,14 @@ class HttpLoggingInterceptor : Interceptor {
                 }
                 if (!isPlaintext(buffer)) {
                     i("")
-                    i("END HTTP (binary " + buffer.size + "-byte body omitted)")
+                    i("END HTTP (binary " + buffer.size() + "-byte body omitted)")
                     return response
                 }
                 if (contentLength != 0L) {
                     i("Response Content:\u21E3")
                     json(buffer.clone().readString(charset))
                 }
-                i("END HTTP (" + buffer.size + "-byte body)")
+                i("END HTTP (" + buffer.size() + "-byte body)")
             }
         }
         return response
