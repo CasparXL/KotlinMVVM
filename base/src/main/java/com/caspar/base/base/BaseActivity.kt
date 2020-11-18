@@ -147,7 +147,8 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
         val view = currentFocus
         view?.run {
             val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            manager?.hideSoftInputFromWindow(this.windowToken, 0) //这里编译器告诉我们不需要判空，不过避免出问题，还是判空一下比较好
+            manager?.hideSoftInputFromWindow(this.applicationWindowToken, 0) //applicationWindowToken可以隐藏整个app的键盘,而使用windowToken的时候隐藏不了Fragment的键盘
+            //manager?.hideSoftInputFromWindow(this.windowToken, 0)
         }
     }
 
