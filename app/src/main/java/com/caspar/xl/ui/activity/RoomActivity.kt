@@ -17,7 +17,7 @@ import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.viewmodel.RoomViewModel
 import kotlinx.coroutines.*
 
-class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), View.OnClickListener {
+class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
     private val mViewModel: RoomViewModel by viewModels()
     var str = ""
     var teacherId = -1L
@@ -43,9 +43,9 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), 
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_left      -> finish()
+            R.id.tv_left -> finish()
             R.id.btnSearchAll -> searchAll()
-            R.id.btnSearch    -> {
+            R.id.btnSearch -> {
                 lifecycleScope.launch {
                     val size = mViewModel.getTeacherSize()
                     LogUtil.e("随机查询某老师对应的学生：老师数量$size")
@@ -67,7 +67,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), 
                     }
                 }
             }
-            R.id.btnInsert    -> {
+            R.id.btnInsert -> {
                 val error = CoroutineExceptionHandler { _, throwable ->
                     run {
                         //数据库添加失败,可能因为其他原因导致的异常[比如学生表插入的teacherId在老师表中实际上目前不存在该数据，那会进入当前界面]
@@ -108,7 +108,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(R.layout.activity_room), 
                     mBindingView.tvLogcat.text = str
                 }
             }
-            R.id.btnClear     -> {
+            R.id.btnClear -> {
                 val error = CoroutineExceptionHandler { _, throwable ->
                     run {
                         //数据库删除失败

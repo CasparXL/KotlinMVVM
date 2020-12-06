@@ -3,8 +3,9 @@ package com.caspar.xl.network
 import android.annotation.SuppressLint
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.config.ApiConfig
-import com.caspar.xl.network.interceptor.HttpLoggingInterceptor
+import com.caspar.xl.network.interceptor.HttpHeadInterceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -42,6 +43,7 @@ object Api {
             okBuilder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             okBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             okBuilder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+            okBuilder.addInterceptor(if (BuildConfig.LOG_ENABLE) HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY) else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
             /*okBuilder.addInterceptor { chain ->
                 val request: Request = chain.request().newBuilder()
                                        .header("Cache-Control", "public") //如果只有一个请求头，就使用这
@@ -50,7 +52,6 @@ object Api {
                                        .build()
                 chain.proceed(request);
             }*/
-            okBuilder.addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE))
             okBuilder.hostnameVerifier { _, _ -> true }
             okBuilder.build()
         } catch (e: Exception) {

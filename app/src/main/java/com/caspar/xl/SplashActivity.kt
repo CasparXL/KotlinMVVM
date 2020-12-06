@@ -9,7 +9,7 @@ import com.caspar.xl.databinding.ActivitySplashBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
+class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     override fun initIntent() {
 
     }

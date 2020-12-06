@@ -10,11 +10,10 @@ import com.caspar.xl.ui.adapter.BaseFragmentAdapter
 import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment
 
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), View.OnClickListener {
+class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
     lateinit var mPagerAdapter: BaseFragmentAdapter<Fragment>
 
     override fun initIntent() {
-
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -41,6 +40,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             }
         }
     }
-
 
 }

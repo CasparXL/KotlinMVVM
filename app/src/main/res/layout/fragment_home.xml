@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
+    <include
+        android:id="@+id/title"
+        layout="@layout/view_header" />
 
-    </data>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <include android:id="@+id/title" layout="@layout/view_header"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-</layout>
+        android:layout_width="match_parent" />
+</LinearLayout>

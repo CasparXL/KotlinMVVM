@@ -2,8 +2,11 @@ package com.caspar.xl.network.util
 
 import com.google.gson.Gson
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.util.*
 
@@ -15,8 +18,8 @@ object PostType {
      * @param value
      * @return
      */
-    fun toStringRequestBody(value: String?): RequestBody? {
-        return if (value != null) RequestBody.create(MediaType.parse("text/plain"), value) else null
+    fun toStringRequestBody(value: String): RequestBody {
+        return value.toRequestBody("text/plain".toMediaTypeOrNull())
     }
 
     /**
@@ -25,8 +28,8 @@ object PostType {
      * @param value
      * @return
      */
-    fun toFileRequestBody(value: File?): RequestBody? {
-        return if (value != null) RequestBody.create(MediaType.parse("multipart/form-data"), value) else null
+    fun toFileRequestBody(value: File): RequestBody? {
+        return value.asRequestBody("multipart/form-data".toMediaTypeOrNull())
     }
 
     /**
@@ -36,7 +39,7 @@ object PostType {
     fun toMapRequestBody(requestDataMap: Map<String, String>): Map<String, RequestBody> {
         val requestBodyMap: MutableMap<String, RequestBody> = HashMap()
         for (key in requestDataMap.keys) {
-            val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), requestDataMap[key] ?: "")
+            val requestBody = (requestDataMap[key] ?: "").toRequestBody("multipart/form-data".toMediaTypeOrNull())
             requestBodyMap[key] = requestBody
         }
         return requestBodyMap
@@ -47,10 +50,9 @@ object PostType {
      * @return
      */
     fun toMapRequestBody(Files: List<File>): Map<String, RequestBody> {
-        val gson = Gson()
         val map = HashMap<String, RequestBody>()
         for (file in Files) {
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             map["pictures\";filename=\"" + file.name] = requestFile
         }
         return map

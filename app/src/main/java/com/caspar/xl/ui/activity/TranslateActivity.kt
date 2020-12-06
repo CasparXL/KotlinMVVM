@@ -7,13 +7,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityTranslateBinding
-import com.caspar.xl.network.util.toJson
 import com.caspar.xl.viewmodel.TranslateViewModel
 
-class TranslateActivity : BaseActivity<ActivityTranslateBinding>(R.layout.activity_translate), View.OnClickListener {
+class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClickListener {
     private val mViewModel: TranslateViewModel by viewModels()
 
     override fun initIntent() {
@@ -22,7 +20,6 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(R.layout.activi
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-
         mViewModel.mData.observe(this, Observer {
             if (it.first) {
                 mBindingView.tvText.text = "原文:\n${mBindingView.etEnter.text}\n译文:\n ${it.second?.translateResult?.get(0)?.get(0)?.tgt}"

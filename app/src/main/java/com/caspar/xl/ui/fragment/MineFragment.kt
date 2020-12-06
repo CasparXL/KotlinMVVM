@@ -12,7 +12,7 @@ import com.caspar.xl.databinding.FragmentMineBinding
  *  @Create 2020/6/13.
  *  @Use
  */
-class MineFragment :BaseFragment<FragmentMineBinding>(R.layout.fragment_mine){
+class MineFragment :BaseFragment<FragmentMineBinding>(){
     override fun initView(savedInstanceState: Bundle?) {
         LogUtil.e("切换MineFragment")
     }

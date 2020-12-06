@@ -22,7 +22,7 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_camera), View.OnClickListener {
+class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListener {
     var cameraControl: CameraControl? = null
     lateinit var scaleGestureDetector: ScaleGestureDetector
     private lateinit var imageAnalyzer: ImageAnalysis
@@ -163,7 +163,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_left       -> finish()
+            R.id.tv_left -> finish()
             R.id.iv_take_photo -> {
                 takePhoto()
             }

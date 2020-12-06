@@ -5,23 +5,41 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
+import com.caspar.base.helper.LogUtil
+import java.lang.reflect.InvocationTargetException
+import java.lang.reflect.Method
+import java.lang.reflect.ParameterizedType
 
 /**
  * @author CasparXL
  * @time 2020/4/2
  */
-abstract class BaseFragment<SV : ViewDataBinding>(@LayoutRes val contentLayoutId: Int) : Fragment() {
-    /**
-     * 绑定布局的ViewDatabinding,本项目中主要用于findViewById的作用，未来可用ViewBinding代替
-     */
+abstract class BaseFragment<SV : ViewBinding>() : Fragment() {
     protected lateinit var mBindingView: SV
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBindingView = DataBindingUtil.inflate(inflater, contentLayoutId, null, false)
+        return initBindView(inflater, container)
+    }
+
+    //初始化ViewBinding
+    private fun initBindView(inflater: LayoutInflater, container: ViewGroup?): View {
+        val superclass = javaClass.genericSuperclass
+        val aClass = (superclass as ParameterizedType).actualTypeArguments[0] as Class<*>
+        try {
+            val method: Method = aClass.getDeclaredMethod("inflate", LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.java)
+            mBindingView = method.invoke(null, inflater, container, false) as SV
+        } catch (e: NoSuchMethodException) {
+            LogUtil.e(e)
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            LogUtil.e(e)
+            e.printStackTrace()
+        } catch (e: InvocationTargetException) {
+            LogUtil.e(e)
+            e.printStackTrace()
+        }
         return mBindingView.root
     }
 
@@ -36,10 +54,5 @@ abstract class BaseFragment<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
     }
 
     abstract fun initView(savedInstanceState: Bundle?)
-
-    override fun onDestroy() {
-        mBindingView.unbind()
-        super.onDestroy()
-    }
 
 }

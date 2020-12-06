@@ -1,8 +1,10 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+}
 
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -47,7 +49,7 @@ android {
     }
 
     buildFeatures{
-        dataBinding = true
+        viewBinding = true
         // for view binding :
         // viewBinding = true
     }
@@ -62,9 +64,6 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
-    }
-    androidExtensions {//Kotlin序列化
-        experimental = true
     }
     //apk输出格式
     applicationVariants.all {
@@ -113,6 +112,7 @@ dependencies {
     implementation libsImplementation.retrofit_gson
     implementation libsImplementation.retrofit_rxjava2
     implementation libsImplementation.retrofit_scalars
+    implementation libsImplementation.retrofit_logging
     implementation libsImplementation.gson
     implementation libsImplementation.immersionbar
     implementation libsImplementation.rxandroid
@@ -130,7 +130,7 @@ dependencies {
     implementation 'com.squareup.moshi:moshi:1.11.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.11.0'
     kapt libsAnnotationProcessor.room_compiler
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'  //检测代码内存泄漏
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'  //检测代码内存泄漏
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
     testImplementation libsTestImplementation.junit
     testImplementation libsTestImplementation.room

@@ -7,7 +7,6 @@ import com.caspar.base.base.BaseFragment
 import com.caspar.base.ext.acStart
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.hide
-import com.caspar.xl.R
 import com.caspar.xl.databinding.FragmentHomeBinding
 import com.caspar.xl.ui.activity.RoomActivity
 import com.caspar.xl.ui.activity.TranslateActivity
@@ -19,7 +18,7 @@ import com.caspar.xl.viewmodel.HomeViewModel
  *  @Create 2020/6/13.
  *  @Use
  */
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val mAdapter: HomeMenuAdapter by lazy { HomeMenuAdapter() }
     private val mViewModel: HomeViewModel by viewModels()
 
@@ -30,11 +29,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun initAdapter() {
         mBindingView.rvList.layoutManager = GridLayoutManager(context, 2)
-        mBindingView.rvList.addItemDecoration(
-            Decoration.GridDecoration(
-                2, 10.dp, true
-            )
-        )
+        mBindingView.rvList.addItemDecoration(Decoration.GridDecoration(2, 10.dp, true))
         mBindingView.rvList.adapter = mAdapter
         mAdapter.setList(mViewModel.mData)
         mAdapter.setOnItemClickListener { _, _, position ->

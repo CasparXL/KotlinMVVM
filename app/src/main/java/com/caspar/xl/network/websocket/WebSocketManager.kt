@@ -210,7 +210,7 @@ class WebSocketManager private constructor() {
                 super.onOpen(webSocket, response)
                 e("Open WebSocket:$response")
                 mWebSocket = webSocket
-                isConnect = response.code() == 101 //101证明连接成功
+                isConnect = response.code == 101 //101证明连接成功
                 if (!isConnect) {
                     reconnect()
                 } else {

@@ -4,32 +4,36 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.R
 import com.caspar.base.action.ToastAction
 import com.caspar.base.dialog.WaitDialog
 import com.caspar.base.ext.immersionBar
 import com.caspar.base.helper.KeyBoardUtils
+import com.caspar.base.helper.LogUtil
+import java.lang.reflect.InvocationTargetException
+import java.lang.reflect.Method
+import java.lang.reflect.ParameterizedType
 
 /**
  * @author CasparXL
  * @description 如果使用了ARouter,Activity顶部需要加上@Router注解，参数path为标注路径，示例:@Route(path = ARouterApi.MAIN)
  * @time 2020/4/2
  */
-abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId: Int) : AppCompatActivity(), ToastAction {
+abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction {
     /***************************************初始化视图以及变量,相关生命周期**********************************************/
     /**
-     * 绑定布局的ViewDataBinding,本项目中主要用于findViewById的作用，未来可用ViewBinding代替
+     * ViewBinding
      */
     protected lateinit var mBindingView: SV
+
     private var mBaseDialog: BaseDialog? = null
 
     //判断是否显示
@@ -70,8 +74,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBindingView = DataBindingUtil.setContentView(this, contentLayoutId)
-        mBindingView.lifecycleOwner = this
+        setContentView(initViewBinding())
         //沉浸式的拓展方法
         immersionBar {
             /**
@@ -89,6 +92,25 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
         initView(savedInstanceState)
     }
 
+    private fun initViewBinding() :View{
+        val superclass = javaClass.genericSuperclass
+        val aClass = (superclass as ParameterizedType).actualTypeArguments[0] as Class<*>
+        try {
+            val method: Method = aClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
+            mBindingView = method.invoke(null, layoutInflater) as SV
+        } catch (e: NoSuchMethodException) {
+            LogUtil.e(e)
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            LogUtil.e(e)
+            e.printStackTrace()
+        } catch (e: InvocationTargetException) {
+            LogUtil.e(e)
+            e.printStackTrace()
+        }
+        return mBindingView.root
+    }
+
     override fun onNewIntent(intent: Intent?) { //页面特殊销毁的话通过该方法重新赋值
         super.onNewIntent(intent)
         setIntent(intent)
@@ -102,7 +124,6 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
 
     //销毁ViewBinding
     override fun onDestroy() {
-        mBindingView.unbind()
         super.onDestroy()
     }
 
@@ -115,8 +136,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
         val res = super.getResources()
         val config = res.configuration
         config.fontScale = 1f
-        //        res.updateConfiguration(config, res.displayMetrics)
-        createConfigurationContext(config) //上面的方法被弃用了，改用该方法
+        res.updateConfiguration(config, res.displayMetrics)
         return res
     }
 
@@ -223,9 +243,7 @@ abstract class BaseActivity<SV : ViewDataBinding>(@LayoutRes val contentLayoutId
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (ev.action == MotionEvent.ACTION_DOWN) {
             if (isTouchView(filterViewByIds(), ev)) return super.dispatchTouchEvent(ev)
-            if (hideSoftByEditViewIds().isEmpty()) return super.dispatchTouchEvent(
-                ev
-            )
+            if (hideSoftByEditViewIds().isEmpty()) return super.dispatchTouchEvent(ev)
             val v = currentFocus
             if (isFocusEditText(v, *hideSoftByEditViewIds())) {
                 if (isTouchView(hideSoftByEditViewIds(), ev)) return super.dispatchTouchEvent(ev)
