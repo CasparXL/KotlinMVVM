@@ -108,6 +108,7 @@ dependencies {
     implementation libsImplementation.androidx_multidex
     implementation libsImplementation.smart_refresh
     implementation libsImplementation.smart_header
+    implementation libsImplementation.smart_foot
     implementation libsImplementation.lifecycle_api
     implementation libsImplementation.retrofit_gson
     implementation libsImplementation.retrofit_rxjava2
