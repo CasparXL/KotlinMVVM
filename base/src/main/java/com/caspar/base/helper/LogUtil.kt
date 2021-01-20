@@ -67,12 +67,12 @@ object LogUtil {
      *  }
      * Logcat -----> [thread:main]⇢[test()]⇢(MainActivity.kt:124) -> test
      */
-    fun content(index: Int, tag: String? = null, msg: String?): String {
+    fun content(index: Int, optionalTag: String? = null, msg: String?): String {
         val stackTraceElement = Throwable().stackTrace[index] //调用代码的堆栈
         val clazz = stackTraceElement.fileName //类名称
         val method = stackTraceElement.methodName //方法名称
         val line = stackTraceElement.lineNumber //代码行数
-        val secondTag = if (tag == mTag) "" else "[$tag]\u21E2"
+        val secondTag = if (optionalTag == mTag) "" else "[$optionalTag]\u21E2"
         return "$secondTag[thread:${Thread.currentThread().name}]\u21E2($clazz:$line)\u21E2 $msg"
     }
 
@@ -94,52 +94,52 @@ object LogUtil {
             val disclaimer = "[stack trace too large]"
             stackTraceString = stackTraceString.substring(0, MAX_STACK_TRACE_SIZE - disclaimer.length) + disclaimer
         }
-        Log.e(mTag, content(index = index, tag = mTag, msg = stackTraceString))
+        Log.e(mTag, content(index = index, optionalTag = mTag, msg = stackTraceString))
     }
 
-    fun v(msg: String?, tag: String? = mTag, index: Int = mIndex) {
+    fun v(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            printLog(content(index = index, tag = tag, msg = msg)) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.v(mTag, it)
             }
         }
     }
 
-    fun d(msg: String?, tag: String? = mTag, index: Int = mIndex) {
+    fun d(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            printLog(content(index = index, tag = tag, msg = msg)) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.d(mTag, it)
             }
         }
     }
 
-    fun i(msg: String?, tag: String? = mTag, index: Int = mIndex) {
+    fun i(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            printLog(content(index = index, tag = tag, msg = msg)) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.i(mTag, it)
             }
         }
     }
 
-    fun w(msg: String?, tag: String? = mTag, index: Int = mIndex) {
+    fun w(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            printLog(content(index = index, tag = tag, msg = msg)) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.w(mTag, it)
             }
         }
     }
 
-    fun wtf(msg: String?, tag: String? = mTag, index: Int = mIndex) {
+    fun wtf(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            printLog(content(index = index, tag = tag, msg = msg)) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.wtf(mTag, it)
             }
         }
     }
 
-    fun e(msg: String?, tag: String? = mTag, index: Int = mIndex) {
+    fun e(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            printLog(content(index = index, tag = tag, msg = msg)) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.e(mTag, it)
             }
         }
@@ -171,9 +171,9 @@ object LogUtil {
      * 打印json格式文本
      * Print text in JSON format
      */
-    fun json(msg: String?, index: Int = mIndex) {
+    fun json(msg: String?, tag: String? = mTag, index: Int = mIndex) {
         if (msg.isNullOrEmpty()) {
-            e(msg = "Json is Empty", index = index + 1)
+            e(msg = "Json is Empty", optionalTag = tag, index = index + 1)
             return
         }
         var message: String
@@ -194,13 +194,13 @@ object LogUtil {
         } catch (e: JSONException) {
             msg
         }
-        i("╔═══════════════════════════════════════════════════════════════════════════════════════", index = index + 1)
+        i("╔═══════════════════════════════════════════════════════════════════════════════════════", optionalTag = tag, index = index + 1)
         message = "Json:$LINE_SEPARATOR$message"
         val lines = message.split(LINE_SEPARATOR).toTypedArray()
         for (line in lines) {
-            i(msg = "║ $line", index = index + 1)
+            i(msg = "║ $line", optionalTag = tag, index = index + 1)
         }
-        i("╚═══════════════════════════════════════════════════════════════════════════════════════", index = index + 1)
+        i("╚═══════════════════════════════════════════════════════════════════════════════════════", optionalTag = tag, index = index + 1)
     }
 
     /**
