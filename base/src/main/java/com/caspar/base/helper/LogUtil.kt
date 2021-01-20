@@ -33,9 +33,7 @@ object LogUtil {
 
     /**
      * 获取文件行数的堆栈信息下标
-     * 默认是3，这是工具类配套使用好的，如果需要单独设置，请做测试到你需要的下标以达到你需要的文字
      * Gets the index of stack information for the number of file lines
-     * The default is 3, which is used with the tool class. If it needs to be set separately, please test to the subscript you need to achieve the text you need
      */
     private var mIndex = 3
 
@@ -52,9 +50,9 @@ object LogUtil {
      * @param debug 是否打印       Whether or not to print
      * @param Tag 日志Tag         Log Tag
      */
-    fun init(debug: Boolean, Tag: String) {
-        LogUtil.debug = debug
-        LogUtil.mTag = Tag
+    fun init(isPrint: Boolean, Tag: String) {
+        debug = isPrint
+        mTag = Tag
     }
 
     /**
@@ -69,12 +67,13 @@ object LogUtil {
      *  }
      * Logcat -----> [thread:main]⇢[test()]⇢(MainActivity.kt:124) -> test
      */
-    fun content(index: Int, msg: String?): String {
-        val stackTraceElement = Throwable().stackTrace[index]
-        val clazz = stackTraceElement.fileName
-        val method = stackTraceElement.methodName
-        val line = stackTraceElement.lineNumber
-        return "[thread:${Thread.currentThread().name}]\u21E2[$method()]\u21E2($clazz:$line)\u21E2 $msg"
+    fun content(index: Int, tag: String? = null, msg: String?): String {
+        val stackTraceElement = Throwable().stackTrace[index] //调用代码的堆栈
+        val clazz = stackTraceElement.fileName //类名称
+        val method = stackTraceElement.methodName //方法名称
+        val line = stackTraceElement.lineNumber //代码行数
+        val secondTag = if (tag == mTag) "" else "[$tag]\u21E2"
+        return "$secondTag[thread:${Thread.currentThread().name}]\u21E2($clazz:$line)\u21E2 $msg"
     }
 
     /**
@@ -92,47 +91,79 @@ object LogUtil {
         //See: http://developer.android.com/reference/android/os/TransactionTooLargeException.html
         //And: http://stackoverflow.com/questions/11451393/what-to-do-on-transactiontoolargeexception#comment46697371_12809171
         if (stackTraceString.length > MAX_STACK_TRACE_SIZE) {
-            val disclaimer = " [stack trace too large]"
-            stackTraceString = stackTraceString.substring(
-                0, MAX_STACK_TRACE_SIZE - disclaimer.length
-            ) + disclaimer
+            val disclaimer = "[stack trace too large]"
+            stackTraceString = stackTraceString.substring(0, MAX_STACK_TRACE_SIZE - disclaimer.length) + disclaimer
         }
-        Log.e(mTag, content(index = index, msg = stackTraceString))
+        Log.e(mTag, content(index = index, tag = mTag, msg = stackTraceString))
     }
 
-    fun v(msg: String?, index: Int = mIndex) {
+    fun v(msg: String?, tag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            Log.v(mTag, content(index = index, msg = msg))
-        }
-    }
-
-    fun d(msg: String?, index: Int = mIndex) {
-        if (debug) {
-            Log.d(mTag, content(index = index, msg = msg))
+            printLog(content(index = index, tag = tag, msg = msg)) {
+                Log.v(mTag, it)
+            }
         }
     }
 
-    fun i(msg: String?, index: Int = mIndex) {
+    fun d(msg: String?, tag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            Log.i(mTag, content(index = index, msg = msg))
+            printLog(content(index = index, tag = tag, msg = msg)) {
+                Log.d(mTag, it)
+            }
         }
     }
 
-    fun w(msg: String?, index: Int = mIndex) {
+    fun i(msg: String?, tag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            Log.w(mTag, content(index = index, msg = msg))
+            printLog(content(index = index, tag = tag, msg = msg)) {
+                Log.i(mTag, it)
+            }
         }
     }
 
-    fun wtf(msg: String?, index: Int = mIndex) {
+    fun w(msg: String?, tag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            Log.wtf(mTag, content(index = index, msg = msg))
+            printLog(content(index = index, tag = tag, msg = msg)) {
+                Log.w(mTag, it)
+            }
         }
     }
 
-    fun e(msg: String?, index: Int = mIndex) {
+    fun wtf(msg: String?, tag: String? = mTag, index: Int = mIndex) {
         if (debug) {
-            Log.e(mTag, content(index = index, msg = msg))
+            printLog(content(index = index, tag = tag, msg = msg)) {
+                Log.wtf(mTag, it)
+            }
+        }
+    }
+
+    fun e(msg: String?, tag: String? = mTag, index: Int = mIndex) {
+        if (debug) {
+            printLog(content(index = index, tag = tag, msg = msg)) {
+                Log.e(mTag, it)
+            }
+        }
+    }
+
+    /**
+     * 用于打印长数据Log,如果Log内容超出Logcat一行4K的字符数时，跨行打印
+     */
+    private fun printLog(msg: String, level: (body: String) -> Unit) {
+        if (msg.length > 4000) {
+            var i = 0
+            while (i < msg.length) {
+                //当前截取的长度<总长度则继续截取最大的长度来打印
+                if (i + 4000 < msg.length) {
+                    level.invoke(msg.substring(i, i + 4000))
+                } else {
+                    //当前截取的长度已经超过了总长度，则打印出剩下的全部信息
+                    level.invoke(msg.substring(i, msg.length))
+                }
+                i += 4000
+            }
+        } else {
+            //直接打印
+            level.invoke(msg)
         }
     }
 
@@ -142,7 +173,7 @@ object LogUtil {
      */
     fun json(msg: String?, index: Int = mIndex) {
         if (msg.isNullOrEmpty()) {
-            e("Json is Empty", index + 1)
+            e(msg = "Json is Empty", index = index + 1)
             return
         }
         var message: String
@@ -177,15 +208,15 @@ object LogUtil {
      * Print text in XML format
      */
     fun xml(xml: String?, index: Int = mIndex) {
-        var mXml = xml
-        if (mXml != null) {
-            mXml = formatXML(mXml)
-            mXml = "Xml:\n$mXml"
+        var xml = xml
+        if (xml != null) {
+            xml = formatXML(xml)
+            xml = "Xml:\n$xml"
         } else {
-            mXml = "Xml:End"
+            xml = "Xml:End"
         }
         e("╔═══════════════════════════════════════════════════════════════════════════════════════", index = index + 1)
-        val lines = mXml.split(LINE_SEPARATOR).toTypedArray()
+        val lines = xml.split(LINE_SEPARATOR).toTypedArray()
         for (line in lines) {
             if (!TextUtils.isEmpty(line)) {
                 e("║ $line")
