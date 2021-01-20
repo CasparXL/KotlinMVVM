@@ -16,8 +16,10 @@ import com.caspar.xl.MainActivity
 import com.caspar.xl.R
 import com.caspar.xl.ui.CrashActivity
 import com.caspar.xl.utils.rxjava.RxBus
+import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator
 import com.tencent.mmkv.MMKV
 import me.jessyan.autosize.AutoSizeConfig
 import me.jessyan.autosize.unit.Subunits
@@ -83,11 +85,13 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
                 layout.setEnableLoadMoreWhenContentNotFull(true)
                 //是否在刷新完成之后滚动内容显示新数据
                 layout.setEnableScrollContentWhenRefreshed(true)
-                layout.setPrimaryColorsId(R.color.appColor, android.R.color.white)
+                layout.setPrimaryColorsId(R.color.appColor, android.R.color.black)
             }
-
+            SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
+                 ClassicsFooter(context).setDrawableSize(20f)
+            }
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ -> //全局设置主题颜色（优先级第二低，可以覆盖 DefaultRefreshInitializer 的配置，与下面的ClassicsHeader绑定）
-                MaterialHeader(context).setColorSchemeResources(R.color.appColor, android.R.color.white)
+                MaterialHeader(context).setColorSchemeResources(R.color.appColor, android.R.color.black)
             }
         }
     }
