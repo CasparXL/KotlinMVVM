@@ -35,7 +35,7 @@ object KeyBoardUtils {
      */
     fun closeKeyBord(mEditText: EditText, mContext: Context) {
         val imm = (mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-        imm.hideSoftInputFromWindow(mEditText.windowToken, 0)
+        imm.hideSoftInputFromWindow(mEditText.applicationWindowToken, 0)
     }
 
     /**
@@ -44,10 +44,10 @@ object KeyBoardUtils {
      * @param activity
      */
     fun hideInputForce(activity: Activity?) {
-        if (activity == null || activity.currentFocus == null) return
-        (activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                activity.currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
-            )
+        activity?.apply {
+            val inputManager = (activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            inputManager.hideSoftInputFromWindow(this.currentFocus!!.applicationWindowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        }
     }
 
     /**
@@ -56,7 +56,7 @@ object KeyBoardUtils {
      * @param activity
      */
     fun hideInputForce(activity: Fragment) {
-        activity.activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        activity.requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
     /**

@@ -9,5 +9,5 @@ import com.caspar.base.base.BaseViewModel
  */
 class HomeViewModel(application: Application) : BaseViewModel(application) {
     //功能列表
-    val mData: List<String> = arrayListOf("翻译", "CameraX", "Room")
+    val mData: List<String> = arrayListOf("翻译", "CameraX", "Room", "选择文件路径")
 }

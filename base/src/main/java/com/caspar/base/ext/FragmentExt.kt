@@ -65,7 +65,7 @@ inline fun Fragment.acStartForResult(
  * @param block 使用了JvmOverloads注解，主要作用为intent附带传值，即putExtra等功能,可不写
  */
 @JvmOverloads
-inline fun <reified I : Fragment> Fragment.createIntent(block: intentVoid = {}): Intent {
+inline fun <reified I : ComponentActivity> Fragment.createIntent(block: intentVoid = {}): Intent {
     val intent = Intent(context, I::class.java)
     block.invoke(intent)
     return intent
