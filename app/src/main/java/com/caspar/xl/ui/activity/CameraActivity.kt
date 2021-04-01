@@ -136,7 +136,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
                 hideDialog()
                 val savedUri = Uri.fromFile(photoFile)
                 val msg = "拍照成功，图片被保存到app内部储存，路径为: $savedUri"
-                ToastUtils.show(msg)
+                toast(msg)
                 LogUtil.d(msg)
             }
         })
@@ -175,14 +175,19 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
         val orientationEventListener: OrientationEventListener = object : OrientationEventListener(this as Context) {
             override fun onOrientationChanged(orientation: Int) {
                 // Monitors orientation values to determine the target rotation value
-                val rotation: Int = if (orientation in 45..134) {
-                    Surface.ROTATION_270
-                } else if (orientation in 135..224) {
-                    Surface.ROTATION_180
-                } else if (orientation in 225..314) {
-                    Surface.ROTATION_90
-                } else {
-                    Surface.ROTATION_0
+                val rotation: Int = when (orientation) {
+                    in 45..134 -> {
+                        Surface.ROTATION_270
+                    }
+                    in 135..224 -> {
+                        Surface.ROTATION_180
+                    }
+                    in 225..314 -> {
+                        Surface.ROTATION_90
+                    }
+                    else -> {
+                        Surface.ROTATION_0
+                    }
                 }
                 imageCapture?.targetRotation = rotation
             }

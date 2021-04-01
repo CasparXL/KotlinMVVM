@@ -10,10 +10,7 @@ import com.caspar.base.helper.Permission
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.FragmentHomeBinding
 import com.caspar.xl.network.util.GsonUtils
-import com.caspar.xl.ui.activity.CameraActivity
-import com.caspar.xl.ui.activity.RoomActivity
-import com.caspar.xl.ui.activity.SelectFileActivity
-import com.caspar.xl.ui.activity.TranslateActivity
+import com.caspar.xl.ui.activity.*
 import com.caspar.xl.ui.adapter.HomeMenuAdapter
 import com.caspar.xl.utils.decoration.Decoration
 import com.caspar.xl.viewmodel.HomeViewModel
@@ -83,6 +80,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                     3 -> {
                         permissionRequest.launch(Permission.Group.STORAGE)
+                    }
+                    4 -> {
+                        acStart<CoroutinesAboutActivity>()
                     }
                 }
             }

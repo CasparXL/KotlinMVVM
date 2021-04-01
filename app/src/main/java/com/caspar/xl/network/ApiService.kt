@@ -33,4 +33,9 @@ interface ApiService {
     @GET(ApiConfig.Translate)
     suspend fun Translate(@Query("doctype") doctype: String = "json", @Query("type") type: String = "AUTO", @Query("i") text: String): TranslateBean
 
+    /**
+     * config设置
+     */
+    @GET(ApiConfig.getCity)
+    fun getSyncCity(): Call<City>
 }

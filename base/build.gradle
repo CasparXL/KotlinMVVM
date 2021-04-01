@@ -62,7 +62,7 @@ dependencies {
     implementation libsImplementation.androidx_appcompat
     implementation libsImplementation.coroutines_android
     implementation libsImplementation.coroutines_kotlin
-    implementation "androidx.core:core-ktx:${dependVersion.core_ktx}"
+    implementation libsImplementation.core_ktx
     implementation libsImplementation.androidx_constraintlayout
     implementation libsImplementation.google_material
     implementation libsImplementation.immersionbar //第三方框架
@@ -72,7 +72,7 @@ dependencies {
     api libsImplementation.lifecycle_common
     implementation libsImplementation.toast //第三方框架
 
-    testImplementation "junit:junit:${dependVersion.junit}"
+    testImplementation libsTestImplementation.junit
     androidTestImplementation libsAndroidTestImplementation.test_ext
     androidTestImplementation libsAndroidTestImplementation.test_espresso
 }
