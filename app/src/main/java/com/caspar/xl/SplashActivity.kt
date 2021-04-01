@@ -28,7 +28,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     //两秒后跳转首页，由于初始化问题，可能时间会久一点，此时就不延时跳转了，根据手机性能决定什么时候跳转
     private fun startMain() {
-        acStart(MainActivity::class.java)
+        acStart<MainActivity>()
         finish()
     }
 

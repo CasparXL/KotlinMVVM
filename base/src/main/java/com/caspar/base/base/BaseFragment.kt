@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.caspar.base.action.ToastAction
 import com.caspar.base.helper.LogUtil
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
@@ -16,7 +17,7 @@ import java.lang.reflect.ParameterizedType
  * @author CasparXL
  * @time 2020/4/2
  */
-abstract class BaseFragment<SV : ViewBinding>() : Fragment() {
+abstract class BaseFragment<SV : ViewBinding>() : Fragment(), ToastAction {
     protected lateinit var mBindingView: SV
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

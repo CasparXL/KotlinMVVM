@@ -87,7 +87,7 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
                 layout.setEnableScrollContentWhenRefreshed(true)
                 layout.setPrimaryColorsId(R.color.appColor, android.R.color.black)
             }
-            SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
+            SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ ->
                  ClassicsFooter(context).setDrawableSize(20f)
             }
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ -> //全局设置主题颜色（优先级第二低，可以覆盖 DefaultRefreshInitializer 的配置，与下面的ClassicsHeader绑定）

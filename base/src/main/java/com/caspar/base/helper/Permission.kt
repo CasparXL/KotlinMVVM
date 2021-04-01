@@ -1,4 +1,4 @@
-package com.caspar.base.utils.permissions
+package com.caspar.base.helper
 
 /**
  * author : Android 轮子哥
