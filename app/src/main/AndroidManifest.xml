@@ -75,6 +75,10 @@
             android:name=".ui.activity.RoomActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.CoroutinesAboutActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

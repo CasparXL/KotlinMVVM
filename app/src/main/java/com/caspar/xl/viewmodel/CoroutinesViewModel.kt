@@ -42,13 +42,13 @@ class CoroutinesViewModel(application: Application) : BaseViewModel(application)
 
     /**
      * 模拟协程超时操作
-     * @param time 设置超时时间，单位是毫秒
-     * @param delay 模拟耗时时间,需要花多久时间
+     * @param time 设置超时时间，单位是毫秒，如果代码块执行时间所花时间超过delay，后续方法块则不执行
+     * @param delay 模拟耗时时间,需要花多久时间，这里使用delay做延时
      * @param unit 超时或未超时
      */
     suspend fun timeout(time:Long,delay:Long,unit:()->Unit) = withTimeoutOrNull(time){
         delay(delay)
-        unit.invoke()
+        unit.invoke() //模拟花了 [delay]参数的时间才从回调出去到UI层
     }
 
 }
