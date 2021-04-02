@@ -49,8 +49,8 @@ abstract class BaseFragment<SV : ViewBinding>() : Fragment(), ToastAction {
         return activity
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView(savedInstanceState)
     }
 
