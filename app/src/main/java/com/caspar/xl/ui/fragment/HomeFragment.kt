@@ -14,8 +14,6 @@ import com.caspar.xl.ui.activity.*
 import com.caspar.xl.ui.adapter.HomeMenuAdapter
 import com.caspar.xl.utils.decoration.Decoration
 import com.caspar.xl.viewmodel.HomeViewModel
-import com.hjq.toast.ToastUtils
-import java.io.File
 
 /**
  *  @Create 2020/6/13.
@@ -68,25 +66,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         mAdapter.setList(mViewModel.mData)
         mAdapter.setOnItemClickListener { _, _, position ->
             run {
-                when (position) {
-                    0 -> {
+                when (mAdapter.data[position]) {
+                    mViewModel.translate -> {
                         acStart<TranslateActivity>()
                     }
-                    1 -> {
+                    mViewModel.camera -> {
                         permission.launch(Permission.Group.CAMERA)
                     }
-                    2 -> {
+                    mViewModel.room -> {
                         acStart<RoomActivity>()
                     }
-                    3 -> {
+                    mViewModel.selectFile -> {
                         permissionRequest.launch(Permission.Group.STORAGE)
                     }
-                    4 -> {
+                    mViewModel.coroutines -> {
                         acStart<CoroutinesAboutActivity>()
                     }
                 }
             }
         }
+        mAdapter.draggableModule.isDragEnabled = true //依赖库自带拖拽功能
+        mAdapter.draggableModule.attachToRecyclerView(mBindingView.rvList) //绑定适配器才能拖拽
     }
 
 }

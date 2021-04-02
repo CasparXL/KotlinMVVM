@@ -1,13 +1,13 @@
 package com.caspar.xl.viewmodel
 
 import android.app.Application
+import androidx.lifecycle.viewModelScope
 import com.caspar.base.base.BaseViewModel
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.bean.response.City
 import com.caspar.xl.network.Api
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withTimeout
-import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.flow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,9 +46,15 @@ class CoroutinesViewModel(application: Application) : BaseViewModel(application)
      * @param delay 模拟耗时时间,需要花多久时间，这里使用delay做延时
      * @param unit 超时或未超时
      */
-    suspend fun timeout(time:Long,delay:Long,unit:()->Unit) = withTimeoutOrNull(time){
+    suspend fun timeout(time: Long, delay: Long, unit: () -> Unit) = withTimeoutOrNull(time) {
         delay(delay)
         unit.invoke() //模拟花了 [delay]参数的时间才从回调出去到UI层
     }
+
+    suspend fun cancelPlan(int: Int) = repeat(int) {
+        LogUtil.d("任务共计 $int 次,当前执行第 ${it + 1} 次")
+        delay(1000)
+    }
+
 
 }
