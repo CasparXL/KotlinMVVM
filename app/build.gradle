@@ -128,6 +128,7 @@ dependencies {
     implementation libsImplementation.camera_camera
     implementation libsImplementation.camera_view
     implementation libsImplementation.camera_lifecycle
+    implementation libsImplementation.coil
     implementation 'com.squareup.moshi:moshi:1.11.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.11.0'
     kapt libsAnnotationProcessor.room_compiler

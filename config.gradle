@@ -34,6 +34,7 @@ ext {
             gson                     : "2.8.6",
             immersionbar             : "3.0.0",
             glide                    : '4.11.0',
+            coil                     : '1.1.1',
             smart                    : "2.0.3",
             lifecycle                : '2.3.1',
             aspectj                  : '1.9.5',
@@ -85,6 +86,7 @@ ext {
                     gson                     : "com.google.code.gson:gson:${dependVersion.gson}",//json数据解析，Gson库
                     immersionbar             : "com.gyf.immersionbar:immersionbar:${dependVersion.immersionbar}",//用于沉浸式处理
                     glide                    : "com.github.bumptech.glide:glide:${dependVersion.glide}",//图片加载
+                    coil                     : "io.coil-kt:coil:${dependVersion.coil}",//图片加载
                     smart_refresh            : "com.scwang.smart:refresh-layout-kernel:${dependVersion.smart}",//下拉刷新
                     smart_header             : "com.scwang.smart:refresh-header-material:${dependVersion.smart}",//下拉刷新头部组件
                     smart_foot               : "com.scwang.smart:refresh-footer-classics:${dependVersion.smart}",//下拉刷新头部组件
