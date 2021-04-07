@@ -5,4 +5,5 @@ package com.caspar.xl.config
  */
 object Constant {
     const val SELECT_FILE_PATH :Int= 62
+    const val ADDRESS_HISTORICAL :String= "ADDRESS_HISTORICAL"
 }

@@ -6,10 +6,10 @@ import android.os.Environment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.caspar.base.base.BaseActivity
-import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.ActivitySelectFileBinding
+import com.caspar.xl.helper.MMKVUtil
 import com.caspar.xl.ui.adapter.FileBean
 import com.caspar.xl.ui.adapter.SelectFileAdapter
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +45,7 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
                     currentFile = file
                     updateFiles()
                 } else {
+                    MMKVUtil.encode(Constant.ADDRESS_HISTORICAL, file.parent)
                     LogUtil.e(file.path)
                     val intent = Intent()
                     intent.putExtra("path",file.path)
@@ -53,16 +54,51 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
                 }
             }
         }
-        currentFile = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+        initFilePath()
         updateFiles()
     }
 
+    /**
+     * 初始化目录
+     */
+    private fun initFilePath() {
+        val oldPath = MMKVUtil.decodeString(Constant.ADDRESS_HISTORICAL)
+        if (oldPath.isEmpty()){
+            toRootDirectory()
+        } else {
+            currentFile = File(oldPath)
+        }
+    }
+
+    /**
+     * 用于定位sd卡根目录
+     */
+    private fun toRootDirectory() {
+        var file: File? = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+        var isNotNull = true
+        do {
+            val parentFile = file?.parentFile
+            parentFile?.apply {
+                file = this
+                if (!parentFile.path.contains("/Android")) {
+                    isNotNull = false
+                }
+            } ?: run {
+                isNotNull = false
+            }
+        } while (isNotNull)
+        currentFile = file ?: getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+    }
+
+    /**
+     * 用于点击[..]返回上一层目录
+     */
     private fun backFiles() {
         currentFile = currentFile?.parentFile
         if (currentFile != null) {
             updateFiles()
         } else {
-            currentFile = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+            toRootDirectory()
         }
     }
 
@@ -72,7 +108,7 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
                 LogUtil.e("当前目录:${this.name}")
                 val filesList: MutableList<FileBean> = ArrayList()
                 filesList.add(FileBean("..", this.parentFile ?: this))
-                val childFiles:Array<File>? = listFiles()
+                val childFiles: Array<File>? = listFiles()
                 childFiles?.apply {
                     val list = this.map {
                         FileBean(it.name, it)
@@ -83,10 +119,8 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
                     }
                 } ?: run {
                     LogUtil.e("返回到了原目录")
-                    currentFile = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
-                    withContext(Dispatchers.Main) {
-                        mAdapter.setList(filesList)
-                    }
+                    toRootDirectory()
+                    updateFiles()
                 }
             }
         }
