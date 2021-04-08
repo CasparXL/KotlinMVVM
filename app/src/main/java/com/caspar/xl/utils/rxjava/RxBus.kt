@@ -1,5 +1,8 @@
 package com.caspar.xl.utils.rxjava
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import com.caspar.base.helper.LogUtil.e
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
@@ -10,6 +13,8 @@ import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import io.reactivex.rxjava3.subjects.Subject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.job
 import java.util.*
 
 /**
@@ -17,65 +22,17 @@ import java.util.*
  * 而是允许我们在任意时刻手动调用onNext(),onError(),onCompleted来触发事件。
  */
 object RxBus {
-    private lateinit var mSubject: Subject<Any>
+    lateinit var mSubject: Subject<Any>
 
     //全局初始化一个RxBus用于发送事件总线
     fun init() {
         mSubject = PublishSubject.create<Any>().toSerialized()
     }
 
-    private var mSubscriptionMap: HashMap<String, CompositeDisposable?>? = null
+    private var mSubscriptionMap: HashMap<String, CompositeDisposable> = hashMapOf()
 
     fun post(o: Any) {
         mSubject.onNext(o)
-    }
-
-    fun <T> post(o: List<T>) {
-        mSubject.onNext(o)
-    }
-
-    /**
-     * 返回指定类型的带背压的Flowable实例
-     *
-     * @param <T>
-     * @param type
-     * @return
-    </T> */
-    private fun <T> getObservable(type: Class<T>?): Flowable<T> {
-        return mSubject.toFlowable(BackpressureStrategy.BUFFER).ofType(type)
-    }
-
-    /**
-     * 返回指定类型的带背压的Flowable实例
-     *
-     * @param <T>
-     * @param type
-     * @return
-    </T> */
-    fun <T> getObservableList(type: Class<List<T>?>?): Flowable<List<T>?> {
-        return mSubject.toFlowable(BackpressureStrategy.BUFFER).ofType(type)
-    }
-
-    /**
-     * 一个默认的订阅方法
-     *
-     * @param <T>
-     * @param type
-     * @param next
-     * @param error
-     * @return
-    </T> */
-    private fun <T> doSubscribe(type: Class<T>?, next: Consumer<T>?, error: Consumer<Throwable>?): Disposable {
-        return getObservable(type).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(next, error)
-    }
-
-    /**
-     * 是否已有观察者订阅
-     *
-     * @return
-     */
-    fun hasObservers(): Boolean {
-        return mSubject.hasObservers()
     }
 
     /**
@@ -84,46 +41,93 @@ object RxBus {
      * @param o
      * @param disposable
      */
-    fun addSubscription(o: Any, disposable: Disposable?) {
-        if (mSubscriptionMap == null) {
-            mSubscriptionMap = HashMap()
-        }
-        val key = o.javaClass.name
-        if (mSubscriptionMap!![key] != null) {
-            mSubscriptionMap!![key]!!.add(disposable!!)
+    fun addSubscription(o: String, disposable: Disposable) {
+        if (mSubscriptionMap.containsKey(o)) {
+            e("订阅key->$o")
+            mSubscriptionMap[o]?.add(disposable)
         } else {
-            //一次性容器,可以持有多个并提供 添加和移除。
+            e("订阅key->$o")
             val disposables = CompositeDisposable()
-            disposables.add(disposable!!)
-            mSubscriptionMap!![key] = disposables
+            disposables.add(disposable)
+            mSubscriptionMap[o] = disposables
         }
     }
 
     /**
      * 取消订阅
-     *
-     * @param o
      */
-    fun rxBusUnSubscribe(o: Any) {
-        if (mSubscriptionMap == null) {
-            return
+    fun unRegister(key: String) {
+        mSubscriptionMap.apply {
+            val observer: CompositeDisposable? = this[key]
+            e("删除 $key 的注册,删除的订阅数量->${observer?.size() ?: 0}")
+            observer?.dispose()
+            this.remove(key)
+            e("剩余key订阅的数量:${this.size}")
         }
-        val key = o.javaClass.name
-        if (!mSubscriptionMap!!.containsKey(key)) {
-            return
-        }
-        if (mSubscriptionMap!![key] != null) {
-            mSubscriptionMap!![key]!!.dispose()
-        }
-        mSubscriptionMap!!.remove(key)
-        e("删除界面注册:" + key + "剩余注册界面key数量:" + mSubscriptionMap!!.size)
     }
 
-    fun <T> rxBusRegisterRxBus(o: Any, eventType: Class<T>?, action: Consumer<T>?) {
-        val disposable = doSubscribe(eventType, action, Consumer { throwable: Throwable ->
-            e(throwable)
+    inline fun <reified T> rxBusRegister(o: Any, action: Consumer<T>) {
+        val disposable = mSubject
+            .toFlowable(BackpressureStrategy.BUFFER)
+            .ofType(T::class.java)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(action, { throwable: Throwable ->
+                e(throwable)
+            })
+        addSubscription(o.toString(), disposable)
+    }
+
+    /**
+     * 例子
+     * RxBus.registerForActivityOrFragment<String>(this) {
+     *       LogUtil.e("$it")
+     * }
+     */
+    inline fun <reified T> registerForActivityOrFragment(o: LifecycleOwner, action: Consumer<T>) {
+        val key = o.toString()
+        val disposable = mSubject
+            .toFlowable(BackpressureStrategy.BUFFER)
+            .ofType(T::class.java)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(action, { throwable: Throwable ->
+                e(throwable)
+            })
+        addSubscription(key, disposable)
+        o.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    unRegister(key) //根据生命周期移除
+                    o.lifecycle.removeObserver(this)
+                }
+            }
         })
-        addSubscription(o, disposable)
     }
 
+    /**
+     *
+     * 例子
+     * RxBus.registerForViewModel<String>(viewModelScope) {
+     *       LogUtil.e("$it")
+     * }
+     */
+    inline fun <reified T> registerForViewModel(o: CoroutineScope, action: Consumer<T>) {
+        val key = o.toString()
+        val disposable = mSubject
+            .toFlowable(BackpressureStrategy.BUFFER)
+            .ofType(T::class.java)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(action, { throwable: Throwable ->
+                e(throwable)
+            })
+        addSubscription(key, disposable)
+        o.coroutineContext.job.invokeOnCompletion {
+            it?.apply {
+                e(this)
+            }
+            unRegister(key) //根据生命周期移除
+        }
+    }
 }
