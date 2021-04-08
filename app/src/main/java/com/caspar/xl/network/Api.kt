@@ -3,11 +3,9 @@ package com.caspar.xl.network
 import android.annotation.SuppressLint
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.config.ApiConfig
-import com.caspar.xl.network.interceptor.HttpHeadInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.security.*
@@ -23,10 +21,11 @@ object Api {
     private const val DEFAULT_TIMEOUT: Long = 30
     val api: ApiService by lazy {
         //支持RxJava2
-        val retrofit = Retrofit.Builder().baseUrl(ApiConfig.BaseUrl) //添加ScalarsConverterFactory支持
-            .addConverterFactory(ScalarsConverterFactory.create()) //可以接收自定义的Gson，当然也可以不传
-            .addConverterFactory(GsonConverterFactory.create()) //支持RxJava2
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).client(unsafeOkHttpClient).build()
+        val retrofit = Retrofit.Builder().baseUrl(ApiConfig.BaseUrl)
+            .addConverterFactory(ScalarsConverterFactory.create()) //添加ScalarsConverterFactory支持
+            .addConverterFactory(GsonConverterFactory.create())//可以接收自定义的Gson，当然也可以不传
+            .client(unsafeOkHttpClient)
+            .build()
         return@lazy retrofit.create(ApiService::class.java)
     }
 

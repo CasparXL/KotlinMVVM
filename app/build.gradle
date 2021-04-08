@@ -111,12 +111,12 @@ dependencies {
     implementation libsImplementation.smart_foot
     implementation libsImplementation.lifecycle_api
     implementation libsImplementation.retrofit_gson
-    implementation libsImplementation.retrofit_rxjava2
     implementation libsImplementation.retrofit_scalars
     implementation libsImplementation.retrofit_logging
     implementation libsImplementation.gson
     implementation libsImplementation.immersionbar
     implementation libsImplementation.rxandroid
+    implementation libsImplementation.rxjava
     implementation libsImplementation.toast
     implementation libsImplementation.base_adapter
     implementation libsImplementation.google_material
@@ -129,8 +129,8 @@ dependencies {
     implementation libsImplementation.camera_view
     implementation libsImplementation.camera_lifecycle
     implementation libsImplementation.coil
-    implementation 'com.squareup.moshi:moshi:1.11.0'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.11.0'
+    implementation 'com.squareup.moshi:moshi:1.12.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.12.0'
     kapt libsAnnotationProcessor.room_compiler
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'  //检测代码内存泄漏,2.7有bug，暂时用2.5
     implementation 'cat.ereza:customactivityoncrash:2.3.0'

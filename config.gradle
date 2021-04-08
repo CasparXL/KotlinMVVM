@@ -30,7 +30,8 @@ ext {
             /***第三方依赖库Start***/
             retrofit                 : '2.9.0',
             httplog                  : '4.9.0',
-            rxandroid                : "2.1.1",
+            rxandroid                : "3.0.0",
+            rxjava                   : "3.0.12",
             gson                     : "2.8.6",
             immersionbar             : "3.0.0",
             glide                    : '4.11.0',
@@ -77,10 +78,10 @@ ext {
                     camera_lifecycle         : "androidx.camera:camera-lifecycle:${dependVersion.camera}",//CameraX
                     /***JetPack组件库End***/
                     /***第三方依赖库Start***/
-                    rxandroid                : "io.reactivex.rxjava2:rxandroid:${dependVersion.rxandroid}",//rxandroid通信库
+                    rxandroid                : "io.reactivex.rxjava3:rxandroid:${dependVersion.rxandroid}",//rxandroid通信库
+                    rxjava                   : "io.reactivex.rxjava3:rxjava:${dependVersion.rxjava}",//rxandroid通信库
                     retrofit_api             : "com.squareup.retrofit2:retrofit:${dependVersion.retrofit}",//网络请求核心库
                     retrofit_gson            : "com.squareup.retrofit2:converter-gson:${dependVersion.retrofit}",//网络请求分支库Gson解析器
-                    retrofit_rxjava2         : "com.squareup.retrofit2:adapter-rxjava2:${dependVersion.retrofit}",//网络请求分支库Rxjava支持
                     retrofit_scalars         : "com.squareup.retrofit2:converter-scalars:${dependVersion.retrofit}",//网络请求分支库字符串装箱支持
                     retrofit_logging         : "com.squareup.okhttp3:logging-interceptor:${dependVersion.httplog}",//网络请求分支库字符串装箱支持
                     gson                     : "com.google.code.gson:gson:${dependVersion.gson}",//json数据解析，Gson库
