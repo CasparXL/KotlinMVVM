@@ -75,12 +75,16 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
                         lifecycleScope.launch {
                             val teacher = mViewModel.getTeacherById(teacherId)
                             val user = mViewModel.getUserById(userId)
-                            if (teacherId == -1L) {
-                                mBindingView.tvLogcat.text = "由于本次生成的老师信息在数据库中已存在，所以添加用户信息时事务冲突了，因此老师和学生的信息都添加失败，请重新添加数据到数据库"
-                            } else if (userId == -1L) {
-                                mBindingView.tvLogcat.text = "添加学生时的老师信息是错误的，因此老师添加成功了，但学生添加失败"
-                            } else {
-                                mBindingView.tvLogcat.text = "准备加入到用户id里" + userId + "对应的老师id" + teacherId + "但是失败了,以下是这两组数据的信息:\n 老师:\n $teacher \n学生:\n $user"
+                            when {
+                                teacherId == -1L -> {
+                                    mBindingView.tvLogcat.text = "由于本次生成的老师信息在数据库中已存在，所以添加用户信息时事务冲突了，因此老师和学生的信息都添加失败，请重新添加数据到数据库"
+                                }
+                                userId == -1L -> {
+                                    mBindingView.tvLogcat.text = "添加学生时的老师信息是错误的，因此老师添加成功了，但学生添加失败"
+                                }
+                                else -> {
+                                    mBindingView.tvLogcat.text = "准备加入到用户id里" + userId + "对应的老师id" + teacherId + "但是失败了,以下是这两组数据的信息:\n 老师:\n $teacher \n学生:\n $user"
+                                }
                             }
                         }
                     }
@@ -117,8 +121,8 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
                 }
                 lifecycleScope.launch(error) {
                     withContext(Dispatchers.IO) {
-                        RoomManager.instance.getUserDao().deleteAll()
-                        RoomManager.instance.getTeacherDao().deleteAll()
+                        RoomManager.getInstance().getUserDao().deleteAll()
+                        RoomManager.getInstance().getTeacherDao().deleteAll()
                     }
                     //若要删除失败，下面两个方法互相调换一下顺序
                     str = ""

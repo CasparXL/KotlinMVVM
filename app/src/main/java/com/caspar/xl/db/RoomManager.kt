@@ -15,19 +15,27 @@ import com.caspar.xl.bean.db.UserDao
  */
 @Database(entities = [TeacherBean::class, UserBean::class], version = 1)
 abstract class RoomManager : RoomDatabase() {
-    companion object {
-        val instance by lazy {
-            return@lazy Room.databaseBuilder(
-                BaseApplication.context,
-                RoomManager::class.java,
-                "test_database"
-            )
-//                .allowMainThreadQueries()  //如果想要支持接口被主线程调用，则使用该方法，默认必须是异步调用，否则使用Room时会导致app崩溃
-                .build()
-        }
-    }
 
     abstract fun getUserDao(): UserDao
 
     abstract fun getTeacherDao(): TeacherDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: RoomManager? = null
+        fun getInstance(): RoomManager {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    BaseApplication.context,
+                    RoomManager::class.java,
+                    "test_database"
+                )
+                    .build()
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
+
+
 }
