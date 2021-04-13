@@ -112,7 +112,9 @@ dependencies {
     implementation libsImplementation.lifecycle_api
     implementation libsImplementation.retrofit_gson
     implementation libsImplementation.retrofit_scalars
-    implementation libsImplementation.retrofit_logging
+    implementation (libsImplementation.retrofit_logging){
+        exclude group: 'org.jetbrains.kotlin'
+    }
     implementation libsImplementation.gson
     implementation libsImplementation.immersionbar
     implementation libsImplementation.rxandroid

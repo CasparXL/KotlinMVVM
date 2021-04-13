@@ -547,19 +547,6 @@ class ProgressView @JvmOverloads constructor(context: Context, attrs: AttributeS
             out.writeByte((if (linearProgress) 1 else 0).toByte())
             out.writeByte((if (fillRadius) 1 else 0).toByte())
         }
-
-        companion object {
-            // required field that makes Parcelables from a Parcel
-            val CREATOR: Parcelable.Creator<WheelSavedState> = object : Parcelable.Creator<WheelSavedState> {
-                override fun createFromParcel(`in`: Parcel): WheelSavedState? {
-                    return WheelSavedState(`in`)
-                }
-
-                override fun newArray(size: Int): Array<WheelSavedState?> {
-                    return arrayOfNulls(size)
-                }
-            }
-        }
     }
 
     companion object {

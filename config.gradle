@@ -42,7 +42,7 @@ ext {
             toast                    : '8.8',
             adapter                  : "3.0.4",
             bingoogolapple           : '1.3.7',
-            mmkv                     : '1.1.1',
+            mmkv                     : '1.2.7',
             autosize                 : '1.2.1',
             camera                   : '1.0.0-beta09',
             camera_view              : '1.0.0-alpha16',
