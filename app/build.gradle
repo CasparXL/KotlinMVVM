@@ -86,8 +86,7 @@ dependencies {
     //依赖库配置变量
     def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
     //依赖库配置
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     // 基础库
     implementation project(':base')
     /*

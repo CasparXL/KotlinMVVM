@@ -54,7 +54,7 @@ dependencies {
     def libsAndroidTestImplementation = rootProject.ext.dependencies.androidTestImplementation //依赖库配置
     def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     api libsImplementation.kt_activity
     api libsImplementation.kt_fragment
     implementation libsImplementation.kotlin_stdlib
