@@ -82,6 +82,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     mViewModel.coroutines -> {
                         acStart<CoroutinesAboutActivity>()
                     }
+                    mViewModel.imageLoad -> {
+                        acStart<ImageLoadActivity>()
+                    }
                 }
             }
         }
