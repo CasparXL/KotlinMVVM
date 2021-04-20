@@ -7,8 +7,6 @@ import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
 import androidx.multidex.MultiDexApplication
 import cat.ereza.customactivityoncrash.config.CaocConfig
-import com.hjq.toast.ToastUtils
-import com.hjq.toast.style.ToastAliPayStyle
 import com.caspar.base.helper.ActivityStackManager
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.BuildConfig
@@ -16,6 +14,8 @@ import com.caspar.xl.MainActivity
 import com.caspar.xl.R
 import com.caspar.xl.ui.CrashActivity
 import com.caspar.xl.utils.rxjava.RxBus
+import com.hjq.toast.ToastUtils
+import com.hjq.toast.style.BlackToastStyle
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -42,9 +42,9 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
         MMKV.initialize(this)//本地储存初始化
         RxBus.init()//RxBus初始化，用于全局WebSocket网络请求发送
         //Toast弹框初始化
-        ToastUtils.init(context)
-        ToastUtils.initStyle(ToastAliPayStyle(context))
-        ToastUtils.setGravity(Gravity.BOTTOM, 0, 100)//Toast默认在中间，该设置将toast设置到距离底部100px
+        ToastUtils.init(this)
+        ToastUtils.setStyle(BlackToastStyle())
+        ToastUtils.setGravity(Gravity.BOTTOM, 0, 100)
         //全局堆栈管理初始化
         ActivityStackManager.init(context)
         // Crash 捕捉界面

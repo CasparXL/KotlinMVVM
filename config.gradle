@@ -38,7 +38,7 @@ ext {
             smart                    : "2.0.3",
             lifecycle                : '2.3.1',
             aspectj                  : '1.9.5',
-            toast                    : '8.8',
+            toast                    : '9.0',
             adapter                  : "3.0.4",
             bingoogolapple           : '1.3.7',
             mmkv                     : '1.2.7',
@@ -90,7 +90,7 @@ ext {
                     smart_header             : "com.scwang.smart:refresh-header-material:${dependVersion.smart}",//下拉刷新头部组件
                     smart_foot               : "com.scwang.smart:refresh-footer-classics:${dependVersion.smart}",//下拉刷新头部组件
                     aspectj                  : "org.aspectj:aspectjrt:${dependVersion.aspectj}",//切面用的东西
-                    toast                    : "com.hjq:toast:${dependVersion.toast}",//轮子哥Toast框架
+                    toast                    : "com.github.getActivity:ToastUtils:${dependVersion.toast}",//轮子哥Toast框架
                     base_adapter             : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${dependVersion.adapter}",//适配器库
                     qr_code                  : "cn.bingoogolapple:bga-qrcode-zxing:${dependVersion.bingoogolapple}",//扫描二维码
                     mmkv                     : "com.tencent:mmkv-static:${dependVersion.mmkv}",//微信储存微量字段的工具库

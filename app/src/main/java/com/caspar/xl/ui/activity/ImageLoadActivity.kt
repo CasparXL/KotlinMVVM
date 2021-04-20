@@ -15,16 +15,15 @@ import com.caspar.xl.databinding.ActivityImageLoadBinding
 
 class ImageLoadActivity : BaseActivity<ActivityImageLoadBinding>(), View.OnClickListener {
     private val imageUrl: String =
-        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2084631030,3185655172&fm=26&gp=0.jpg"
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2F2c.zol-img.com.cn%2Fproduct%2F124_500x2000%2F984%2FceU7xYD3umwA.jpg&refer=http%3A%2F%2F2c.zol-img.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621498401&t=6393f8bad609938ef4ce0f8d811462fa"
 
     override fun initIntent() {
 
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        setOnClickListener(this, R.id.tv_left, R.id.btn_http)
+        setOnClickListener(this, R.id.tv_left, R.id.btn_load)
         mBindingView.etUrl.setText(imageUrl)
-
     }
 
     override fun onClick(v: View) {
