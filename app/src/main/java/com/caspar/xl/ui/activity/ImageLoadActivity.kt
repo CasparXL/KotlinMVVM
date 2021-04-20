@@ -15,7 +15,7 @@ import com.caspar.xl.databinding.ActivityImageLoadBinding
 
 class ImageLoadActivity : BaseActivity<ActivityImageLoadBinding>(), View.OnClickListener {
     private val imageUrl: String =
-        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2F2c.zol-img.com.cn%2Fproduct%2F124_500x2000%2F984%2FceU7xYD3umwA.jpg&refer=http%3A%2F%2F2c.zol-img.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621498401&t=6393f8bad609938ef4ce0f8d811462fa"
+        "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2496571732,442429806&fm=26&gp=0.jpg"
 
     override fun initIntent() {
 
