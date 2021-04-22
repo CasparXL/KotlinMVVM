@@ -17,7 +17,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingVertical="@dimen/dp_20">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_url"
@@ -44,8 +45,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_blur"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_300"
+                android:layout_height="@dimen/dp_200"
                 android:layout_margin="@dimen/dp_10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,8 +54,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_circle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_300"
+                android:layout_height="@dimen/dp_200"
                 android:layout_margin="@dimen/dp_10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +63,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_grayscale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_300"
+                android:layout_height="@dimen/dp_200"
                 android:layout_margin="@dimen/dp_10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,8 +72,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_rounded"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_300"
+                android:layout_height="@dimen/dp_200"
                 android:layout_margin="@dimen/dp_10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

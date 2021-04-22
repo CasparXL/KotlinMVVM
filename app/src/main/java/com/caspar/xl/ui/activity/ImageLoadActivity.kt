@@ -2,6 +2,8 @@ package com.caspar.xl.ui.activity
 
 import android.os.Bundle
 import android.view.View
+import coil.Coil
+import coil.clear
 import coil.load
 import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
