@@ -71,7 +71,7 @@ object Permission {
 
         // 相机
         val CAMERA = arrayOf(
-            Permission.CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
+            Permission.CAMERA
         )
     }
 }

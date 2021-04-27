@@ -1,12 +1,18 @@
 package com.caspar.xl.ui.fragment
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.caspar.base.base.BaseFragment
 import com.caspar.base.ext.*
 import com.caspar.base.helper.LogUtil
 import com.caspar.base.helper.Permission
+import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.FragmentHomeBinding
 import com.caspar.xl.network.util.GsonUtils
@@ -77,7 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         acStart<RoomActivity>()
                     }
                     mViewModel.selectFile -> {
-                        permissionRequest.launch(Permission.Group.STORAGE)
+                        startSelectFile2AllStorage()
                     }
                     mViewModel.coroutines -> {
                         acStart<CoroutinesAboutActivity>()
@@ -90,6 +96,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
         mAdapter.draggableModule.isDragEnabled = true //依赖库自带拖拽功能
         mAdapter.draggableModule.attachToRecyclerView(mBindingView.rvList) //绑定适配器才能拖拽
+    }
+
+    //兼容安卓10 ,11读写权限问题,11的手机暂时没有，所以需要有条件了再测，再次点击跳转按钮也可以
+    private fun startSelectFile2AllStorage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (Environment.isExternalStorageManager()) {
+                acStart<SelectFileActivity>()
+            } else {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.data = Uri.parse("package:" + BaseApplication.context.packageName)
+                startActivity(intent)
+            }
+        } else {
+            permissionRequest.launch(Permission.Group.STORAGE)
+        }
     }
 
 }

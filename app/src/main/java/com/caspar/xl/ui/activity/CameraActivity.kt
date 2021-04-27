@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.*
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -120,7 +121,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
         val imageCapture = imageCapture ?: return
         // Create timestamped output file to hold the image
         // 创建带有时间戳的输出文件来保存图像
-        val photoFile = File(BaseApplication.context.filesDir, SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis()) + ".jpg")
+        val photoFile = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US).format(System.currentTimeMillis()) + ".jpg")
         // Create output options object which contains file + metadata
         // 创建包含文件+元数据的输出选项对象
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile.outputStream()).build()
