@@ -14,7 +14,8 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
     val selectFile = "文件选择器"
     val coroutines = "协程库"
     val imageLoad = "图片加载库"
+    val colorSelect = "颜色选择器"
 
     //功能列表
-    val mData: List<String> = arrayListOf(translate, camera, room, selectFile, coroutines, imageLoad)
+    val mData: List<String> = arrayListOf(translate, camera, room, selectFile, coroutines, imageLoad, colorSelect)
 }

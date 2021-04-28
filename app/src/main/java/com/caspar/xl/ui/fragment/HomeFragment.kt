@@ -91,6 +91,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     mViewModel.imageLoad -> {
                         acStart<ImageLoadActivity>()
                     }
+                    mViewModel.colorSelect -> {
+                        acStart<PaletteActivity>()
+                    }
                 }
             }
         }

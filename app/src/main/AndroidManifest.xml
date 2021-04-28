@@ -19,8 +19,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_config"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity">
@@ -85,6 +85,9 @@
             android:name=".ui.activity.ImageLoadActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.PaletteActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"/>
 
     </application>
 
