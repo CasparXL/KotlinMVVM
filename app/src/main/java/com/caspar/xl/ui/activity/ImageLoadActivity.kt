@@ -25,6 +25,7 @@ class ImageLoadActivity : BaseActivity<ActivityImageLoadBinding>(), View.OnClick
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_left, R.id.btn_load)
+        mBindingView.title.tvCenter.text = "图片加载"
         mBindingView.etUrl.setText(imageUrl)
     }
 

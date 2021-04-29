@@ -30,6 +30,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val mAdapter: HomeMenuAdapter by lazy { HomeMenuAdapter() }
     //首页ViewModel
     private val mViewModel: HomeViewModel by viewModels()
+    //跳转到某个界面，这里是用来标识需要储存权限的几个界面
+    var toOtherPage:String = ""
     //请求拍照所需的权限
     private val permission = requestMultiplePermissions(allGranted = {
         acStart<CameraActivity>()
@@ -52,12 +54,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     //选择文件需要储存权限，申请完成以后会在allGranted中回调跳转下一个界面
     private val permissionRequest = requestMultiplePermissions(
         allGranted = {
-            selectFile.launch(createIntent<SelectFileActivity>())
+            toPermissionActivity()
         }, denied = {
             toast("你拒绝了以下权限->${GsonUtils.toJson(it)}")
         }, explained = {
             toast("你拒绝了以下权限，并点击了不再询问->${GsonUtils.toJson(it)}")
         })
+
+    /**
+     * 根据情况跳转到需要存储权限的界面
+     */
+    private fun toPermissionActivity() {
+        when (toOtherPage) {
+            mViewModel.selectFile -> {
+                selectFile.launch(createIntent<SelectFileActivity>())
+            }
+            mViewModel.imageSelect -> {
+                acStart<SelectImageActivity>()
+            }
+            else -> {
+                selectFile.launch(createIntent<SelectFileActivity>())
+            }
+        }
+    }
 
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -72,7 +91,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         mAdapter.setList(mViewModel.mData)
         mAdapter.setOnItemClickListener { _, _, position ->
             run {
-                when (mAdapter.data[position]) {
+                val menu = mAdapter.data[position]
+                toOtherPage = menu
+                when (menu) {
                     mViewModel.translate -> {
                         acStart<TranslateActivity>()
                     }
@@ -94,6 +115,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     mViewModel.colorSelect -> {
                         acStart<PaletteActivity>()
                     }
+                    mViewModel.imageSelect -> {
+                        startSelectFile2AllStorage()
+                    }
                 }
             }
         }
@@ -105,7 +129,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun startSelectFile2AllStorage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (Environment.isExternalStorageManager()) {
-                acStart<SelectFileActivity>()
+                toPermissionActivity()
             } else {
                 val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
                 intent.data = Uri.parse("package:" + BaseApplication.context.packageName)

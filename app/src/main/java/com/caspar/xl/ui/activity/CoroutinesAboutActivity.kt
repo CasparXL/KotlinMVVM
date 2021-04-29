@@ -31,15 +31,8 @@ class CoroutinesAboutActivity : BaseActivity<ActivityCoroutinesAboutBinding>(),
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        setOnClickListener(
-            this,
-            R.id.tv_left,
-            R.id.btn_http,
-            R.id.btn_timeout,
-            R.id.btn_not_timeout,
-            R.id.btn_start_plan,
-            R.id.btn_cancel_plan
-        )
+        setOnClickListener(this, R.id.tv_left, R.id.btn_http, R.id.btn_timeout, R.id.btn_not_timeout, R.id.btn_start_plan, R.id.btn_cancel_plan)
+        mBindingView.title.tvCenter.text = "协程场景模拟"
     }
 
     override fun onClick(v: View) {

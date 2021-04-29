@@ -1,17 +1,28 @@
 package com.caspar.xl.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
 import coil.load
 import com.caspar.base.base.BaseActivity
+import com.caspar.base.ext.acStart
+import com.caspar.base.ext.createIntent
+import com.caspar.base.ext.requestMultiplePermissions
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.helper.LogUtil
+import com.caspar.base.helper.Permission
 import com.caspar.xl.R
+import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.databinding.ActivityPaletteBinding
+import com.caspar.xl.network.util.GsonUtils
 
 
 class PaletteActivity : BaseActivity<ActivityPaletteBinding>(), View.OnClickListener {
@@ -22,6 +33,7 @@ class PaletteActivity : BaseActivity<ActivityPaletteBinding>(), View.OnClickList
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_left)
+        mBindingView.title.tvCenter.text = "颜色提取器"
         initImageTouchAndLoading()
     }
 
@@ -64,5 +76,4 @@ class PaletteActivity : BaseActivity<ActivityPaletteBinding>(), View.OnClickList
             }
         }
     }
-
 }
