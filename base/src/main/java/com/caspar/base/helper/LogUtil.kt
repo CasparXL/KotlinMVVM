@@ -70,7 +70,6 @@ object LogUtil {
     fun content(index: Int, optionalTag: String? = null, msg: String?): String {
         val stackTraceElement = Throwable().stackTrace[index] //调用代码的堆栈
         val clazz = stackTraceElement.fileName //类名称
-        val method = stackTraceElement.methodName //方法名称
         val line = stackTraceElement.lineNumber //代码行数
         val secondTag = if (optionalTag == mTag) "" else "[$optionalTag]\u21E2"
         return "$secondTag[thread:${Thread.currentThread().name}]\u21E2($clazz:$line)\u21E2 $msg"
