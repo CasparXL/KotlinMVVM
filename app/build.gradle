@@ -105,9 +105,6 @@ dependencies {
     implementation libsImplementation.core_ktx
 
     implementation libsImplementation.androidx_multidex
-    implementation libsImplementation.smart_refresh
-    implementation libsImplementation.smart_header
-    implementation libsImplementation.smart_foot
     implementation libsImplementation.lifecycle_api
     implementation libsImplementation.retrofit_gson
     implementation libsImplementation.retrofit_scalars
@@ -115,17 +112,14 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
     }
     implementation libsImplementation.gson
-    implementation libsImplementation.immersionbar
     implementation libsImplementation.rxandroid
     implementation libsImplementation.rxjava
     implementation libsImplementation.toast
     implementation libsImplementation.base_adapter
     implementation libsImplementation.google_material
-    implementation libsImplementation.qr_code
     implementation libsImplementation.mmkv
     implementation libsImplementation.room
     implementation libsImplementation.room_ktx
-    implementation libsImplementation.autosize
     implementation libsImplementation.camera_camera
     implementation libsImplementation.camera_view
     implementation libsImplementation.camera_lifecycle

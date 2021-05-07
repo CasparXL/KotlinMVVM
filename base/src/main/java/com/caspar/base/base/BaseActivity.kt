@@ -3,6 +3,7 @@ package com.caspar.base.base
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,7 +16,6 @@ import androidx.viewbinding.ViewBinding
 import com.caspar.base.R
 import com.caspar.base.action.ToastAction
 import com.caspar.base.dialog.WaitDialog
-import com.caspar.base.ext.immersionBar
 import com.caspar.base.helper.KeyBoardUtils
 import com.caspar.base.helper.LogUtil
 import java.lang.reflect.InvocationTargetException
@@ -75,19 +75,6 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(initViewBinding())
-        //沉浸式的拓展方法
-        immersionBar {
-            /**
-             * 状态栏字体深色或亮色 true是深色
-             */
-            statusBarDarkFont(true)
-            /**
-             * 解决软键盘与底部输入框冲突问题 ，默认是false
-             * Keyboard enable immersion bar.
-             *
-             */
-            keyboardEnable(true)
-        }
         initIntent()
         initView(savedInstanceState)
     }

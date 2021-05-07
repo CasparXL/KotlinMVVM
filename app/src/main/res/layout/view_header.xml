@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout android:background="@color/white"
-    android:layout_height="@dimen/dp_70"
+    android:layout_height="@dimen/dp_40"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,7 +10,6 @@
         android:gravity="center"
         android:id="@+id/tv_left"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_30"
         android:layout_width="0dp"
         android:paddingStart="@dimen/dp_20"
         app:layout_constraintBottom_toBottomOf="parent"

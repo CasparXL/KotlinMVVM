@@ -65,7 +65,6 @@ dependencies {
     implementation libsImplementation.core_ktx
     implementation libsImplementation.androidx_constraintlayout
     implementation libsImplementation.google_material
-    implementation libsImplementation.immersionbar //第三方框架
     api libsImplementation.lifecycle_api
     api libsImplementation.lifecycle_runtime
     api libsImplementation.lifecycle_livedata
