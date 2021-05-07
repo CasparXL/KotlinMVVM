@@ -11,12 +11,14 @@ import com.caspar.base.helper.ActivityStackManager
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.MainActivity
-import com.caspar.xl.R
 import com.caspar.xl.ui.CrashActivity
 import com.caspar.xl.utils.rxjava.RxBus
 import com.hjq.toast.ToastUtils
 import com.hjq.toast.style.BlackToastStyle
 import com.tencent.mmkv.MMKV
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 
 
 /**
@@ -58,6 +60,8 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
     companion object {
         //Application上下文
         lateinit var context: Application
+        //全局使用的协程，因为官方不推荐使用GlobalScope，因此在Application中创建一个全局的协程以便于非Activity，ViewModel的类使用协程
+        var job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
         init {
             //启用矢量图兼容
