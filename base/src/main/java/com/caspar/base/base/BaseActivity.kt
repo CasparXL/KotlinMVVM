@@ -3,7 +3,6 @@ package com.caspar.base.base
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -109,10 +108,6 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
     /***初始化视图数据***/
     protected abstract fun initView(savedInstanceState: Bundle?)
 
-    //销毁ViewBinding
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 
     /**
      * 重置App界面的字体大小，fontScale 值为 1 代表默认字体大小

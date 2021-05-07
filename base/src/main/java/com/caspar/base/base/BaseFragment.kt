@@ -17,7 +17,7 @@ import java.lang.reflect.ParameterizedType
  * @author CasparXL
  * @time 2020/4/2
  */
-abstract class BaseFragment<SV : ViewBinding>() : Fragment(), ToastAction {
+abstract class BaseFragment<SV : ViewBinding> : Fragment(), ToastAction {
     protected lateinit var mBindingView: SV
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

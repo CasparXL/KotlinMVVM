@@ -1,5 +1,6 @@
 package com.caspar.xl.ui.activity
 
+import android.annotation.SuppressLint
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
@@ -7,12 +8,9 @@ import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import coil.Coil
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivitySelectImageBinding
 import com.caspar.xl.ui.adapter.SelectImageAdapter
@@ -54,6 +52,7 @@ class SelectImageActivity : BaseActivity<ActivitySelectImageBinding>(), View.OnC
         loadImages()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadImages() {
         lifecycleScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {

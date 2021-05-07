@@ -1,13 +1,11 @@
 package com.caspar.xl.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
 import com.caspar.base.base.BaseViewModel
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.bean.response.City
 import com.caspar.xl.network.Api
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.flow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

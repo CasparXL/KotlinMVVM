@@ -42,8 +42,8 @@ inline fun <reified T : Activity> Activity.acStart(block: intentVoid = {}) = run
  *     LogUtil.e("我收到数据了 ${it.resultCode} ${it.data?.getStringExtra("name")}")
  * }
  * 如果要跳转界面
- * Ⅰ toHomePage.launch([createIntent<XXActivity>()])  不传值出去  等同于用法Ⅲ
- * Ⅱ toHomePage.launch([createIntent<XXActivity>{ putExtra("key","value") }]) 传值到下一个activity
+ * Ⅰ toHomePage.launch(createIntent<XXActivity>())  不传值出去  等同于用法Ⅲ
+ * Ⅱ toHomePage.launch(createIntent<XXActivity>{ putExtra("key","value") }) 传值到下一个activity
  * Ⅲ toHomePage.launch(Intent(context,XXActivity::class.java)) 等同于用法Ⅰ
  * @param block 与原来onActivityResult的回调一样，只是返回值做了封装 不包含 requestCode
  *

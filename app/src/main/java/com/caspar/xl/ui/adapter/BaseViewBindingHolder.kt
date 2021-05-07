@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
  * 方便 ViewBinding 的使用
  *
  * @param BD : ViewDataBinding
- * @property dataBinding BD?
+ * @property viewBinding BD?
  * @constructor
  */
 open class BaseViewBindingHolder<BD : ViewBinding>(view: BD) : BaseViewHolder(view.root) {

@@ -45,7 +45,6 @@ inline fun ComponentActivity.requestPermission(
 }
 
 /**
- * @param permissions 权限数组
  * @param allGranted 所有权限均申请成功
  * @param denied 被拒绝且未勾选不再询问，同时被拒绝且未勾选不再询问的权限列表
  * @param explained 被拒绝且勾选不再询问，同时被拒绝且勾选不再询问的权限列表
@@ -100,7 +99,6 @@ inline fun Fragment.requestPermission(
 }
 
 /**
- * [permissions] 权限数组
  * [allGranted] 所有权限均申请成功
  * [denied] 被拒绝且未勾选不再询问，同时被拒绝且未勾选不再询问的权限列表
  * [explained] 被拒绝且勾选不再询问，同时被拒绝且勾选不再询问的权限列表

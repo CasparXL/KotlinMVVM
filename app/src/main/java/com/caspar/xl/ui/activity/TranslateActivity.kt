@@ -1,10 +1,10 @@
 package com.caspar.xl.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.R
@@ -19,20 +19,21 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
         setOnClickListener(this, R.id.tv_left)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
-        mViewModel.mData.observe(this, Observer {
+        mViewModel.mData.observe(this){
             if (it.first) {
                 mBindingView.tvText.text = "原文:\n${mBindingView.etEnter.text}\n译文:\n ${it.second?.translateResult?.get(0)?.get(0)?.tgt}"
             } else {
                 mBindingView.tvText.text = "请检查网络，并重试"
             }
-        })
+        }
         mBindingView.etEnter.addTextChangedListener { text ->
             run {
                 if (text.isNullOrEmpty()) {
                     mBindingView.tvText.text = ""
                 } else {
-                    mViewModel.Translate(text.toString())
+                    mViewModel.translate(text.toString())
                 }
             }
         }

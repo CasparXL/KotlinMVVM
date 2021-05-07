@@ -31,7 +31,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     //首页ViewModel
     private val mViewModel: HomeViewModel by viewModels()
     //跳转到某个界面，这里是用来标识需要储存权限的几个界面
-    var toOtherPage:String = ""
+    private var toOtherPage:String = ""
     //请求拍照所需的权限
     private val permission = requestMultiplePermissions(allGranted = {
         acStart<CameraActivity>()

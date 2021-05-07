@@ -1,5 +1,6 @@
 package com.caspar.xl.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
@@ -27,6 +28,7 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
         with(mBindingView) {
             title.tvCenter.text = "SelectFile"
@@ -36,7 +38,7 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
                 finish()
             }
         }
-        mAdapter.setOnItemClickListener { adapter, view, position ->
+        mAdapter.setOnItemClickListener { _, _, position ->
             val file = mAdapter.data[position].file
             if (position == 0) {
                 backFiles()

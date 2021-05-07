@@ -11,7 +11,7 @@ import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
-    lateinit var mPagerAdapter: BaseFragmentAdapter<Fragment>
+    private lateinit var mPagerAdapter: BaseFragmentAdapter<Fragment>
 
     override fun initIntent() {
     }

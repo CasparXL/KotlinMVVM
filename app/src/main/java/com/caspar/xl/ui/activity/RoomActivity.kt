@@ -1,5 +1,6 @@
 package com.caspar.xl.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
@@ -19,9 +20,9 @@ import kotlinx.coroutines.*
 
 class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
     private val mViewModel: RoomViewModel by viewModels()
-    var str = ""
-    var teacherId = -1L
-    var userId = -1L
+    private var str = ""
+    private var teacherId = -1L
+    private var userId = -1L
     override fun initIntent() {
 
     }
@@ -41,6 +42,7 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onClick(v: View) {
         when (v.id) {
             R.id.tv_left -> finish()

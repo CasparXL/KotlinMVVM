@@ -13,9 +13,7 @@ import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.R
-import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.databinding.ActivityCameraBinding
-import com.hjq.toast.ToastUtils
 import java.io.File
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
@@ -25,13 +23,14 @@ import java.util.concurrent.Executors
 
 class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListener {
     var cameraControl: CameraControl? = null
-    lateinit var scaleGestureDetector: ScaleGestureDetector
+    private lateinit var scaleGestureDetector: ScaleGestureDetector
     private lateinit var imageAnalyzer: ImageAnalysis
     private var preview: Preview? = null
     private var camera: Camera? = null
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
 
+    @SuppressLint("SetTextI18n")
     override fun initIntent() {
         mBindingView.title.tvCenter.text = "CameraX"
         setOnClickListener(this, R.id.tv_left, R.id.iv_take_photo)
@@ -47,7 +46,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
     private fun startCamera() {
         scaleGestureDetector = ScaleGestureDetector(this, listener) //初始化双指缩放的控制器
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        cameraProviderFuture.addListener(Runnable {
+        cameraProviderFuture.addListener({
             imageCapture = ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build()
 
             imageAnalyzer = ImageAnalysis.Builder().build().also {
@@ -88,7 +87,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
     }
 
     // 创建一个名为 listener 的回调函数，当手势事件发生时会调用这个回调函数
-    val listener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+    private val listener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             // 获取当前的摄像头的缩放比例
             val currentZoomRatio: Float = camera?.cameraInfo?.zoomState?.value?.zoomRatio ?: 1F
@@ -156,8 +155,8 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
             val buffer = image.planes[0].buffer
             val data = buffer.toByteArray()
             val pixels = data.map { it.toInt() and 0xFF }
-            val luma = pixels.average()
-            LogUtil.e("手机摄像头亮度[0-100，越高越亮]$luma")
+            val lightness = pixels.average()
+            LogUtil.e("手机摄像头亮度[0-100，越高越亮]$lightness")
             image.close()
         }
     }

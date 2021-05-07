@@ -12,9 +12,6 @@ import com.caspar.xl.databinding.ActivityCoroutinesAboutBinding
 import com.caspar.xl.viewmodel.CoroutinesViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.cancellable
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

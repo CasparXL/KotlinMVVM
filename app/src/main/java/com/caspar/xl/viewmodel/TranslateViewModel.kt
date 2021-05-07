@@ -19,7 +19,7 @@ class TranslateViewModel(application: Application) : BaseViewModel(application) 
         MutableLiveData<Triple<Boolean, TranslateBean?, Resource<String>>>()
     }
 
-    fun Translate(text: String) {
+    fun translate(text: String) {
         viewModelScope.launch {
             val value = MenuRepository.Translate(text)
             if (value.code == 200) { //网络请求成功，则返回数据
