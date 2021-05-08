@@ -11,14 +11,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.viewbinding.ViewBinding
 import com.caspar.base.R
 import com.caspar.base.action.ToastAction
 import com.caspar.base.dialog.WaitDialog
 import com.caspar.base.helper.KeyBoardUtils
 import com.caspar.base.helper.LogUtil
+import com.caspar.base.utils.status.StatusBarUtil
+import com.caspar.base.utils.status.StatusBarUtil.transparencyBar
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
@@ -77,40 +77,17 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val view = initViewBinding()
-        initUI(view)
         setContentView(view)
+        initStatusBar()
         initIntent()
         initView(savedInstanceState)
     }
-
-    /**
-     * 初始化设置沉浸式状态栏
-     */
-    private fun initUI(view: View) {
-        //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
-        val window: Window = window
-        val decorView: View = window.decorView
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            //fitsSystemWindows过时替代方法--安卓11及以上才有windowInsetsController
-            decorView.windowInsetsController?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR //黑色字体
-            } else {
-                //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
-                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE //白色字体
-            }
+    //状态栏透明以及颜色设置
+    private fun initStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            transparencyBar(this)//全透明
+            StatusBarUtil.setLightStatusBar(activity = this, dark = true, isFullMode = true)
         }
-        //让view空出状态栏高度
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            val statusBarHeight = resources.getDimensionPixelSize(resourceId)
-            view.setPadding(0, statusBarHeight, 0, 0)
-        }
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = Color.TRANSPARENT
-        //导航栏颜色也可以正常设置
-        //window.setNavigationBarColor(Color.TRANSPARENT);
     }
 
     private fun initViewBinding(): View {
