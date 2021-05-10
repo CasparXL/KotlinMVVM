@@ -31,7 +31,7 @@ interface ApiService {
      * 翻译
      */
     @GET(ApiConfig.Translate)
-    suspend fun Translate(@Query("doctype") doctype: String = "json", @Query("type") type: String = "AUTO", @Query("i") text: String): TranslateBean
+    suspend fun translate(@Query("doctype") doctype: String = "json", @Query("type") type: String = "AUTO", @Query("i") text: String): TranslateBean
 
     /**
      * config设置

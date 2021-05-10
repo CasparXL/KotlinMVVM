@@ -20,7 +20,7 @@ object MenuRepository : BaseRepository() {
     //网络请求，获取城市列表
     suspend fun Translate(text:String) = withContext(Dispatchers.IO) {
         call {
-            Api.api.Translate(text = text)
+            Api.api.translate(text = text)
         }
     }
 }
