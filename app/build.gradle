@@ -7,6 +7,14 @@ plugins {
 
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'kotlinmvvm'
+            keyPassword '123456'
+            storeFile file('../signature/releaseSign.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
@@ -36,7 +44,7 @@ android {
             shrinkResources true  //移出无用资源
             buildConfigField("boolean", "LOG_ENABLE", "false")//控制日志是否打印
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false   //开启混淆
@@ -44,11 +52,11 @@ android {
             shrinkResources false  //移出无用资源
             buildConfigField("boolean", "LOG_ENABLE", "true")//控制日志是否打印
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+            signingConfig signingConfigs.release
         }
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
         // for view binding :
         // viewBinding = true
@@ -86,7 +94,7 @@ dependencies {
     //依赖库配置变量
     def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
     //依赖库配置
-    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     // 基础库
     implementation project(':base')
     /*
@@ -108,7 +116,7 @@ dependencies {
     implementation libsImplementation.lifecycle_api
     implementation libsImplementation.retrofit_gson
     implementation libsImplementation.retrofit_scalars
-    implementation (libsImplementation.retrofit_logging){
+    implementation(libsImplementation.retrofit_logging) {
         exclude group: 'org.jetbrains.kotlin'
     }
     implementation libsImplementation.gson

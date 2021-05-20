@@ -58,9 +58,9 @@
 #表示不混淆上面声明的类，最后这两个类我们基本也用不上，是接入Google原生的一些服务时使用的。
 #----------------------------------------------------
 
-#-keep public class * extends androidx.multidex.MultiDexApplication
-#-keep public class * extends androidx.appcompat.app.AppCompatActivity
-#-keep public class * extends androidx.fragment.app.Fragment
+-keep public class * extends androidx.multidex.MultiDexApplication
+-keep public class * extends androidx.appcompat.app.AppCompatActivity
+-keep public class * extends androidx.fragment.app.Fragment
 
 #kotlin
 -keep class kotlin.** { *; }
@@ -239,6 +239,7 @@
 #对含有反射类的处理
 
 -keep class com.caspar.xl.bean.** { *; }
+-keep class com.caspar.xl.databinding.** { *; }
 
 #
 # ----------------------------- 其他的 -----------------------------
@@ -252,7 +253,11 @@
     public static int d(...);
     public static int e(...);
 }
-
+#不混淆所有的接口：
+-keep interface *{
+         <methods>;
+         <fields>;
+}
 # 保持测试相关的代码
 -dontnote junit.framework.**
 -dontnote junit.runner.**
@@ -268,18 +273,6 @@
 -keep class com.google.gson.**{*;}
 -keep interface com.google.gson.**{*;}
 ##Gson 混淆结束
-##阿里路由跳转 混淆开始
--keep public class com.alibaba.android.arouter.routes.**{*;}
--keep public class com.alibaba.android.arouter.facade.**{*;}
--keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
-
-# 如果使用了 byType 的方式获取 Service，需添加下面规则，保护接口
--keep interface * implements com.alibaba.android.arouter.facade.template.IProvider
-
-# 如果使用了 单类注入，即不定义接口实现 IProvider，需添加下面规则，保护实现
--keep class * implements com.alibaba.android.arouter.facade.template.IProvider
-#阿里路由跳转 混淆结束
-
 
 #Retrofit混淆开始
 -dontwarn javax.annotation.**
@@ -305,7 +298,45 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+# 防止反射方法被混淆
+-keepclassmembers class * implements androidx.viewbinding.ViewBinding {
+  public static * inflate(android.view.LayoutInflater);
+  public static * inflate(android.view.LayoutInflater, android.view.ViewGroup, boolean);
+  public static * bind(android.view.View);
+}
+# ServiceLoader support
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
 
+# Most of volatile fields are updated with AFU and should not be mangled
+-keepclassmembers class kotlinx.coroutines.** {
+    volatile <fields>;
+}
+
+# Same story for the standard library's SafeContinuation that also uses AtomicReferenceFieldUpdater
+-keepclassmembers class kotlin.coroutines.SafeContinuation {
+    volatile <fields>;
+}
+
+# These classes are only required by kotlinx.coroutines.debug.AgentPremain, which is only loaded when
+# kotlinx-coroutines-core is used as a Java agent, so these are not needed in contexts where ProGuard is used.
+-dontwarn java.lang.instrument.ClassFileTransformer
+-dontwarn sun.misc.SignalHandler
+-dontwarn java.lang.instrument.Instrumentation
+-dontwarn sun.misc.Signal
+-dontwarn javax.annotation.**
+
+# A resource is loaded with a relative path so the package of this class must be preserved.
+-keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+
+# Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
+-dontwarn org.codehaus.mojo.animal_sniffer.*
+
+# OkHttp platform used only on JVM and when Conscrypt dependency is available.
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+# Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
+-dontwarn org.codehaus.mojo.animal_sniffer.*
 # Gson
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
@@ -313,16 +344,6 @@
 
 #Toast框架的
 -keep class com.hjq.toast.** {*;}
-#Glide混淆开始
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
-
-# for DexGuard only
-#Glide混淆结束
 
 #沉浸式处理
 -keep class com.gyf.immersionbar.* {*;}

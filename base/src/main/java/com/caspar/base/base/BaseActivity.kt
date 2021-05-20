@@ -3,7 +3,6 @@ package com.caspar.base.base
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -22,6 +21,7 @@ import com.caspar.base.utils.status.StatusBarUtil.transparencyBar
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
+import java.lang.reflect.WildcardType
 
 
 /**
