@@ -21,13 +21,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * 获取gateway网关列表
  */
-class NsdHelper : CoroutineScope {
-    var job = Job()
-
-    //重写协程上下文，使它包含ViewModel的上下文
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
+class NsdHelper {
     //网关的管理工具
     private var mNsdManager: NsdManager? = null
 
@@ -69,7 +63,7 @@ class NsdHelper : CoroutineScope {
             }
 
             override fun onServiceFound(serviceInfo: NsdServiceInfo) {
-                launch(Dispatchers.Main) {
+                BaseApplication.job.launch(Dispatchers.Main) {
                     if (SERVICE_TYPE == serviceInfo.serviceType) {
                         e("onServiceFound:" + serviceInfo.serviceName)
                         mNsdManager?.resolveService(serviceInfo, resolveListener())
@@ -176,8 +170,6 @@ class NsdHelper : CoroutineScope {
     }
 
     fun stopJob() {
-        coroutineContext.cancel()
-        job.cancel()
         unregisterNsdService()
     }
 

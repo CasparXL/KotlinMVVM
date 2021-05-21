@@ -1,13 +1,13 @@
 package com.caspar.xl.viewmodel
 
 import android.app.Application
-import com.caspar.base.base.BaseViewModel
+import androidx.lifecycle.AndroidViewModel
 
 /**
  *  "CasparXL" 创建 2020/5/12.
  *   界面名称以及功能: 首页功能菜单
  */
-class HomeViewModel(application: Application) : BaseViewModel(application) {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val translate = "翻译"
     val camera = "相机"
     val room = "数据库"

@@ -18,7 +18,7 @@ class SelectFileAdapter: BaseQuickAdapter<FileBean, BaseViewBindingHolder<ItemFi
     override fun convert(holder: BaseViewBindingHolder<ItemFilesBinding>, item: FileBean) {
         holder.viewBinding.tvName.text = item.name
         when {
-            holder.adapterPosition == 0 -> {
+            holder.absoluteAdapterPosition == 0 -> {
                 holder.viewBinding.ivFileType.setImageResource(R.drawable.ic_left)
             }
             item.file.isDirectory -> {

@@ -10,7 +10,5 @@ import kotlinx.coroutines.withContext
  */
 object RoomRepository {
       val userDao = RoomManager.getInstance().getUserDao()
-
       val teacherDao = RoomManager.getInstance().getTeacherDao()
-
 }

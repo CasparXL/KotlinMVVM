@@ -1,3 +1,4 @@
+@file:Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 package com.caspar.base.helper
 
 import android.text.TextUtils
@@ -79,21 +80,8 @@ object LogUtil {
      * 打印Throwable的详情堆栈信息
      * Print Throwable details stack information
      */
-    fun e(throwable: Throwable, index: Int = mIndex) {
-        val sw = StringWriter()
-        val pw = PrintWriter(sw)
-        throwable.printStackTrace(pw)
-        var stackTraceString = sw.toString()
-        val MAX_STACK_TRACE_SIZE = 131071 //128 KB - 1
-        //Reduce data to 128KB so we don't get a TransactionTooLargeException when sending the intent.
-        //The limit is 1MB on Android but some devices seem to have it lower.
-        //See: http://developer.android.com/reference/android/os/TransactionTooLargeException.html
-        //And: http://stackoverflow.com/questions/11451393/what-to-do-on-transactiontoolargeexception#comment46697371_12809171
-        if (stackTraceString.length > MAX_STACK_TRACE_SIZE) {
-            val disclaimer = "[stack trace too large]"
-            stackTraceString = stackTraceString.substring(0, MAX_STACK_TRACE_SIZE - disclaimer.length) + disclaimer
-        }
-        Log.e(mTag, content(index = index, optionalTag = mTag, msg = stackTraceString))
+    fun e(throwable: Throwable) {
+        Log.e(mTag, "crash", throwable)
     }
 
     fun v(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {

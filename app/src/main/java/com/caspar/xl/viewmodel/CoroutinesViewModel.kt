@@ -1,7 +1,7 @@
 package com.caspar.xl.viewmodel
 
 import android.app.Application
-import com.caspar.base.base.BaseViewModel
+import androidx.lifecycle.AndroidViewModel
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.bean.response.City
 import com.caspar.xl.network.Api
@@ -16,7 +16,7 @@ import kotlin.coroutines.suspendCoroutine
  *  "CasparXL" 创建 2020/5/12.
  *   界面名称以及功能: 协程相关功能使用
  */
-class CoroutinesViewModel(application: Application) : BaseViewModel(application) {
+class CoroutinesViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
      * 用于封装java类似的回调返回值，使api在协程中可以用变量接收
