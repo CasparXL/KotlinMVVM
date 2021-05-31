@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.caspar.xl.bean.NetworkResult
 import com.caspar.xl.bean.response.TranslateBean
+import com.caspar.xl.helper.call
 import com.caspar.xl.repository.MenuRepository
 import kotlinx.coroutines.launch
 
@@ -20,13 +21,9 @@ class TranslateViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun translate(text: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(call{ code, message -> mData.value = NetworkResult.Error(code =code,message = message) }) {
             val value = MenuRepository.translate(text)
-            if (value.code == 200) { //网络请求成功，则返回数据
-                mData.value = NetworkResult.Success(value.body)
-            } else { //网络请求失败，则返回一个errorBean，errorBean一个Activity拦截一次就够了，统一做处理
-                mData.value = NetworkResult.Error(null,code = value.code,message = value.msg)
-            }
+            mData.value = NetworkResult.Success(value)
         }
     }
 }
