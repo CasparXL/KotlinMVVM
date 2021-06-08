@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity">
-       <!-- 适配 Android 7.0 文件意图 -->
+        <!-- 适配 Android 7.0 文件意图 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -33,7 +33,8 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- 崩溃界面 -->
+        </provider>
+        <!-- 崩溃界面 -->
         <activity
             android:name=".ui.CrashActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
