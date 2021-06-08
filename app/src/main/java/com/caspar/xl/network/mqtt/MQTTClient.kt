@@ -1,4 +1,4 @@
-package com.caspar.xl.utils.mqtt
+package com.caspar.xl.network.mqtt
 /**
  * Mqtt请求相关的工具类
  * build.gradle

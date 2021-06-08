@@ -1,4 +1,4 @@
-package com.caspar.xl.utils.mqtt
+package com.caspar.xl.network.mqtt
 /*
 
 import com.caspar.base.helper.LogUtil
