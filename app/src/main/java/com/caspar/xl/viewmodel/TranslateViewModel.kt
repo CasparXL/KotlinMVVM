@@ -2,12 +2,9 @@ package com.caspar.xl.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.caspar.base.helper.LogUtil
 import com.caspar.xl.bean.NetworkResult
 import com.caspar.xl.bean.response.TranslateBean
-import com.caspar.xl.helper.call
 import com.caspar.xl.repository.MenuRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

@@ -115,7 +115,7 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
                     val list = this.map {
                         FileBean(it.name, it)
                     }
-                    filesList.addAll(list.sortedBy { it.name.toLowerCase(Locale.ROOT) })
+                    filesList.addAll(list.sortedBy { it.name.lowercase(Locale.ROOT) })
                     withContext(Dispatchers.Main) {
                         mAdapter.setList(filesList)
                     }
