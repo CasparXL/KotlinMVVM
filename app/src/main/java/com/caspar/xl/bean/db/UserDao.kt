@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserDao {
 
-    @Query("SELECT * from user_table ORDER BY id ASC")
+    @Query("SELECT * FROM USER_TABLE ORDER BY id ASC")
     suspend fun getAllUser(): List<UserBean>
 
-    @Query("SELECT * from user_table where t_id = :tId")
+    @Query("SELECT * FROM USER_TABLE where t_id = :tId")
     suspend fun getUserByTid(tId:Long): List<UserBean>
 
-    @Query("SELECT * from user_table where id = :uId")
+    @Query("SELECT * FROM USER_TABLE where id = :uId")
     suspend fun getUserById(uId:Long): UserBean
 
     /**
@@ -29,6 +29,6 @@ interface UserDao {
     /**
      * 如果操作失败，事务回滚
      */
-    @Query("Delete from user_table")
+    @Query("DELETE FROM USER_TABLE")
     suspend fun deleteAll()
 }

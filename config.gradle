@@ -2,9 +2,9 @@ ext {
 
     //app的版本相关
     android = [
-            compileSdkVersion: 30,      //sdk版本号
+            compileSdkVersion: 31,      //sdk版本号
             minSdkVersion    : 21,      //app支持最小sdk版本号,安卓手机系统5.0以上才能安装app
-            targetSdkVersion : 30,      //app优先使用sdk版本号
+            targetSdkVersion : 31,      //app优先使用sdk版本号
             versionCode      : 1,       //用户版本Code,每次更新在之前的基础上+1
             versionName      : "1.0.0", //用户版本Name，每次更新在之前的基础上+0.0.1
             applicationId    : "com.caspar.xl",  //app包名
@@ -14,7 +14,7 @@ ext {
             /***基础依赖库版本号Start***/
             kt_activity              : '1.2.3',
             kt_fragment              : '1.3.3',
-            kotlin_version           : '1.5.0',
+            kotlin_version           : '1.6.0',
             androidx_appcompat       : '1.2.0',
             androidx_constraintlayout: '2.0.4',
             multidex                 : "2.0.1",
@@ -25,20 +25,20 @@ ext {
             espresso                 : '3.3.0',
             core_ktx                 : '1.6.0-alpha03',
             kotlinx_coroutines       : "1.4.2",
-            room                     : '2.3.0',
+            room                     : '2.4.0-beta01',
             /***基础依赖库版本号End***/
             /***第三方依赖库Start***/
             retrofit                 : '2.9.0',
             httplog                  : '4.9.0',
             rxandroid                : "3.0.0",
-            rxjava                   : "3.0.12",
+            rxjava                   : '3.1.3',
             gson                     : "2.8.6",
             coil                     : '1.2.1',
             lifecycle                : '2.3.1',
             aspectj                  : '1.9.5',
             toast                    : '9.0',
             adapter                  : "3.0.4",
-            mmkv                     : '1.2.8',
+            mmkv                     : '1.2.11',
             camera                   : '1.0.0-beta09',
             camera_view              : '1.0.0-alpha16',
             mqtt                     : '1.1.0',

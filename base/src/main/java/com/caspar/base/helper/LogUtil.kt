@@ -81,7 +81,7 @@ object LogUtil {
      * Print Throwable details stack information
      */
     fun e(throwable: Throwable) {
-        Log.e(mTag, "crash", throwable)
+        Log.e(mTag, "custom error", throwable)
     }
 
     fun v(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {

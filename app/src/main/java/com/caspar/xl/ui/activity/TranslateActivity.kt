@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.helper.LogUtil
@@ -13,6 +14,9 @@ import com.caspar.xl.bean.NetworkResult
 import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.viewmodel.TranslateViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.launch
 
 class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClickListener {
     private val mViewModel: TranslateViewModel by viewModels()
@@ -24,18 +28,22 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
-        mViewModel.mData.observe(this){
-            when(it){
-                is NetworkResult.Success -> {
-                    it.data?.apply {//UI层可以使用apply，also，等扩展函数让内部安全的执行[这里是为了确保数据源不为空]
-                        mBindingView.tvText.text = "原文:\n${mBindingView.etEnter.text}\n译文:\n ${this.translateResult?.get(0)?.get(0)?.tgt}"
+        lifecycleScope.launch {
+            mViewModel.translateResult.collect {
+                when (it) {
+                    is NetworkResult.Success -> {
+                        it.data?.apply {//UI层可以使用apply，also，等扩展函数让内部安全的执行[这里是为了确保数据源不为空]
+                            mBindingView.tvText.text = "原文:\n${mBindingView.etEnter.text}\n译文:\n ${
+                                this.translateResult?.get(0)?.get(0)?.tgt
+                            }"
+                        }
                     }
-                }
-                is NetworkResult.Error ->{
-                    mBindingView.tvText.text = it.message?:"请检查网络，并重试"
-                }
-                else -> {
-                    LogUtil.e("预留加载状态在此处可以弹一个加载框")
+                    is NetworkResult.Error -> {
+                        mBindingView.tvText.text = it.message ?: "请检查网络，并重试"
+                    }
+                    else -> {
+                        LogUtil.e("预留加载状态在此处可以弹一个加载框")
+                    }
                 }
             }
         }

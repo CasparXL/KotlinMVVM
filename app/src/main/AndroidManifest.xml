@@ -38,12 +38,14 @@
         <activity
             android:name=".ui.CrashActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
             android:launchMode="singleTop"
             android:process=":crash"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -55,38 +57,48 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.CameraActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.TranslateActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.SelectFileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.RoomActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.CoroutinesAboutActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ImageLoadActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.PaletteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.SelectImageActivity"
+        <activity
+            android:name=".ui.activity.SelectImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
     </application>
 

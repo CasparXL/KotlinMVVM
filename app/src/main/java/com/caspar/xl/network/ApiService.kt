@@ -3,6 +3,7 @@ package com.caspar.xl.network
 import com.caspar.xl.bean.response.City
 import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.config.ApiConfig
+import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*

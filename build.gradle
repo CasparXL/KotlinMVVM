@@ -1,7 +1,7 @@
 apply from: "config.gradle"
 
 buildscript {
-    ext.kotlin_version = '1.5.0'
+    ext.kotlin_version = '1.6.0'
 
     repositories {
         mavenCentral()
@@ -9,7 +9,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath "com.android.tools.build:gradle:7.0.3"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -29,7 +29,7 @@ allprojects {
             def requested = details.requested
             if (requested.group == 'org.jetbrains.kotlin') {
                 if (requested.name.startsWith("kotlin-stdlib")) {
-                    details.useVersion '1.5.0'
+                    details.useVersion '1.6.0'
                 }
             }
         }

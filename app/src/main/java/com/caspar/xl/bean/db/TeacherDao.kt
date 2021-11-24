@@ -11,10 +11,10 @@ import androidx.room.Query
  */
 @Dao
 interface TeacherDao {
-    @Query("SELECT * from teacher_table ORDER BY id ASC")
+    @Query("SELECT * FROM TEACHER_TABLE ORDER BY id ASC")
     suspend fun getAllTeacher(): List<TeacherBean>
 
-    @Query("SELECT * from teacher_table where id = :id")
+    @Query("SELECT * FROM TEACHER_TABLE where id = :id")
     suspend fun getTeacherById(id:Long): TeacherBean
     /**
      * 如果操作失败，事务回滚
@@ -25,6 +25,6 @@ interface TeacherDao {
     /**
      * 如果操作失败，事务回滚
      */
-    @Query("Delete from teacher_table")
+    @Query("DELETE from TEACHER_TABLE")
     suspend fun deleteAll()
 }

@@ -1,8 +1,12 @@
 package com.caspar.xl.repository
 
+import com.caspar.base.helper.LogUtil
+import com.caspar.xl.bean.NetworkResult
+import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.helper.call
 import com.caspar.xl.network.Api
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 
 /**
@@ -16,7 +20,13 @@ object MenuRepository {
     }
 
     //网络请求，获取城市列表
-    suspend fun translate(text: String) = withContext(Dispatchers.IO) {
-        Api.api.translate(text = text)
-    }
+    fun translate(text: String) = flow<NetworkResult<TranslateBean>> {
+        //当网络请求成功会走完当前void，并返回Success出去
+        val result = Api.api.translate(text = text)
+        emit(NetworkResult.Success(result))
+    }.catch { ex->
+        //当网络请求尚未完成，且抛出了error，则返回Error出去
+        val networkResult = call<TranslateBean>(ex)
+        emit(networkResult)
+    }.distinctUntilChanged()
 }
