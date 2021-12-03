@@ -34,8 +34,8 @@ ext {
             rxjava                   : '3.1.3',
             gson                     : "2.8.6",
             coil                     : '1.2.1',
-            lifecycle                : '2.3.1',
-            aspectj                  : '1.9.5',
+            lifecycle                : '2.4.0',
+            smart                    : '2.0.5',
             toast                    : '9.0',
             adapter                  : "3.0.4",
             mmkv                     : '1.2.11',
@@ -81,6 +81,9 @@ ext {
                     retrofit_gson            : "com.squareup.retrofit2:converter-gson:${dependVersion.retrofit}",//网络请求分支库Gson解析器
                     retrofit_scalars         : "com.squareup.retrofit2:converter-scalars:${dependVersion.retrofit}",//网络请求分支库字符串装箱支持
                     retrofit_logging         : "com.squareup.okhttp3:logging-interceptor:${dependVersion.httplog}",//网络请求分支库字符串装箱支持
+                    smart_refresh            : "io.github.scwang90:refresh-layout-kernel:${dependVersion.smart}",//下拉刷新
+                    smart_header             : "io.github.scwang90:refresh-header-material:${dependVersion.smart}",//下拉刷新头部组件
+                    smart_foot               : "io.github.scwang90:refresh-footer-classics:${dependVersion.smart}",//下拉刷新头部组件
                     gson                     : "com.google.code.gson:gson:${dependVersion.gson}",//json数据解析，Gson库
                     coil                     : "io.coil-kt:coil:${dependVersion.coil}",//图片加载
                     aspectj                  : "org.aspectj:aspectjrt:${dependVersion.aspectj}",//切面用的东西

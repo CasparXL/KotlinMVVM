@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.caspar.base.base.BaseFragment
 import com.caspar.base.ext.*
@@ -20,6 +21,10 @@ import com.caspar.xl.ui.activity.*
 import com.caspar.xl.ui.adapter.HomeMenuAdapter
 import com.caspar.xl.utils.decoration.Decoration
 import com.caspar.xl.viewmodel.HomeViewModel
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  *  @Create 2020/6/13.
@@ -28,10 +33,13 @@ import com.caspar.xl.viewmodel.HomeViewModel
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     //首页列表适配器
     private val mAdapter: HomeMenuAdapter by lazy { HomeMenuAdapter() }
+
     //首页ViewModel
     private val mViewModel: HomeViewModel by viewModels()
+
     //跳转到某个界面，这里是用来标识需要储存权限的几个界面
-    private var toOtherPage:String = ""
+    private var toOtherPage: String = ""
+
     //请求拍照所需的权限
     private val permission = requestMultiplePermissions(allGranted = {
         acStart<CameraActivity>()
@@ -51,6 +59,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             LogUtil.e("接收到的数据->$path")
         }
     }
+
     //选择文件需要储存权限，申请完成以后会在allGranted中回调跳转下一个界面
     private val permissionRequest = requestMultiplePermissions(
         allGranted = {
@@ -81,6 +90,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvLeft.hide()
+        mBindingView.srlRefresh.setEnableAutoLoadMore(false)
+        mBindingView.srlRefresh.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
+            override fun onRefresh(refreshLayout: RefreshLayout) {
+                lifecycleScope.launch {
+                    delay(2000)
+                    refreshLayout.finishRefresh()
+                }
+            }
+
+            override fun onLoadMore(refreshLayout: RefreshLayout) {
+                lifecycleScope.launch {
+                    delay(5000)
+                    refreshLayout.finishLoadMore()
+                }
+
+            }
+
+        })
         initAdapter()
     }
 
