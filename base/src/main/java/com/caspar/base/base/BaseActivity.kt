@@ -82,6 +82,7 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
         initIntent()
         initView(savedInstanceState)
     }
+
     //状态栏透明以及颜色设置
     private fun initStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
