@@ -2,7 +2,10 @@ package com.caspar.xl.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import coil.Coil
+import coil.ImageLoader
 import coil.load
+import coil.request.ImageRequest
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ItemSelectImageBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -30,9 +33,7 @@ class SelectImageAdapter : BaseQuickAdapter<String, BaseViewBindingHolder<ItemSe
     override fun convert(holder: BaseViewBindingHolder<ItemSelectImageBinding>, item: String) {
         with(holder.viewBinding) {
             ivImageSelectCheck.isChecked = selectImage.contains(item)
-            ivImage.load(File(item)) {
-                this.placeholder(R.drawable.image_loading_bg)
-            }
+            ivImage.load(File(item))
         }
     }
 

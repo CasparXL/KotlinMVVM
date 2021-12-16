@@ -1,6 +1,5 @@
 package com.caspar.xl.bean.response
 
-import com.squareup.moshi.JsonClass
 
 /**
  *  @Create 2020/6/13.

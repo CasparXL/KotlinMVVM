@@ -124,7 +124,9 @@ dependencies {
     implementation libsImplementation.rxjava
     implementation libsImplementation.toast
     implementation libsImplementation.base_adapter
-    implementation libsImplementation.google_material
+    implementation (libsImplementation.google_material) {
+        exclude group: 'androidx.recyclerview'
+    }
     implementation libsImplementation.mmkv
     implementation libsImplementation.room
     implementation libsImplementation.room_ktx
@@ -135,9 +137,6 @@ dependencies {
     implementation libsImplementation.smart_header
     implementation libsImplementation.smart_foot
     implementation libsImplementation.coil
-    implementation 'androidx.core:core-splashscreen:1.0.0-alpha01'
-    implementation 'com.squareup.moshi:moshi:1.12.0'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.12.0'
     kapt libsAnnotationProcessor.room_compiler
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'  //检测代码内存泄漏,2.7有bug，暂时用2.5
     implementation 'cat.ereza:customactivityoncrash:2.3.0'

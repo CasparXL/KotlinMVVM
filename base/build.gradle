@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.android.versionCode
-        versionName rootProject.ext.android.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -64,7 +62,9 @@ dependencies {
     implementation libsImplementation.coroutines_kotlin
     implementation libsImplementation.core_ktx
     implementation libsImplementation.androidx_constraintlayout
-    implementation libsImplementation.google_material
+    implementation (libsImplementation.google_material) {
+        exclude group: 'androidx.recyclerview'
+    }
     api libsImplementation.lifecycle_api
     api libsImplementation.lifecycle_runtime
     api libsImplementation.lifecycle_livedata

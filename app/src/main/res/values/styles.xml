@@ -9,25 +9,13 @@
         <!-- 关闭 RecyclerView ScrollView ViewPager 水波纹效果 -->
         <item name="android:overScrollMode">never</item>
     </style>
-    <!--启动页过渡图-->
-    <style name="SplashTheme" parent="Theme.SplashScreen">
-        <!--设置启动画面背景、动画图标和动画持续时间-->
-        <item name="windowSplashScreenBackground">@color/white50</item>
-        <!--使用windowSplashScreenAnimatedIcon来添加一个可绘制图标或一个动画绘制的。其中一个是必须的。-->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_icon</item>
-        <item name="windowSplashScreenAnimationDuration">200</item>
-        <!--使用windowSplashScreenAnimatedIcon来添加一个可绘制图标或一个动画绘制的。其中一个是必须的。-->
-        <item name="postSplashScreenTheme">@style/AppTheme</item>  # Required.
+    <!--过渡图-->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/layer_splash</item>
+        <item name="android:windowFullscreen">true</item>
+        <!--不让windowBackground延申到navigation bar区域-->
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
         <!--适配Android P刘海屏-->
         <item name="android:windowLayoutInDisplayCutoutMode" tools:ignore="NewApi">shortEdges</item>
     </style>
-
-    <!--<style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/layer_splash</item>
-        <item name="android:windowFullscreen">true</item>
-        &lt;!&ndash;不让windowBackground延申到navigation bar区域&ndash;&gt;
-        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
-        &lt;!&ndash;适配Android P刘海屏&ndash;&gt;
-        <item name="android:windowLayoutInDisplayCutoutMode" tools:ignore="NewApi">shortEdges</item>
-    </style>-->
 </resources>

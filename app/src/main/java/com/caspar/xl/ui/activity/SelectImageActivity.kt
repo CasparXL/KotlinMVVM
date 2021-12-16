@@ -8,11 +8,14 @@ import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.setOnClickListener
+import com.caspar.base.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivitySelectImageBinding
+import com.caspar.xl.helper.PauseInterceptor
 import com.caspar.xl.ui.adapter.SelectImageAdapter
 import com.caspar.xl.utils.decoration.Decoration
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +28,7 @@ import java.util.*
  * 选择图片文件
  * 界面存在一个问题，当快速滑动时，会显得卡顿(不确定是否是部分机型，还是所有机型)，目前确定，问题是由Coil对Adapter复用机制的支持不是很友好，当缓慢滑动时则不会有这个问题
  * 如果用Glide，在滑动时则不会存在卡顿问题，因此适配器中图片加载的方案请谨慎选择
+ * 2021-12-16 --- 新增方案，在Application中使用Coil.setImageLoader，添加适配器，使用Flow.first方法做判断校验，如果是暂停阶段，则不加载图片，使用预览图片，当停止了滑动状态，才开始加载
  */
 class SelectImageActivity : BaseActivity<ActivitySelectImageBinding>(), View.OnClickListener {
     private val mAdapter: SelectImageAdapter by lazy { SelectImageAdapter() }
@@ -32,18 +36,33 @@ class SelectImageActivity : BaseActivity<ActivitySelectImageBinding>(), View.OnC
     /** 图片专辑  */
     private val mAllAlbum = HashMap<String, MutableList<String>>()
     override fun initIntent() {
-
     }
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_left)
         mBindingView.title.tvCenter.text = "相册选择器"
-
         with(mBindingView) {
             rvList.layoutManager = GridLayoutManager(this@SelectImageActivity, 3)
             rvList.itemAnimator = null
             rvList.addItemDecoration(Decoration.GridDecoration(3, 3.dp, true))
             rvList.adapter = mAdapter
+            rvList.addOnScrollListener(object :RecyclerView.OnScrollListener(){
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    LogUtil.e("状态${newState}")
+                    when (newState) {
+                        RecyclerView.SCROLL_STATE_IDLE -> {
+                            PauseInterceptor.isPaused.value = false
+                        }
+                        RecyclerView.SCROLL_STATE_DRAGGING -> {
+                            PauseInterceptor.isPaused.value = true
+                        }
+                        RecyclerView.SCROLL_STATE_SETTLING -> {
+                            PauseInterceptor.isPaused.value = true
+                        }
+                    }
+                }
+            })
         }
         mAdapter.setOnItemClickListener { _, _, position ->
             val select: String = mAdapter.getItem(position)

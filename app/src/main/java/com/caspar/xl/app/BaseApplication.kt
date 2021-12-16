@@ -5,13 +5,18 @@ import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
+import androidx.core.app.ActivityCompat
 import androidx.multidex.MultiDexApplication
 import cat.ereza.customactivityoncrash.config.CaocConfig
+import coil.Coil
+import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
 import com.caspar.base.helper.ActivityStackManager
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.MainActivity
 import com.caspar.xl.R
+import com.caspar.xl.helper.PauseInterceptor
 import com.caspar.xl.ui.CrashActivity
 import com.caspar.xl.utils.rxjava.RxBus
 import com.hjq.toast.ToastUtils
@@ -28,6 +33,7 @@ import kotlinx.coroutines.SupervisorJob
 /**
  * 初始化Application
  */
+@ExperimentalCoilApi
 class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
 
     override fun onCreate() {
@@ -58,6 +64,14 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
             .errorActivity(CrashActivity::class.java) // 设置监听器
             //.eventListener(new YourCustomEventListener())
             .apply()
+        //Coil增加拦截器，用于判断RecyclerView快速滑动卡顿的问题
+        Coil.setImageLoader(
+            ImageLoader.Builder(this)
+                .placeholder(ActivityCompat.getDrawable(this, R.drawable.image_loading_bg))
+                .error(ActivityCompat.getDrawable(this, R.drawable.image_loading_bg))
+                .componentRegistry { this.add(PauseInterceptor()) }
+                .build()
+        )
     }
 
 
