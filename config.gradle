@@ -89,7 +89,7 @@ ext {
                     aspectj                  : "org.aspectj:aspectjrt:${dependVersion.aspectj}",//切面用的东西
                     toast                    : "com.github.getActivity:ToastUtils:${dependVersion.toast}",//轮子哥Toast框架
                     base_adapter             : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${dependVersion.adapter}",//适配器库
-                    mmkv                     : "com.tencent:mmkv-static:${dependVersion.mmkv}",//微信储存微量字段的工具库
+                    mmkv                     : "com.tencent:mmkv:${dependVersion.mmkv}",//微信储存微量字段的工具库
                     mqtt                     : "org.eclipse.paho:org.eclipse.paho.client.mqttv3:${dependVersion.mqtt}",//微信储存微量字段的工具库
                     mqtt_android             : "org.eclipse.paho:org.eclipse.paho.android.service:${dependVersion.mqtt_android}",//微信储存微量字段的工具库
                     /***第三方依赖库End***/
