@@ -10,10 +10,12 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.caspar.base.base.BaseActivity
+import com.caspar.base.base.BaseDialog
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCameraBinding
+import com.caspar.xl.ui.dialog.WaitDialog
 import java.io.File
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
@@ -29,6 +31,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
     private var camera: Camera? = null
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
+    var create :BaseDialog? = null
 
     @SuppressLint("SetTextI18n")
     override fun initIntent() {
@@ -114,7 +117,12 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
 
     //拍照
     private fun takePhoto() {
-        showLoadingDialog("稍等")
+        if (create == null){
+            create = WaitDialog.Builder(this).setMessage("稍等").create()
+            create?.show()
+        } else {
+            create?.show()
+        }
         // Get a stable reference of the modifiable image capture use case
         //获得可修改映像捕获用例的稳定引用
         val imageCapture = imageCapture ?: return
@@ -128,12 +136,12 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
         // 设置图片捕捉监听器，在拍照后触发
         imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
             override fun onError(exc: ImageCaptureException) {
-                hideDialog()
+                create?.hide()
                 LogUtil.e(exc)
             }
 
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                hideDialog()
+                create?.hide()
                 val savedUri = Uri.fromFile(photoFile)
                 val msg = "拍照成功，图片被保存到app内部储存，路径为: $savedUri"
                 toast(msg)
@@ -194,5 +202,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
         }
         orientationEventListener.enable()
     }
+
+
 
 }

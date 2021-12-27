@@ -4,16 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.caspar.base.base.BaseActivity
+import com.caspar.base.base.FragmentPagerAdapter
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.helper.LogUtil
 import com.caspar.xl.databinding.ActivityMainBinding
-import com.caspar.xl.ui.adapter.BaseFragmentAdapter
 import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment
-import java.lang.Exception
 
 class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
-    private lateinit var mPagerAdapter: BaseFragmentAdapter<Fragment>
+    private lateinit var mPagerAdapter: FragmentPagerAdapter<Fragment>
 
     override fun initIntent() {
     }
@@ -24,7 +22,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
     }
 
     private fun initViewPager() {
-        mPagerAdapter = BaseFragmentAdapter(this)
+        mPagerAdapter = FragmentPagerAdapter(this)
         mPagerAdapter.addFragment(HomeFragment())
         mPagerAdapter.addFragment(MineFragment())
         mBindingView.nvPager.adapter = mPagerAdapter

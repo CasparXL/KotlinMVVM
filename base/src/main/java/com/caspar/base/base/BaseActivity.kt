@@ -8,12 +8,9 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import com.caspar.base.R
 import com.caspar.base.action.ToastAction
-import com.caspar.base.dialog.WaitDialog
 import com.caspar.base.helper.KeyBoardUtils
 import com.caspar.base.helper.LogUtil
 import com.caspar.base.utils.status.StatusBarUtil
@@ -21,7 +18,6 @@ import com.caspar.base.utils.status.StatusBarUtil.transparencyBar
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
-import java.lang.reflect.WildcardType
 
 
 /**
@@ -41,37 +37,6 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
     //判断是否显示
     open fun isShowDialog(): Boolean {
         return mBaseDialog?.isShowing ?: false
-    }
-
-    /**
-     * 显示加载对话框
-     */
-    open fun showLoadingDialog(tips: String? = null) {
-        if (mBaseDialog == null) {
-            mBaseDialog = if (tips.isNullOrEmpty()) {
-                WaitDialog.Builder(this@BaseActivity).create()
-            } else {
-                WaitDialog.Builder(this@BaseActivity).setMessage(tips).create()
-            }
-        } else {
-            if (!tips.isNullOrEmpty()) {
-                if ((mBaseDialog?.findViewById<TextView>(R.id.tv_wait_message))?.text != tips) {
-                    (mBaseDialog?.findViewById<TextView>(R.id.tv_wait_message))?.text = tips
-                }
-            }
-        }
-        mBaseDialog?.apply {
-            if (!this.isShowing) {
-                this.show()
-            }
-        }
-    }
-
-    /**
-     * 隐藏加载对话框
-     */
-    open fun hideDialog() {
-        mBaseDialog?.dismiss()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
