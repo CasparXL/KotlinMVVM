@@ -25,7 +25,7 @@ ext {
             espresso                 : '3.3.0',
             core_ktx                 : '1.6.0',
             kotlinx_coroutines       : "1.5.2",
-            room                     : '2.4.0-rc01',
+            room                     : '2.4.1',
             /***基础依赖库版本号End***/
             /***第三方依赖库Start***/
             retrofit                 : '2.9.0',
