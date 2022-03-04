@@ -38,7 +38,7 @@ ext {
             smart                    : '2.0.5',
             toast                    : '9.0',
             adapter                  : "3.0.7",
-            mmkv                     : '1.2.11',
+            mmkv                     : '1.2.12',
             camera                   : '1.0.0-beta10',
             camera_view              : '1.0.0-alpha17',
             mqtt                     : '1.1.0',
