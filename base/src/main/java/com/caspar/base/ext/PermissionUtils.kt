@@ -54,7 +54,7 @@ inline fun ComponentActivity.requestMultiplePermissions(
     crossinline denied: (List<String>) -> Unit = {},
     crossinline explained: (List<String>) -> Unit = {}
 ): ActivityResultLauncher<Array<String>> {
-    return registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: MutableMap<String, Boolean> ->
+    return registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: Map<String, Boolean> ->
         //过滤 value 为 false 的元素并转换为 list
         val deniedList = result.filter { !it.value }.map { it.key }
         when {
@@ -108,7 +108,7 @@ inline fun Fragment.requestMultiplePermissions(
     crossinline denied: (List<String>) -> Unit = {},
     crossinline explained: (List<String>) -> Unit = {}
 ): ActivityResultLauncher<Array<String>> {
-    return registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: MutableMap<String, Boolean> ->
+    return registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: Map<String, Boolean> ->
         //过滤 value 为 false 的元素并转换为 list
         val deniedList = result.filter { !it.value }.map { it.key }
         when {

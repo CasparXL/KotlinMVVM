@@ -44,7 +44,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/et_url" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_blur"
+                android:id="@+id/iv_circle"
                 android:layout_width="@dimen/dp_300"
                 android:layout_height="@dimen/dp_200"
                 android:layout_margin="@dimen/dp_10"
@@ -53,31 +53,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_load" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_circle"
-                android:layout_width="@dimen/dp_300"
-                android:layout_height="@dimen/dp_200"
-                android:layout_margin="@dimen/dp_10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_blur" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_grayscale"
-                android:layout_width="@dimen/dp_300"
-                android:layout_height="@dimen/dp_200"
-                android:layout_margin="@dimen/dp_10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_circle" />
-
-            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_rounded"
                 android:layout_width="@dimen/dp_300"
                 android:layout_height="@dimen/dp_200"
                 android:layout_margin="@dimen/dp_10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_grayscale" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_circle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -3,9 +3,7 @@ package com.caspar.xl.ui.activity
 import android.os.Bundle
 import android.view.View
 import coil.load
-import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
-import coil.transform.GrayscaleTransformation
 import coil.transform.RoundedCornersTransformation
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.dp
@@ -34,16 +32,8 @@ class ImageLoadActivity : BaseActivity<ActivityImageLoadBinding>(), View.OnClick
                 //注意：transformations内可以组合使用，可以即圆型，又灰化。例子： transformations(CircleCropTransformation(),GrayscaleTransformation())
                 with(mBindingView) {
                     //加载圆形图
-                    ivBlur.load(imageUrl) {
-                        transformations(BlurTransformation(this@ImageLoadActivity))
-                    }
-                    //加载圆形图
                     ivCircle.load(imageUrl) {
                         transformations(CircleCropTransformation())
-                    }
-                    //加载灰色图片
-                    ivGrayscale.load(imageUrl) {
-                        transformations(GrayscaleTransformation())
                     }
                     //加载圆角图
                     ivRounded.load(imageUrl) {

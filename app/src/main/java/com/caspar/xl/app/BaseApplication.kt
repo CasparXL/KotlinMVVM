@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.multidex.MultiDexApplication
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import coil.Coil
+import coil.ComponentRegistry
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import com.caspar.base.helper.ActivityStackManager
@@ -69,7 +70,9 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
             ImageLoader.Builder(this)
                 .placeholder(ActivityCompat.getDrawable(this, R.drawable.image_loading_bg))
                 .error(ActivityCompat.getDrawable(this, R.drawable.image_loading_bg))
-                .componentRegistry { this.add(PauseInterceptor()) }
+                .components(fun ComponentRegistry.Builder.() {
+                    add(PauseInterceptor())
+                })
                 .build()
         )
     }
