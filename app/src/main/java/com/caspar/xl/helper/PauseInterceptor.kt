@@ -1,12 +1,10 @@
 package com.caspar.xl.helper
 
-import coil.annotation.ExperimentalCoilApi
 import coil.intercept.Interceptor
 import coil.request.ImageResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 
-@ExperimentalCoilApi
 class PauseInterceptor : Interceptor {
     companion object {
         //用于判断是否加载图片，当该值为false的时候，可以加载，反之，加载默认图片

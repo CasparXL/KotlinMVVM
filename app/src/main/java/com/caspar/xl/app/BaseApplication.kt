@@ -11,7 +11,6 @@ import cat.ereza.customactivityoncrash.config.CaocConfig
 import coil.Coil
 import coil.ComponentRegistry
 import coil.ImageLoader
-import coil.annotation.ExperimentalCoilApi
 import com.caspar.base.helper.ActivityStackManager
 import com.caspar.base.helper.LogUtil
 import com.caspar.xl.BuildConfig
@@ -34,7 +33,6 @@ import kotlinx.coroutines.SupervisorJob
 /**
  * 初始化Application
  */
-@ExperimentalCoilApi
 class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
 
     override fun onCreate() {
