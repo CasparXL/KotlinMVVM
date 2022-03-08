@@ -57,9 +57,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
-        // for view binding :
-        // viewBinding = true
+        viewBinding true
     }
 
     compileOptions {//使用JAVA8语法解析
