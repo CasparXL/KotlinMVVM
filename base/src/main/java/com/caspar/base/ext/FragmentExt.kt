@@ -36,9 +36,9 @@ fun Fragment.setOnClickListener(listener: View.OnClickListener, @IdRes vararg vi
  */
 @JvmOverloads
 inline fun <reified T:Activity> Fragment.acStart(block: intentVoid = {}) = run {
-    val intent = Intent(this.context, T::class.java)
-    block(intent)
-    startActivity(intent)
+    Intent(this.context, T::class.java).apply(block).run {
+        startActivity(this)
+    }
 }
 /**
  * 在Fragment中先初始化出这个注册，代码如下
@@ -66,7 +66,5 @@ inline fun Fragment.acStartForResult(
  */
 @JvmOverloads
 inline fun <reified I : ComponentActivity> Fragment.createIntent(block: intentVoid = {}): Intent {
-    val intent = Intent(context, I::class.java)
-    block.invoke(intent)
-    return intent
+    return Intent(this.context, I::class.java).apply(block)
 }

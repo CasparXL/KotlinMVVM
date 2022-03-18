@@ -31,9 +31,9 @@ fun Activity.setOnClickListener(listener: View.OnClickListener, @IdRes vararg vi
  */
 @JvmOverloads
 inline fun <reified T : Activity> Activity.acStart(block: intentVoid = {}) = run {
-    val intent = Intent(this, T::class.java)
-    block(intent)
-    startActivity(intent)
+    Intent(this, T::class.java).apply(block).run {
+        startActivity(this)
+    }
 }
 
 /**
@@ -62,7 +62,5 @@ inline fun ComponentActivity.acStartForResult(
  */
 @JvmOverloads
 inline fun <reified I : ComponentActivity> ComponentActivity.createIntent(block: intentVoid = {}): Intent {
-    val intent = Intent(this, I::class.java)
-    block.invoke(intent)
-    return intent
+    return Intent(this, I::class.java).apply(block)
 }
