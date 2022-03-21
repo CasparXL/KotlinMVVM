@@ -39,8 +39,8 @@ ext {
             toast                    : '10.3',
             adapter                  : "3.0.7",
             mmkv                     : '1.2.12',
-            camera                   : '1.0.2',
-            camera_view              : '1.1.0-beta02',
+            camera                   : '1.0.0-beta10',
+            camera_view              : '1.0.0-alpha17',
             mqtt                     : '1.1.0',
             mqtt_android             : '1.1.1',
             /***第三方依赖库End***/
