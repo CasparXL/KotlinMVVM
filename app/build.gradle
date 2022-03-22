@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
 }
@@ -15,11 +15,11 @@ android {
             storePassword '123456'
         }
     }
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    compileSdk rootProject.ext.android.compileSdkVersion
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        minSdk rootProject.ext.android.minSdkVersion
+        targetSdk rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -56,6 +56,12 @@ android {
         }
     }
 
+    //避免打正式包时一直下载groovy.jar的问题
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     buildFeatures {
         viewBinding true
     }
@@ -73,7 +79,7 @@ android {
             excludes += ['META-INF/rxjava.properties']
         }
     }
-//apk输出格式
+    //apk输出格式
     applicationVariants.all {
         variant ->
             // Apk 输出配置

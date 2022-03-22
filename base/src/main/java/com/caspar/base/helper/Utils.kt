@@ -53,7 +53,7 @@ object Utils {
         get() {
             val uuid = UUID.randomUUID()
             val str = uuid.toString()
-            return str.toUpperCase(Locale.ROOT)
+            return str.uppercase(Locale.ROOT)
         }
 
     /**
