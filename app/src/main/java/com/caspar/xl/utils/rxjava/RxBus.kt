@@ -3,7 +3,7 @@ package com.caspar.xl.utils.rxjava
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.caspar.base.helper.LogUtil.e
+import com.caspar.commom.helper.LogUtil.e
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.disposables.CompositeDisposable

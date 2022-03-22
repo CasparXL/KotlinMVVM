@@ -1,6 +1,6 @@
 package com.caspar.xl.network.interceptor
 
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.helper.MMKVUtil
 import okhttp3.Interceptor
 import okhttp3.Request

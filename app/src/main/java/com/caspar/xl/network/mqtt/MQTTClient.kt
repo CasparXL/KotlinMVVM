@@ -17,7 +17,7 @@ package com.caspar.xl.network.mqtt
  *
  */
 /*
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.app.BaseApplication
 import kotlinx.coroutines.flow.*
 import org.eclipse.paho.android.service.MqttAndroidClient

@@ -67,6 +67,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     api libsImplementation.kt_activity
     api libsImplementation.kt_fragment
+    implementation project(':common')
     implementation libsImplementation.kotlin_stdlib
 //    implementation libsImplementation.kotlin_reflect
     implementation libsImplementation.androidx_appcompat

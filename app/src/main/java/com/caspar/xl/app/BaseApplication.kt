@@ -11,8 +11,8 @@ import cat.ereza.customactivityoncrash.config.CaocConfig
 import coil.Coil
 import coil.ComponentRegistry
 import coil.ImageLoader
-import com.caspar.base.helper.ActivityStackManager
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.helper.ActivityStackManager
+import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.MainActivity
 import com.caspar.xl.R

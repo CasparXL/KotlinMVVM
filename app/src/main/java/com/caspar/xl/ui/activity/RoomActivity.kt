@@ -7,8 +7,8 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
-import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.ext.setOnClickListener
+import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.bean.db.TeacherBean
 import com.caspar.xl.bean.db.UserBean

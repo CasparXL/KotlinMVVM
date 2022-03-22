@@ -6,13 +6,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.caspar.base.base.BaseFragment
-import com.caspar.base.ext.*
-import com.caspar.base.helper.LogUtil
-import com.caspar.base.helper.Permission
+import com.caspar.commom.ext.*
+import com.caspar.commom.helper.LogUtil
+import com.caspar.commom.helper.Permission
 import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.FragmentHomeBinding
@@ -89,7 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
 
     override fun initView(savedInstanceState: Bundle?) {
-        mBindingView.title.tvLeft.hide()
+        mBindingView.title.tvLeft.isInvisible = true
         mBindingView.srlRefresh.setEnableAutoLoadMore(false)
         mBindingView.srlRefresh.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
             override fun onRefresh(refreshLayout: RefreshLayout) {

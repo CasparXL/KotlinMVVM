@@ -11,10 +11,10 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.caspar.base.action.ToastAction
-import com.caspar.base.helper.KeyBoardUtils
-import com.caspar.base.helper.LogUtil
-import com.caspar.base.utils.status.StatusBarUtil
-import com.caspar.base.utils.status.StatusBarUtil.transparencyBar
+import com.caspar.commom.helper.KeyBoardUtils
+import com.caspar.commom.helper.LogUtil
+import com.caspar.commom.utils.status.StatusBarUtil
+import com.caspar.commom.utils.status.StatusBarUtil.transparencyBar
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
@@ -31,13 +31,6 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
      * ViewBinding
      */
     protected lateinit var mBindingView: SV
-
-    private var mBaseDialog: BaseDialog? = null
-
-    //判断是否显示
-    open fun isShowDialog(): Boolean {
-        return mBaseDialog?.isShowing ?: false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

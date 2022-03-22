@@ -13,8 +13,8 @@ import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.databinding.ActivityCrashBinding
-import com.caspar.base.helper.DoubleClickHelper
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.helper.DoubleClickHelper
+import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.R
 
 /**

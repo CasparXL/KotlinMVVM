@@ -1,7 +1,7 @@
 package com.caspar.xl.helper
 
 
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.bean.NetworkResult
 import com.caspar.xl.network.util.NetException
 import com.google.gson.JsonParseException

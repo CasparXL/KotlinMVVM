@@ -1,6 +1,6 @@
 package com.caspar.xl.repository
 
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.bean.NetworkResult
 import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.helper.call

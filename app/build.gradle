@@ -103,6 +103,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     // 基础库
     implementation project(':base')
+    implementation project(':common')
     /*
     *如果有的库和本库存在依赖冲突，可以使用以下用法解决冲突的库
     *implementation ("xxxxx") {

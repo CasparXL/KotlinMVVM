@@ -9,8 +9,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.caspar.base.base.BaseActivity
-import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.ext.setOnClickListener
+import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.bean.NetworkResult
 import com.caspar.xl.bean.response.TranslateBean

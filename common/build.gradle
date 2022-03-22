@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.android.minSdkVersion
+        targetSdk rootProject.ext.android.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    def libsImplementation = rootProject.ext.dependencies.implementation //依赖库配置
+    def libsTestImplementation = rootProject.ext.dependencies.testImplementation //依赖库配置
+    def libsAndroidTestImplementation = rootProject.ext.dependencies.androidTestImplementation //依赖库配置
+    def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
+
+    implementation libsImplementation.kotlin_stdlib
+    implementation libsImplementation.androidx_appcompat
+    implementation libsImplementation.coroutines_android
+    implementation libsImplementation.coroutines_kotlin
+    implementation libsImplementation.core_ktx
+}

@@ -2,7 +2,7 @@ package com.caspar.xl.ui.fragment
 
 import android.os.Bundle
 import com.caspar.base.base.BaseFragment
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.databinding.FragmentMineBinding
 
 /**

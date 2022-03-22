@@ -1,7 +1,7 @@
 package com.caspar.xl.network.mqtt
 /*
 
-import com.caspar.base.helper.LogUtil
+import com.caspar.commom.helper.LogUtil
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
 import org.eclipse.paho.client.mqttv3.IMqttToken
 
