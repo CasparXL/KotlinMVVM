@@ -14,7 +14,7 @@ ext {
             /***基础依赖库版本号Start***/
             kt_activity              : '1.4.0',
             kt_fragment              : '1.4.1',
-            kotlin_version           : '1.6.0',
+            kotlin_version           : '1.6.10',
             androidx_appcompat       : '1.4.1',
             androidx_constraintlayout: '2.1.3',
             multidex                 : "2.0.1",
@@ -23,7 +23,7 @@ ext {
             junit                    : '4.13.2',
             ext                      : '1.1.2',
             espresso                 : '3.3.0',
-            core_ktx                 : '1.6.0',
+            core_ktx                 : '1.7.0',
             kotlinx_coroutines       : "1.6.0",
             room                     : '2.4.2',
             /***基础依赖库版本号End***/
