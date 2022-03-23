@@ -16,7 +16,7 @@ import java.text.ParseException
 /**
  * 数据仓库中的异步请求Error回调
  */
-fun <T> Any.call(throwable: Throwable):NetworkResult.Error<T>{
+fun <T> call(throwable: Throwable):NetworkResult.Error<T>{
     LogUtil.e(throwable)
     return when (throwable) {
         is HttpException -> {
