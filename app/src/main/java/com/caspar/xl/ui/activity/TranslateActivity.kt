@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.caspar.base.base.BaseActivity
@@ -31,14 +32,17 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                mViewModel.translateResult.collect {
+            //注意，使用repeatOnLifecycle时，里面如果有多个请求，需用多个launch来实现，否则之后请求的则不生效
+            //使用repeatOnLifecycle(Lifecycle.State.STARTED)[多个接口请求请考虑使用这个，效率高]或者flow的flowWithLifecycle()[单个请求考虑这个]
+            mViewModel.translateResult.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
                     when (it) {
                         is NetworkResult.Success -> {
                             it.data?.apply {//UI层可以使用apply，also，等扩展函数让内部安全的执行[这里是为了确保数据源不为空]
-                                mBindingView.tvText.text = "原文:\n${mBindingView.etEnter.text}\n译文:\n ${
-                                    this.translateResult?.get(0)?.get(0)?.tgt
-                                }"
+                                mBindingView.tvText.text =
+                                    "原文:\n${mBindingView.etEnter.text}\n译文:\n ${
+                                        this.translateResult?.get(0)?.get(0)?.tgt
+                                    }"
                             }
                         }
                         is NetworkResult.Error -> {
@@ -49,7 +53,6 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
                         }
                     }
                 }
-            }
         }
         mBindingView.etEnter.addTextChangedListener { text ->
             run {
