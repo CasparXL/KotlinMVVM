@@ -11,71 +11,70 @@ import com.caspar.xl.repository.RoomRepository
  *  @Use
  */
 class RoomViewModel(application: Application) : AndroidViewModel(application) {
-   private val user by lazy {
-        RoomRepository.userDao
-    }
-    private val teacher by lazy {
-        RoomRepository.teacherDao
+    private val repository: RoomRepository by lazy {
+        RoomRepository()
     }
 
     /**
      * 获取学生数量
      */
     suspend fun getAllUser(): List<UserBean> {
-        return user.getAllUser()
+        return repository.userDao.getAllUser()
     }
+
     /**
      * 获取老师数量
      */
     suspend fun getAllTeacher(): List<TeacherBean> {
-        return teacher.getAllTeacher()
+        return repository.teacherDao.getAllTeacher()
     }
+
     /**
      * 获取老师数量
      */
     suspend fun getTeacherSize(): Int {
-        return teacher.getAllTeacher().size
+        return repository.teacherDao.getAllTeacher().size
     }
 
     /**
      * 获取老师对应的Id
      */
     suspend fun getTeacherForId(index: Int): Long {
-        return teacher.getAllTeacher()[index].id
+        return repository.teacherDao.getAllTeacher()[index].id
     }
 
     /**
      * 获取老师数量
      */
     suspend fun getTeacherById(index: Long): TeacherBean {
-        return teacher.getTeacherById(index)
+        return repository.teacherDao.getTeacherById(index)
     }
 
     /**
      * 新增老师
      */
     suspend fun insertTeacher(index: TeacherBean): Long {
-        return teacher.insert(index)
+        return repository.teacherDao.insert(index)
     }
 
     /**
      * 根据老师id获取学生信息
      */
     suspend fun getUserByTid(index: Long): List<UserBean> {
-        return user.getUserByTid(index)
+        return repository.userDao.getUserByTid(index)
     }
 
     /**
      * 根据用户id获取学生信息
      */
     suspend fun getUserById(index: Long): UserBean {
-        return user.getUserById(index)
+        return repository.userDao.getUserById(index)
     }
 
     /**
      * 新增学生
      */
     suspend fun insertUser(index: UserBean): Long {
-        return user.insert(index)
+        return repository.userDao.insert(index)
     }
 }

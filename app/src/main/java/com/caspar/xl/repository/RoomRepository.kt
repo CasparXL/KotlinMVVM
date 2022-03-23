@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
  *  @Create 2020/7/4.
  *  @Use
  */
-object RoomRepository {
-      val userDao = RoomManager.getInstance().getUserDao()
-      val teacherDao = RoomManager.getInstance().getTeacherDao()
+class RoomRepository {
+    val userDao = RoomManager.getInstance().getUserDao()
+    val teacherDao = RoomManager.getInstance().getTeacherDao()
 }

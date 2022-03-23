@@ -40,7 +40,7 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
                         is NetworkResult.Success -> {
                             it.data?.apply {//UI层可以使用apply，also，等扩展函数让内部安全的执行[这里是为了确保数据源不为空]
                                 mBindingView.tvText.text =
-                                    "原文:\n${mBindingView.etEnter.text}\n译文:\n ${
+                                    "原文:\n${mBindingView.etEnter.text}\n译文:\n${
                                         this.translateResult?.get(0)?.get(0)?.tgt
                                     }"
                             }
