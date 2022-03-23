@@ -145,9 +145,8 @@ dependencies {
     implementation libsImplementation.smart_foot
     implementation libsImplementation.coil
     kapt libsAnnotationProcessor.room_compiler
-    implementation 'com.airbnb.android:lottie:5.0.2'
+    implementation 'com.airbnb.android:lottie:5.0.3'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
-    //检测代码内存泄漏,2.7有bug，暂时用2.5
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
     testImplementation libsTestImplementation.junit
     testImplementation libsTestImplementation.room
