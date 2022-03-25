@@ -5,8 +5,6 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
 }
 
-apply from: "config.gradle"
-
 allprojects {
     /*部分依赖项库引入了现有的依赖项，为了统一它们的版本，可以按照以下方式处理它们*/
     configurations.all {

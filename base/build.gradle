@@ -5,10 +5,11 @@ plugins {
     id 'kotlin-kapt'
 }
 android {
-    compileSdk rootProject.ext.android.compileSdkVersion
+    compileSdk libs.versions.compileSdk.get().toInteger()
+
     defaultConfig {
-        minSdk rootProject.ext.android.minSdkVersion
-        targetSdk rootProject.ext.android.targetSdkVersion
+        minSdk libs.versions.minSdk.get().toInteger()
+        targetSdk libs.versions.targetSdk.get().toInteger()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -59,32 +60,15 @@ android {
 }
 
 dependencies {
-    def libsImplementation = rootProject.ext.dependencies.implementation //依赖库配置
-    def libsTestImplementation = rootProject.ext.dependencies.testImplementation //依赖库配置
-    def libsAndroidTestImplementation = rootProject.ext.dependencies.androidTestImplementation //依赖库配置
-    def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
-
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
-    api libsImplementation.kt_activity
-    api libsImplementation.kt_fragment
     implementation project(':common')
-    implementation libsImplementation.kotlin_stdlib
-//    implementation libsImplementation.kotlin_reflect
-    implementation libsImplementation.androidx_appcompat
-    implementation libsImplementation.coroutines_android
-    implementation libsImplementation.coroutines_kotlin
-    implementation libsImplementation.core_ktx
-    implementation libsImplementation.androidx_constraintlayout
-    implementation (libsImplementation.google_material) {
-        exclude group: 'androidx.recyclerview'
-    }
-    api libsImplementation.lifecycle_api
-    api libsImplementation.lifecycle_runtime
-    api libsImplementation.lifecycle_livedata
-    api libsImplementation.lifecycle_common
-    implementation libsImplementation.toast //第三方框架
+    implementation libs.bundles.kotlin
+    implementation libs.bundles.androidx.view
+    implementation libs.bundles.lifecycle
+    implementation libs.google.material
+    implementation libs.toast //第三方框架
+    implementation libs.bundles.coroutines
 
-    testImplementation libsTestImplementation.junit
-    androidTestImplementation libsAndroidTestImplementation.test_ext
-    androidTestImplementation libsAndroidTestImplementation.test_espresso
+    testImplementation libs.junit
+    androidTestImplementation libs.bundles.androidtestImpl
 }

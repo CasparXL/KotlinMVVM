@@ -15,13 +15,14 @@ android {
             storePassword '123456'
         }
     }
-    compileSdk rootProject.ext.android.compileSdkVersion
+    compileSdk libs.versions.compileSdk.get().toInteger()
+
     defaultConfig {
-        applicationId rootProject.ext.android.applicationId
-        minSdk rootProject.ext.android.minSdkVersion
-        targetSdk rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.android.versionCode
-        versionName rootProject.ext.android.versionName
+        applicationId libs.versions.applicationId.get()
+        minSdk libs.versions.minSdk.get().toInteger()
+        targetSdk libs.versions.targetSdk.get().toInteger()
+        versionCode libs.versions.versionCode.get().toInteger()
+        versionName libs.versions.versionName.get()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true  //开启分包
@@ -94,63 +95,38 @@ android {
 }
 
 dependencies {
-    def libsImplementation = rootProject.ext.dependencies.implementation //依赖库配置变量
-    def libsTestImplementation = rootProject.ext.dependencies.testImplementation //依赖库配置变量
-    def libsAndroidTestImplementation = rootProject.ext.dependencies.androidTestImplementation
-    //依赖库配置变量
-    def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
     //依赖库配置
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     // 基础库
     implementation project(':base')
     implementation project(':common')
-    /*
-    *如果有的库和本库存在依赖冲突，可以使用以下用法解决冲突的库
-    *implementation ("xxxxx") {
-    *    exclude group: 'com.android.support'
-    *}
-    */
-    implementation libsImplementation.kotlin_stdlib
-    implementation libsImplementation.kotlin_reflect
-    implementation libsImplementation.androidx_appcompat
-    implementation libsImplementation.androidx_recyclerview
-    implementation libsImplementation.androidx_constraintlayout
-    implementation libsImplementation.coroutines_android
-    implementation libsImplementation.coroutines_kotlin
-    implementation libsImplementation.core_ktx
+    implementation libs.bundles.androidx.view
+    implementation libs.bundles.kotlin
+    implementation libs.bundles.lifecycle
+    implementation libs.bundles.coroutines
 
-    implementation libsImplementation.androidx_multidex
-    implementation libsImplementation.lifecycle_api
-    implementation libsImplementation.retrofit_gson
-    implementation libsImplementation.retrofit_scalars
-    implementation(libsImplementation.retrofit_logging) {
+    implementation libs.androidx.multidex
+    implementation(libs.bundles.retrofit){
         exclude group: 'org.jetbrains.kotlin'
     }
-    implementation libsImplementation.gson
-    implementation libsImplementation.rxandroid
-    implementation libsImplementation.rxjava
-    implementation libsImplementation.toast
-    implementation libsImplementation.base_adapter
-    implementation (libsImplementation.google_material) {
+
+    implementation libs.google.gson
+    implementation libs.bundles.rxjava
+    implementation libs.toast
+    implementation libs.adapter
+    implementation (libs.google.material) {
         exclude group: 'androidx.recyclerview'
     }
-    implementation libsImplementation.mmkv
-    implementation libsImplementation.room
-    implementation libsImplementation.room_ktx
-    implementation libsImplementation.camera_camera
-    implementation libsImplementation.camera_view
-    implementation libsImplementation.camera_lifecycle
-    implementation libsImplementation.smart_refresh
-    implementation libsImplementation.smart_header
-    implementation libsImplementation.smart_foot
-    implementation libsImplementation.coil
-    kapt libsAnnotationProcessor.room_compiler
-    implementation 'com.airbnb.android:lottie:5.0.3'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
-    implementation 'cat.ereza:customactivityoncrash:2.3.0'
-    testImplementation libsTestImplementation.junit
-    testImplementation libsTestImplementation.room
-    androidTestImplementation libsAndroidTestImplementation.test_ext
-    androidTestImplementation libsAndroidTestImplementation.test_espresso
+    implementation libs.mmkv
+    implementation libs.bundles.room
+    implementation libs.bundles.camerax
+    implementation libs.bundles.smart
+    implementation libs.coil
+    implementation libs.lottie
+    implementation libs.crash
+    kapt libs.room.compiler
+    debugImplementation libs.leakcanary
+    testImplementation libs.bundles.testImplementation
+    androidTestImplementation libs.bundles.androidtestImpl
 }
 

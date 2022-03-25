@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk rootProject.ext.android.compileSdkVersion
+    compileSdk libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdk rootProject.ext.android.minSdkVersion
-        targetSdk rootProject.ext.android.targetSdkVersion
+        minSdk libs.versions.minSdk.get().toInteger()
+        targetSdk libs.versions.targetSdk.get().toInteger()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -30,14 +30,8 @@ android {
 }
 
 dependencies {
-    def libsImplementation = rootProject.ext.dependencies.implementation //依赖库配置
-    def libsTestImplementation = rootProject.ext.dependencies.testImplementation //依赖库配置
-    def libsAndroidTestImplementation = rootProject.ext.dependencies.androidTestImplementation //依赖库配置
-    def libsAnnotationProcessor = rootProject.ext.dependencies.annotationProcessor //依赖库配置变量
-
-    implementation libsImplementation.kotlin_stdlib
-    implementation libsImplementation.androidx_appcompat
-    implementation libsImplementation.coroutines_android
-    implementation libsImplementation.coroutines_kotlin
-    implementation libsImplementation.core_ktx
+    implementation libs.bundles.kotlin
+    implementation libs.bundles.coroutines
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.core.ktx
 }
