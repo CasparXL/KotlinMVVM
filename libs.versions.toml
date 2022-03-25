@@ -1,0 +1,117 @@
+[versions]
+minSdk = "21"
+compileSdk = "31"
+targetSdk = "31"
+versionCode = "1"
+versionName = "1.0.0"
+applicationId = "com.caspar.xl"
+kotlin = "1.6.10"
+coroutines = "1.6.0"
+androidx-activity = "1.4.0"
+androidx-fragment = "1.4.1"
+androidx-recyclerview = "1.2.1"
+androidx-appcompat = "1.4.1"
+androidx-constraintlayout = "1.4.1"
+androidx-multidex = "2.0.1"
+androidx-core-ktx = "1.7.0"
+androidx-lifecycle = "2.4.1"
+androidx-test = "1.1.2"
+androidx-espresso = "3.3.0"
+junit = "4.13.2"
+androidx-camera-view = "1.0.0-alpha17"
+androidx-camerax = "1.0.0-beta10"
+google-material = "1.3.0"
+google-gson = "2.9.0"
+room = "2.4.2"
+rx-android = "3.0.0"
+rx-java = "3.1.4"
+retrofit = "2.9.0"
+okhttp-log = "5.0.0-alpha.6"
+smart = "2.0.5"
+coil = "2.0.0-rc02"
+toast = "10.3"
+adapter = "3.0.7"
+mmkv = "1.2.12"
+mqtt-client = "1.1.0"
+mqtt-android = "1.1.1"
+lottie = "5.0.3"
+crash = "2.3.0"
+leakcanary = "2.8.1"
+
+[libraries]
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidx-fragment" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidx-recyclerview" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-multidex = { group = "androidx.multidex", name = "multidex", version.ref = "androidx-multidex" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-common = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "androidx-lifecycle" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidx-camera-view" }
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidx-camerax" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidx-camerax" }
+androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test" }
+androidx-test-espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+google-material = { group = "com.google.android.material", name = "material", version.ref = "google-material" }
+google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "google-gson" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+rx-android = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rx-android" }
+rx-java = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rx-java" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+retrofit-converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit" }
+okhttp-log = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp-log" }
+smart-kernel = { group = "io.github.scwang90", name = "refresh-layout-kernel", version.ref = "smart" }
+smart-header = { group = "io.github.scwang90", name = "refresh-header-material", version.ref = "smart" }
+smart-footer = { group = "io.github.scwang90", name = "refresh-footer-classics", version.ref = "smart" }
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+toast = { group = "com.github.getActivity", name = "ToastUtils", version.ref = "toast" }
+adapter = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "adapter" }
+mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
+mqtt-client = { group = "org.eclipse.paho", name = "org.eclipse.paho.client.mqttv3", version.ref = "mqtt-client" }
+mqtt-android = { group = "org.eclipse.paho", name = "org.eclipse.paho.android.service", version.ref = "mqtt-android" }
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+crash = { group = "cat.ereza", name = "customactivityoncrash", version.ref = "crash" }
+leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
+
+[bundles]
+#kotlin基础组件
+kotlin = ["kotlin-stdlib", "kotlin-reflect"]
+#kotlin协程相关
+coroutines = ["kotlinx-coroutines-core", "kotlinx-coroutines-android"]
+#androidx生命周期以及试图core相关
+androidx-view = ["androidx-core-ktx", "androidx-activity", "androidx-fragment", "androidx-recyclerview", "androidx-appcompat", "androidx-constraintlayout"]
+#lifecycle相关
+lifecycle = ["androidx-lifecycle-viewmodel", "androidx-lifecycle-runtime", "androidx-lifecycle-livedata", "androidx-lifecycle-common", "androidx-lifecycle-process"]
+#camerax相关
+camerax = ["androidx-camera-view", "androidx-camera-camera2", "androidx-camera-lifecycle"]
+#google组件相关
+google = ["google-material", "google-gson"]
+#room相关
+room = ["room-runtime", "room-ktx"]
+#rxjava相关
+rxjava = ["rx-java", "rx-android"]
+#retrofit相关
+retrofit = ["retrofit", "retrofit-converter-gson", "retrofit-converter-scalars", "okhttp-log"]
+#下拉刷新相关
+smart = ["smart-kernel", "smart-header", "smart-footer"]
+#androidTestImplementation引入方式的测试包
+androidtestImpl = ["androidx-test-ext", "androidx-test-espresso"]
+#testImplementation引入方式的测试包
+testImplementation = ["junit", "room-testing"]
+#annotationProcessor or kapt引入方式的测试包
+kapt = ["room-compiler"]
+
+[plugins]
