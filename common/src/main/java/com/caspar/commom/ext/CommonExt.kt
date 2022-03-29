@@ -35,3 +35,17 @@ fun Context.sp(value: Int): Int {
     val scale = resources.displayMetrics.scaledDensity;
     return (value * scale + 0.5f).toInt()
 }
+
+/**
+ * byteArray转换十六进制字符串
+ */
+fun ByteArray.toHexStr() =
+    with(StringBuilder()) {
+        this@toHexStr.forEach {
+            val hex = it.toInt() and (0xFF)
+            val hexStr = Integer.toHexString(hex)
+            if (hexStr.length == 1) append("0").append(hexStr)
+            else append(hexStr)
+        }
+        toString()
+    }
