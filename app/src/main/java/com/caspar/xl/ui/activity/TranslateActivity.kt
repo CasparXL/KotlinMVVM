@@ -36,6 +36,10 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
             //使用repeatOnLifecycle(Lifecycle.State.STARTED)[多个接口请求请考虑使用这个，效率高]或者flow的flowWithLifecycle()[单个请求考虑这个]
             mViewModel.translateResult.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
+                    if (lifecycle.currentState == Lifecycle.State.STARTED) {
+                        //在重新返回界面时数据会重新走一遍，因此根据该判断过滤掉不应该有的数据回调,若担心会影响其他部分回调，可以将该判断放在Success或Error板块下，只做其他处理，避免出现业务冲突
+                        return@collect
+                    }
                     when (it) {
                         is NetworkResult.Success -> {
                             it.data?.apply {//UI层可以使用apply，also，等扩展函数让内部安全的执行[这里是为了确保数据源不为空]
