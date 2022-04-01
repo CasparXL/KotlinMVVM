@@ -6,19 +6,15 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.caspar.base.base.BaseActivity
 import com.caspar.commom.ext.setOnClickListener
 import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.R
-import com.caspar.xl.bean.NetworkResult
-import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.databinding.ActivityTranslateBinding
+import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.viewmodel.TranslateViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 
 class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClickListener {
@@ -32,31 +28,26 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
         lifecycleScope.launch {
-            //注意，使用repeatOnLifecycle时，里面如果有多个请求，需用多个launch来实现，否则之后请求的则不生效
-            //使用repeatOnLifecycle(Lifecycle.State.STARTED)[多个接口请求请考虑使用这个，效率高]或者flow的flowWithLifecycle()[单个请求考虑这个]
-            mViewModel.translateResult.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect {
-                    if (lifecycle.currentState == Lifecycle.State.STARTED) {
-                        //在重新返回界面时数据会重新走一遍，因此根据该判断过滤掉不应该有的数据回调,若担心会影响其他部分回调，可以将该判断放在Success或Error板块下，只做其他处理，避免出现业务冲突
-                        return@collect
-                    }
-                    when (it) {
-                        is NetworkResult.Success -> {
-                            it.data?.apply {//UI层可以使用apply，also，等扩展函数让内部安全的执行[这里是为了确保数据源不为空]
-                                mBindingView.tvText.text =
-                                    "原文:\n${mBindingView.etEnter.text}\n译文:\n${
-                                        this.translateResult?.get(0)?.get(0)?.tgt
-                                    }"
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                //视图事件
+                launch {
+                    mViewModel.viewEvent.collect {
+                        when(it){
+                            ViewEvent.DismissDialog -> LogUtil.d("请求结束")
+                            ViewEvent.ShowDialog -> LogUtil.d("开始请求")
+                            is ViewEvent.ShowToast -> {
+                                mBindingView.tvText.text = it.message
                             }
-                        }
-                        is NetworkResult.Error -> {
-                            mBindingView.tvText.text = it.message ?: "请检查网络，并重试"
-                        }
-                        else -> {
-                            LogUtil.e("预留加载状态在此处可以弹一个加载框")
                         }
                     }
                 }
+                //网络请求
+                launch {
+                    mViewModel.translateResult.collect {
+                        mBindingView.tvText.text ="原文:\n${mBindingView.etEnter.text}\n译文:\n${ it.translateResult?.get(0)?.get(0)?.tgt}"
+                    }
+                }
+            }
         }
         mBindingView.etEnter.addTextChangedListener { text ->
             run {
