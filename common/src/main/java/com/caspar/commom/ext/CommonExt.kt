@@ -1,8 +1,11 @@
 package com.caspar.commom.ext
 
+import android.R
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.util.TypedValue
+import android.view.View
 
 /**
  *  @Create 2020/6/25.
@@ -49,3 +52,11 @@ fun ByteArray.toHexStr() =
         }
         toString()
     }
+
+fun View.setTintColor(color: Int) {
+    val colors = intArrayOf(context.resources.getColor(color), context.resources.getColor(color))
+    val states = arrayOfNulls<IntArray>(2)
+    states[0] = intArrayOf(R.attr.state_pressed)
+    states[1] = intArrayOf(R.attr.state_enabled)
+    backgroundTintList = ColorStateList(states, colors)
+}

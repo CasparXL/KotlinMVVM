@@ -13,8 +13,7 @@ import androidx.viewbinding.ViewBinding
 import com.caspar.base.action.ToastAction
 import com.caspar.commom.helper.KeyBoardUtils
 import com.caspar.commom.helper.LogUtil
-import com.caspar.commom.utils.status.StatusBarUtil
-import com.caspar.commom.utils.status.StatusBarUtil.transparencyBar
+import com.gyf.immersionbar.ktx.immersionBar
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
@@ -36,17 +35,13 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
         super.onCreate(savedInstanceState)
         val view = initViewBinding()
         setContentView(view)
-        initStatusBar()
-        initIntent()
-        initView(savedInstanceState)
-    }
-
-    //状态栏透明以及颜色设置
-    private fun initStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            transparencyBar(this)//全透明
-            StatusBarUtil.setLightStatusBar(activity = this, dark = true, isFullMode = true)
+        immersionBar {
+            statusBarDarkFont(true)
+            if (keyboardEnable()) {
+                keyboardEnable(true)
+            }
         }
+        initView(savedInstanceState)
     }
 
     private fun initViewBinding(): View {
@@ -72,9 +67,6 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
         super.onNewIntent(intent)
         setIntent(intent)
     }
-
-    /***初始化获取Intent数据***/
-    protected abstract fun initIntent()
 
     /***初始化视图数据***/
     protected abstract fun initView(savedInstanceState: Bundle?)
@@ -231,4 +223,13 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
         return null
     }
     /***************************************隐藏软键盘相关方法**********************************************/
+
+    /**
+     * 键盘模式是否开启
+     *
+     * @return 使用沉浸式解决键盘覆盖输入框的问题
+     */
+    open fun keyboardEnable(): Boolean {
+        return false
+    }
 }

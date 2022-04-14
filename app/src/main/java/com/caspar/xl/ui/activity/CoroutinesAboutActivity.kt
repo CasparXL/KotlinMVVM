@@ -27,14 +27,11 @@ class CoroutinesAboutActivity : BaseActivity<ActivityCoroutinesAboutBinding>(),
     //用于模拟取消任务场景做临时变量
     private var job: Job? = null
 
-    override fun initIntent() {
+    override fun initView(savedInstanceState: Bundle?) {
         if (dialog == null){
             dialogBuilder = WaitDialog.Builder(this).setMessage("稍等")
             dialog = dialogBuilder?.create()
         }
-    }
-
-    override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_left, R.id.btn_http, R.id.btn_timeout, R.id.btn_not_timeout, R.id.btn_start_plan, R.id.btn_cancel_plan)
         mBindingView.title.tvCenter.text = "协程场景模拟"
     }

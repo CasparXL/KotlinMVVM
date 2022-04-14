@@ -16,9 +16,6 @@ import com.caspar.xl.databinding.ActivityPaletteBinding
 
 class PaletteActivity : BaseActivity<ActivityPaletteBinding>(), View.OnClickListener {
     private var bitmap: Bitmap? = null
-    override fun initIntent() {
-
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_left)

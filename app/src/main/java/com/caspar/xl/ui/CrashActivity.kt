@@ -55,15 +55,12 @@ class CrashActivity : BaseActivity<ActivityCrashBinding>(), View.OnClickListener
         (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText(getString(R.string.crash_error_info), errorInformation))
     }
 
-    override fun initIntent() {
+    override fun initView(savedInstanceState: Bundle?) {
         mConfig = CustomActivityOnCrash.getConfigFromIntent(intent)
         if (mConfig == null) {
             // 这种情况永远不会发生，只要完成该活动就可以避免递归崩溃
             finish()
         }
-    }
-
-    override fun initView(savedInstanceState: Bundle?) {
         mBindingView.btnCrashLog.setOnClickListener(this)
         mBindingView.btnCrashRestart.setOnClickListener(this)
     }

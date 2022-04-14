@@ -13,9 +13,6 @@ import com.caspar.xl.ui.fragment.MineFragment
 class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
     private lateinit var mPagerAdapter: FragmentPagerAdapter<Fragment>
 
-    override fun initIntent() {
-    }
-
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_home, R.id.tv_mine)
         initViewPager()

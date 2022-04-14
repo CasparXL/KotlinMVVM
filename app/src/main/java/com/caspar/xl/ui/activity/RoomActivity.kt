@@ -22,9 +22,6 @@ import kotlinx.coroutines.*
 
 class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
     private val mViewModel: RoomViewModel by viewModels()
-    override fun initIntent() {
-
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.tvLogcat.movementMethod = ScrollingMovementMethod.getInstance()

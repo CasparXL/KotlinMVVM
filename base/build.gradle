@@ -68,6 +68,7 @@ dependencies {
     implementation libs.google.material
     implementation libs.toast //第三方框架
     implementation libs.bundles.coroutines
+    implementation libs.bundles.immersionbar
 
     testImplementation libs.junit
     androidTestImplementation libs.bundles.androidtestImpl

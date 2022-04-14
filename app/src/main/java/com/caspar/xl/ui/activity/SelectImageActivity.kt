@@ -35,8 +35,6 @@ class SelectImageActivity : BaseActivity<ActivitySelectImageBinding>(), View.OnC
 
     /** 图片专辑  */
     private val mAllAlbum = HashMap<String, MutableList<String>>()
-    override fun initIntent() {
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_left)

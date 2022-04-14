@@ -12,9 +12,7 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity<ActivitySplashBinding>() {
-    override fun initIntent() {
 
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         // 后台返回时可能启动这个页面 http://blog.csdn.net/jianiuqi/article/details/54091181

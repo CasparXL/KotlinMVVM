@@ -5,7 +5,7 @@ targetSdk = "31"
 versionCode = "1"
 versionName = "1.0.0"
 applicationId = "com.caspar.xl"
-kotlin = "1.6.10"
+kotlin = "1.6.20"
 coroutines = "1.6.0"
 androidx-activity = "1.4.0"
 androidx-fragment = "1.4.1"
@@ -37,6 +37,9 @@ mqtt-android = "1.1.1"
 lottie = "5.0.3"
 crash = "2.3.0"
 leakcanary = "2.8.1"
+immersionbar = "3.2.2"
+flycoTabLayout = "3.0.0"
+chart = "v3.1.0"
 
 [libraries]
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
@@ -85,6 +88,11 @@ mqtt-android = { group = "org.eclipse.paho", name = "org.eclipse.paho.android.se
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 crash = { group = "cat.ereza", name = "customactivityoncrash", version.ref = "crash" }
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
+immersionbar = { group = "com.geyifeng.immersionbar", name = "immersionbar", version.ref = "immersionbar" }
+immersionbar-ktx = { group = "com.geyifeng.immersionbar", name = "immersionbar-ktx", version.ref = "immersionbar" }
+flycoTabLayout = { group = "io.github.h07000223", name = "flycoTabLayout", version.ref = "flycoTabLayout" }
+chart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "chart" }
+
 
 [bundles]
 #kotlin基础组件
@@ -113,5 +121,8 @@ androidtestImpl = ["androidx-test-ext", "androidx-test-espresso"]
 testImplementation = ["junit", "room-testing"]
 #annotationProcessor or kapt引入方式的测试包
 kapt = ["room-compiler"]
+#沉浸式
+immersionbar = ["immersionbar", "immersionbar-ktx"]
+
 
 [plugins]

@@ -33,13 +33,9 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
     private lateinit var cameraExecutor: ExecutorService
     var create :BaseDialog? = null
 
-    @SuppressLint("SetTextI18n")
-    override fun initIntent() {
+    override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvCenter.text = "CameraX"
         setOnClickListener(this, R.id.tv_left, R.id.iv_take_photo)
-    }
-
-    override fun initView(savedInstanceState: Bundle?) {
         startCamera()
         cameraExecutor = Executors.newSingleThreadExecutor()
     }

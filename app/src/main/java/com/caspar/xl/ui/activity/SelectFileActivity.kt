@@ -23,11 +23,6 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
     private val mAdapter = SelectFileAdapter()
     private var currentFile: File? = null
 
-
-    override fun initIntent() {
-
-    }
-
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
         with(mBindingView) {

@@ -20,13 +20,10 @@ import kotlinx.coroutines.launch
 class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClickListener {
     private val mViewModel: TranslateViewModel by viewModels()
 
-    override fun initIntent() {
-        mBindingView.title.tvCenter.text = "翻译"
-        setOnClickListener(this, R.id.tv_left)
-    }
-
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
+        mBindingView.title.tvCenter.text = "翻译"
+        setOnClickListener(this, R.id.tv_left)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 //视图事件

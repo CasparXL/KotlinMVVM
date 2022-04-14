@@ -80,6 +80,10 @@ android {
             excludes += ['META-INF/rxjava.properties']
         }
     }
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
     //apk输出格式
     applicationVariants.all {
         variant ->
@@ -104,6 +108,8 @@ dependencies {
     implementation libs.bundles.kotlin
     implementation libs.bundles.lifecycle
     implementation libs.bundles.coroutines
+    implementation libs.flycoTabLayout
+    implementation libs.chart
 
     implementation libs.androidx.multidex
     implementation(libs.bundles.retrofit){
