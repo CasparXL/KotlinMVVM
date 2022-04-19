@@ -16,7 +16,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val imageLoad = "图片加载库"
     val colorSelect = "颜色选择器"
     val imageSelect = "图片选择器"
+    val verifyCaptcha = "滑块验证"
 
     //功能列表
-    val mData: List<String> = arrayListOf(translate, camera, room, selectFile, coroutines, imageLoad, colorSelect, imageSelect)
+    val mData: List<String> = arrayListOf(translate,
+        camera,
+        room,
+        selectFile,
+        coroutines,
+        imageLoad,
+        colorSelect,
+        imageSelect,
+        verifyCaptcha)
 }

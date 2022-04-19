@@ -20,8 +20,10 @@ import com.caspar.xl.databinding.FragmentHomeBinding
 import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.ui.activity.*
 import com.caspar.xl.ui.adapter.HomeMenuAdapter
+import com.caspar.xl.ui.dialog.VerifyDialog
 import com.caspar.xl.utils.decoration.Decoration
 import com.caspar.xl.viewmodel.HomeViewModel
+import com.caspar.xl.widget.captcha.Captcha
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.delay
@@ -145,6 +147,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                     mViewModel.imageSelect -> {
                         startSelectFile2AllStorage()
+                    }
+                    mViewModel.verifyCaptcha -> {
+                        VerifyDialog.Builder(requireContext()).setListener(object : Captcha.CaptchaListener{
+                            override fun onAccess(time: Long): String {
+                                LogUtil.d(time.toString())
+                                return time.toString()
+                            }
+
+                            override fun onFailed(failCount: Int): String {
+                                LogUtil.d(failCount.toString())
+                                return failCount.toString()
+                            }
+
+                            override fun onMaxFailed(): String {
+                                LogUtil.d("超出了失败次数")
+                                return "超出了失败次数"
+                            }
+                        }).create().show()
                     }
                 }
             }

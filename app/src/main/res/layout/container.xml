@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/appColor"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10">
+
+        <com.caspar.xl.widget.captcha.PictureVerifyView
+            android:id="@+id/vertifyView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:id="@+id/accessRight"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_28"
+            android:layout_gravity="bottom"
+            android:background="#7F000000"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp_10"
+                android:src="@drawable/right" />
+
+            <TextView
+                android:id="@+id/accessText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/accessFailed"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_28"
+            android:layout_gravity="bottom"
+            android:background="#7F000000"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp_10"
+                android:src="@drawable/wrong" />
+
+            <TextView
+                android:id="@+id/accessFailedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_gravity="end|top"
+            android:layout_margin="@dimen/dp_5"
+            android:src="@drawable/refresh" />
+
+
+    </FrameLayout>
+
+
+    <com.caspar.xl.widget.captcha.TextSeekbar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:thumb="@drawable/ic_seekbar_icon"
+        android:progressDrawable="@drawable/progressbar_upload_value_horizontal"
+        android:maxHeight="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_16"
+        android:splitTrack="false"
+        android:thumbOffset="0dp" />
+
+</LinearLayout>
