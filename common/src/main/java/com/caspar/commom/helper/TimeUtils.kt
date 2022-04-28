@@ -1,11 +1,10 @@
-package com.ycy.bluetoothbike.utils
+package com.caspar.commom.helper
 
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.math.roundToLong
 
 object TimeUtils {
     /**
