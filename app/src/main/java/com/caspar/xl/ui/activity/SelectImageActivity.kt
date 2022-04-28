@@ -125,15 +125,19 @@ class SelectImageActivity : BaseActivity<ActivitySelectImageBinding>(), View.OnC
                                 mAllAlbum[albumName] = data
                             }
                             data.add(path)
-                            mAdapter.data.add(path)
+//                            mAdapter.data.add(path)
+                            withContext(Dispatchers.Main){
+                                mAdapter.addData(path)
+                            }
                         }
                     } while (cursor.moveToNext())
                     cursor.close()
                 }
                 withContext(Dispatchers.Main) {
+                    LogUtil.d("图片数量->${mAdapter.data.size}")
                     // 滚动回第一个位置
                     mBindingView.rvList.scrollToPosition(0)
-                    mAdapter.notifyDataSetChanged()
+//                    mAdapter.notifyDataSetChanged()
                     mBindingView.title.tvRight.text = "All Image"
                 }
             }
