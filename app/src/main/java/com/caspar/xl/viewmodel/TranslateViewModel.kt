@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.eventandstate.ViewEvent
+import com.caspar.xl.ext.SharedFlowEvents
+import com.caspar.xl.ext.setEvent
 import com.caspar.xl.helper.call
 import com.caspar.xl.network.Api
 import kotlinx.coroutines.flow.*
@@ -17,11 +19,11 @@ import kotlinx.coroutines.launch
  */
 class TranslateViewModel(application: Application) : AndroidViewModel(application) {
     /***基础请求管理**/
-    var viewEvent: MutableSharedFlow<ViewEvent> = MutableSharedFlow()
+    private val _viewEvent: SharedFlowEvents<ViewEvent> = SharedFlowEvents()
+    val viewEvent = _viewEvent.asSharedFlow()
     //网络请求，使用MutableStateFlow，可以在不必要的时候节省资源,类似于LiveData的生命周期感知
-    var translateResult: MutableSharedFlow<TranslateBean> =
-        MutableSharedFlow()
-
+    private val _translateResult: MutableSharedFlow<TranslateBean> = MutableSharedFlow()
+    val translateResult = _translateResult.asSharedFlow()
     /**
      * 网络请求
      */
@@ -31,19 +33,18 @@ class TranslateViewModel(application: Application) : AndroidViewModel(applicatio
                 //当网络请求成功会走完当前void，并返回Success出去
                 val result = Api.api.translate(text = text)
                 if (result.errorCode == 0) {
-                    translateResult.emit(result)
+                    _translateResult.emit(result)
                 } else {
-                    viewEvent.emit(ViewEvent.ShowToast("翻译失败"))
+                    _viewEvent.setEvent(ViewEvent.ShowToast("翻译失败"))
                 }
-                viewEvent.emit(ViewEvent.DismissDialog)
+                _viewEvent.setEvent(ViewEvent.DismissDialog)
             }.onStart {
-                viewEvent.emit(ViewEvent.ShowDialog)
+                _viewEvent.setEvent(ViewEvent.ShowDialog)
             }.catch { ex ->
-                viewEvent.emit(ViewEvent.DismissDialog)
                 //当网络请求尚未完成，且抛出了error，则返回Error出去
                 val networkResult = call(ex)
                 LogUtil.d(networkResult.toString())
-                viewEvent.emit(ViewEvent.ShowToast("登录失败:${networkResult.second}"))
+                _viewEvent.setEvent(ViewEvent.DismissDialog,ViewEvent.ShowToast("登录失败:${networkResult.second}"))
             }.collect()
         }
     }

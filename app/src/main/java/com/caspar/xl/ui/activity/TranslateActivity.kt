@@ -14,6 +14,7 @@ import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.eventandstate.ViewEvent
+import com.caspar.xl.ext.observeEvent
 import com.caspar.xl.viewmodel.TranslateViewModel
 import kotlinx.coroutines.launch
 
@@ -24,26 +25,18 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvCenter.text = "翻译"
         setOnClickListener(this, R.id.tv_left)
+        mViewModel.viewEvent.observeEvent(this@TranslateActivity) {
+            when(it){
+                ViewEvent.DismissDialog -> LogUtil.d("请求结束")
+                ViewEvent.ShowDialog -> LogUtil.d("开始请求")
+                is ViewEvent.ShowToast -> {
+                    mBindingView.tvText.text = it.message
+                }
+            }
+        }
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                //视图事件
-                launch {
-                    mViewModel.viewEvent.collect {
-                        when(it){
-                            ViewEvent.DismissDialog -> LogUtil.d("请求结束")
-                            ViewEvent.ShowDialog -> LogUtil.d("开始请求")
-                            is ViewEvent.ShowToast -> {
-                                mBindingView.tvText.text = it.message
-                            }
-                        }
-                    }
-                }
-                //网络请求
-                launch {
-                    mViewModel.translateResult.collect {
-                        mBindingView.tvText.text ="原文:\n${mBindingView.etEnter.text}\n译文:\n${ it.translateResult?.get(0)?.get(0)?.tgt}"
-                    }
-                }
+            mViewModel.translateResult.collect {
+                mBindingView.tvText.text ="原文:\n${mBindingView.etEnter.text}\n译文:\n${ it.translateResult?.get(0)?.get(0)?.tgt}"
             }
         }
         mBindingView.etEnter.addTextChangedListener { text ->
