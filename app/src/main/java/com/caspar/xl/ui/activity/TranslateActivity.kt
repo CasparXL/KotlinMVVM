@@ -25,26 +25,36 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvCenter.text = "翻译"
         setOnClickListener(this, R.id.tv_left)
-        mViewModel.viewEvent.observeEvent(this@TranslateActivity) {
-            when(it){
-                ViewEvent.DismissDialog -> LogUtil.d("请求结束")
-                ViewEvent.ShowDialog -> LogUtil.d("开始请求")
-                is ViewEvent.ShowToast -> {
-                    mBindingView.tvText.text = it.message
-                }
-            }
-        }
-        lifecycleScope.launch {
-            mViewModel.translateResult.collect {
-                mBindingView.tvText.text ="原文:\n${mBindingView.etEnter.text}\n译文:\n${ it.translateResult?.get(0)?.get(0)?.tgt}"
-            }
-        }
+        initViewObserver()
+        initNetworkObserver()
         mBindingView.etEnter.addTextChangedListener { text ->
             run {
                 if (text.isNullOrEmpty()) {
                     mBindingView.tvText.text = ""
                 } else {
                     mViewModel.translate(text.toString())
+                }
+            }
+        }
+    }
+    //网络请求监听
+    private fun initNetworkObserver() {
+        lifecycleScope.launch {
+            mViewModel.translateResult.collect {
+                mBindingView.tvText.text = "原文:\n${mBindingView.etEnter.text}\n译文:\n${
+                    it.translateResult?.get(0)?.get(0)?.tgt
+                }"
+            }
+        }
+    }
+    //视图事件监听
+    private fun initViewObserver() {
+        mViewModel.viewEvent.observeEvent(this@TranslateActivity) {
+            when (it) {
+                ViewEvent.DismissDialog -> LogUtil.d("请求结束")
+                ViewEvent.ShowDialog -> LogUtil.d("开始请求")
+                is ViewEvent.ShowToast -> {
+                    mBindingView.tvText.text = it.message
                 }
             }
         }
