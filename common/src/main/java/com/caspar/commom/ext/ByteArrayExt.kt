@@ -1,20 +1,21 @@
 package com.caspar.commom.ext
 
-private fun int2ByteArray2(num: Int): ByteArray {
+
+private fun Int.int2ByteArray2(): ByteArray {
     val byteArray = ByteArray(2)
-    val LowH = ((num shr 8) and 0xff).toByte()
-    val LowL = (num and 0xff).toByte()
+    val LowH = ((this shr 8) and 0xff).toByte()
+    val LowL = (this and 0xff).toByte()
     byteArray[0] = LowH
     byteArray[1] = LowL
     return byteArray
 }
 
-private fun int2ByteArray4(num: Int): ByteArray {
+private fun Int.int2ByteArray4(): ByteArray {
     val byteArray = ByteArray(4)
-    val highH = ((num shr 24) and 0xff).toByte()
-    val highL = ((num shr 16) and 0xff).toByte()
-    val LowH = ((num shr 8) and 0xff).toByte()
-    val LowL = (num and 0xff).toByte()
+    val highH = ((this shr 24) and 0xff).toByte()
+    val highL = ((this shr 16) and 0xff).toByte()
+    val LowH = ((this shr 8) and 0xff).toByte()
+    val LowL = (this and 0xff).toByte()
     byteArray[0] = highH
     byteArray[1] = highL
     byteArray[2] = LowH
