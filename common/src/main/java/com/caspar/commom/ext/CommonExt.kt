@@ -39,20 +39,6 @@ fun Context.sp(value: Int): Int {
     return (value * scale + 0.5f).toInt()
 }
 
-/**
- * byteArray转换十六进制字符串
- */
-fun ByteArray.toHexStr() =
-    with(StringBuilder()) {
-        this@toHexStr.forEach {
-            val hex = it.toInt() and (0xFF)
-            val hexStr = Integer.toHexString(hex)
-            if (hexStr.length == 1) append("0").append(hexStr)
-            else append(hexStr)
-        }
-        toString()
-    }
-
 fun View.setTintColor(color: Int) {
     val colors = intArrayOf(context.resources.getColor(color), context.resources.getColor(color))
     val states = arrayOfNulls<IntArray>(2)
