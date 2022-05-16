@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
+import java.text.DecimalFormat
 
 /**
  *  @Create 2020/6/25.
@@ -27,16 +28,14 @@ val Float.sp
 val Int.sp
     get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, this.toFloat(), Resources.getSystem().displayMetrics).toInt()
 
-//转换dip
-fun Context.dip(value: Int): Int {
-    val scale = resources.displayMetrics.density;
-    return (value * scale + 0.5f).toInt()
-}
-
-//转换sp
-fun Context.sp(value: Int): Int {
-    val scale = resources.displayMetrics.scaledDensity;
-    return (value * scale + 0.5f).toInt()
+fun Float.toNumberString(int: Int = 1):String {
+    val string = StringBuilder("")
+    repeat(int){
+        string.append("#")
+    }
+    val df = DecimalFormat("#.${string}")
+    val p: String = df.format(this)
+    return p
 }
 
 fun View.setTintColor(color: Int) {
