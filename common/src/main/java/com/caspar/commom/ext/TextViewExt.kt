@@ -1,5 +1,6 @@
 package com.caspar.commom.ext
 
+import android.text.InputFilter
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.widget.EditText
@@ -31,6 +32,38 @@ fun AppCompatTextView.setDrawable(position: Int, idRes: Int) {
     }
 }
 
+
+
+/**
+ * 限制输入框的精度
+ */
+fun EditText.filterNumber(int: Int){
+    val input =
+        InputFilter { source, start, end, dest, dstart, dend -> // 删除等特殊字符，直接返回
+            if (source.toString().isEmpty()) {
+                return@InputFilter null
+            }
+            val dValue = dest.toString()
+            val filter = dValue.filter { it == '.' }
+            takeIf {
+                (filter.length == 1) and (source.toString() == ".")
+            }?.let {
+                return@InputFilter ""
+            }
+            val splitArray = dValue.split(".").toTypedArray()
+            takeIf {
+                splitArray.size > 1
+            }?.let {
+                val dotValue = splitArray[1]
+                val diff: Int = dotValue.length + 1 - int
+                if (diff > 0) {
+                    return@InputFilter source.subSequence(start, end - diff)
+                }
+            }
+            null
+        }
+    this.filters = arrayOf(input)
+}
 /**
  * 显示密码文本
  */
