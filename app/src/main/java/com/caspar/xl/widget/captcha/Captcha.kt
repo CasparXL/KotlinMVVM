@@ -15,7 +15,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.IntDef
-import com.caspar.commom.ext.dip
+import com.caspar.commom.ext.dp
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ContainerBinding
 
@@ -83,7 +83,7 @@ class Captcha : LinearLayout {
             typedArray.getResourceId(R.styleable.Captcha_thumbDrawable, R.drawable.ic_seekbar_icon)
         mMode = typedArray.getInteger(R.styleable.Captcha_mode, MODE_BAR)
         maxFailedCount = typedArray.getInteger(R.styleable.Captcha_max_fail_count, 3)
-        blockSize = typedArray.getDimensionPixelSize(R.styleable.Captcha_blockSize, context.dip(50))
+        blockSize = typedArray.getDimensionPixelSize(R.styleable.Captcha_blockSize, 50.dp)
         typedArray.recycle()
         init()
     }

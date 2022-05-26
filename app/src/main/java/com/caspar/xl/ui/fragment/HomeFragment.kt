@@ -14,6 +14,7 @@ import com.caspar.base.base.BaseFragment
 import com.caspar.commom.ext.*
 import com.caspar.commom.helper.LogUtil
 import com.caspar.commom.helper.Permission
+import com.caspar.commom.utils.local.getLocation
 import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.FragmentHomeBinding
@@ -28,6 +29,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 /**
  *  @Create 2020/6/13.
@@ -42,7 +44,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     //跳转到某个界面，这里是用来标识需要储存权限的几个界面
     private var toOtherPage: String = ""
-
+    //请求定位所需的权限
+    private val localPermission = requestMultiplePermissions(allGranted = {
+        lifecycleScope.launchWhenCreated {
+            getLocal(0)
+//            getLocal(0, Locale.ENGLISH)
+        }
+    }, denied = {
+        toast("你拒绝了以下权限->${GsonUtils.toJson(it)}")
+    }, explained = {
+        toast("你拒绝了以下权限，并点击了不再询问->${GsonUtils.toJson(it)}")
+    })
     //请求拍照所需的权限
     private val permission = requestMultiplePermissions(allGranted = {
         acStart<CameraActivity>()
@@ -166,6 +178,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                             }
                         }).create().show()
                     }
+                    mViewModel.local -> {
+                        localPermission.launch(Permission.Group.LOCATION)
+                    }
                 }
             }
         }
@@ -188,4 +203,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    private suspend fun getLocal(int: Int, locale: Locale? = null) {
+        val location = requireContext().getLocation(locale)
+        if (location.first) {
+            val address = location.second
+            val hashMapOf = hashMapOf<String, Any>()
+            hashMapOf["国家"] = address.country
+            hashMapOf["省"] = address.province
+            hashMapOf["市"] = address.city
+            hashMapOf["区"] = address.area
+            hashMapOf["邮编"] = address.adCode
+            hashMapOf["区号"] = address.cityCode
+            hashMapOf["详细住址"] = address.addressDetail
+            hashMapOf["经度"] = address.latitude
+            hashMapOf["纬度"] = address.longitude
+            toast("国家[${address.country}] 省份[${address.province}] 城市[${address.city}] 区[${address.area}] 详细住址[${address.addressDetail}] 经度[${address.latitude}] 纬度[${address.longitude}]")
+            LogUtil.json(GsonUtils.toJson(hashMapOf))
+            LogUtil.json(GsonUtils.toJson(address))
+        } else {
+            if (int < 3) {
+                delay(100)
+                getLocal(int+1, locale)
+            }
+            LogUtil.d("获取失败第${int+1}次")
+        }
+    }
 }

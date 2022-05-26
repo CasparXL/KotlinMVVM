@@ -2,11 +2,9 @@ package com.caspar.xl.widget.captcha
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatSeekBar
-import com.caspar.commom.ext.dip
 import com.caspar.commom.ext.dp
 import com.caspar.xl.R
 
