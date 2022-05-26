@@ -203,6 +203,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    /**
+     * 多次获取，因为首次获取到定位权限时不一定能获取到定位信息
+     */
     private suspend fun getLocal(int: Int, locale: Locale? = null) {
         val location = requireContext().getLocation(locale)
         if (location.first) {
