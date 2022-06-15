@@ -18,6 +18,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val imageSelect = "图片选择器"
     val verifyCaptcha = "滑块验证"
     val local = "获取定位信息"
+    val selectCity = "选择城市"
 
     //功能列表
     val mData: List<String> = arrayListOf(translate,
@@ -29,5 +30,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         colorSelect,
         imageSelect,
         verifyCaptcha,
-        local)
+        local,
+        selectCity)
 }

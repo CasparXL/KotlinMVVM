@@ -160,6 +160,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     mViewModel.imageSelect -> {
                         startSelectFile2AllStorage()
                     }
+                    mViewModel.selectCity -> {
+                        acStart<SelectCityActivity>()
+                    }
                     mViewModel.verifyCaptcha -> {
                         VerifyDialog.Builder(requireContext()).setListener(object : Captcha.CaptchaListener{
                             override fun onAccess(time: Long): String {

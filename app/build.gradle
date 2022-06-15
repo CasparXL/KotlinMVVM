@@ -123,6 +123,7 @@ dependencies {
     implementation (libs.google.material) {
         exclude group: 'androidx.recyclerview'
     }
+    implementation 'com.github.promeg:tinypinyin:2.0.3'
     implementation libs.mmkv
     implementation libs.bundles.room
     implementation libs.bundles.camerax
@@ -130,6 +131,9 @@ dependencies {
     implementation libs.coil
     implementation libs.lottie
     implementation libs.crash
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.4.+'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     kapt libs.room.compiler
     debugImplementation libs.leakcanary
     testImplementation libs.bundles.testImplementation

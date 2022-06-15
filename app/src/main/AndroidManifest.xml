@@ -11,15 +11,15 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--普通蓝牙扫描需要的权限-->
-    <uses-permission android:name="android.permission.BLUETOOTH"
-        android:maxSdkVersion="30"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
-        android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 普通蓝牙扫描需要的权限 -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--Android 12蓝牙扫描需要的权限-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Android 12蓝牙扫描需要的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
@@ -35,6 +35,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity">
+        <activity
+            android:name=".ui.activity.SelectCityActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <!-- 适配 Android 7.0 文件意图 -->
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -44,8 +49,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-        <!-- 崩溃界面 -->
+        </provider> <!-- 崩溃界面 -->
         <activity
             android:name=".ui.CrashActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -110,7 +114,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>

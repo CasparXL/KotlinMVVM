@@ -29,4 +29,5 @@
 	<dimen name="sp_40">90.1111sp</dimen>
 	<dimen name="sp_42">94.6167sp</dimen>
 	<dimen name="sp_48">108.1333sp</dimen>
+	<dimen name="sp_60">135.1667sp</dimen>
 </resources>
