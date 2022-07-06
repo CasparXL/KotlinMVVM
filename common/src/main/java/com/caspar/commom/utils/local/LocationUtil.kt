@@ -24,6 +24,7 @@ import kotlin.coroutines.suspendCoroutine
  * 定位权限等操作自己在外部判断
  * @param loc 如果需要变成别的语言，这里传入Locale相关地区的即可
  * 新增安卓 11.0 以上的定位方法判断，暂未测试，不确定是否可用
+ * @return first[是否获取到定位],second[获取到的定位信息],third[获取不到经纬度的错误原因]
  */
 @SuppressLint("MissingPermission")
 suspend fun Context.getLocation(loc: Locale? = null): Triple<Boolean, LocationBean, Throwable?> {
@@ -43,8 +44,27 @@ suspend fun Context.getLocation(loc: Locale? = null): Triple<Boolean, LocationBe
                 providers.takeIf { it.isEmpty() }?.let {
                     continuation.resume(Triple(false, LocationBean(), Throwable("providers null")))
                 } ?: run {
+                    var local = false
                     val locationListener: LocationListener = object : LocationListener {
                         override fun onLocationChanged(location: Location) {
+                            if (!local){
+                                local = true
+                                val latitude = location.latitude
+                                val longitude = location.longitude
+                                val geocoder = Geocoder(this@getLocation, loc ?: Locale.getDefault())
+                                try {
+                                    val address = geocoder.getFromLocation(latitude, longitude, 1)?.getOrElse(0) { null }
+                                    address?.apply {
+                                        val countryName = this.countryName
+                                        val countryCode = this.countryCode
+                                        LogUtil.d(LocationBean(latitude, longitude, countryName, countryCode, address).toString())
+                                    }
+                                } catch (e: IOException) {
+                                    LogUtil.e(e)
+                                    e.printStackTrace()
+                                }
+                            }
+                            LogUtil.d("触发定位信息")
                             //updateLocation(location, callback);
                         }
                         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -69,7 +89,7 @@ suspend fun Context.getLocation(loc: Locale? = null): Triple<Boolean, LocationBe
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                         this.getCurrentLocation(mLocationProvider, CancellationSignal(),{
-                            LogUtil.d("我进来了")
+                            LogUtil.d("----")
                         },{
                             val latitude = it.latitude
                             val longitude = it.longitude
