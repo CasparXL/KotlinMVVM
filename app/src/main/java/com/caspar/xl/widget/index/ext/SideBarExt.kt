@@ -3,7 +3,6 @@ package com.caspar.xl.widget.index.ext
 import android.graphics.Rect
 import android.text.TextPaint
 import com.caspar.xl.widget.index.bean.ItemData
-import com.github.promeg.pinyinhelper.Pinyin
 
 fun TextPaint.getTextHeight(text: String): Int {
     val bounds = Rect()
@@ -25,9 +24,10 @@ fun MutableList<ItemData>.sortByLetter(){
             firstChar.toString().matches("[A-Za-z]".toRegex()) -> {
                 item.tag = firstChar.uppercase()
             }
-            Pinyin.isChinese(firstChar) -> {
+            //缺少一个拼音转换的方法,原来的pinyin库是jcenter的，已弃用
+            /*Pinyin.isChinese(firstChar) -> {
                 item.tag = Pinyin.toPinyin(firstChar).first().uppercase()
-            }
+            }*/
             else -> {
                 item.tag = "#"
             }

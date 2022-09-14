@@ -49,14 +49,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- 崩溃界面 -->
-        <activity
-            android:name=".ui.CrashActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:process=":crash"
-            android:screenOrientation="portrait" />
+        </provider>
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

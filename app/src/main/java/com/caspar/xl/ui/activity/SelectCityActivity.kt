@@ -58,6 +58,7 @@ class SelectCityActivity : BaseActivity<ActivitySelectCityBinding>() {
         tags.add(ItemData("⊙﹏⊙"))
         tags.add(ItemData("Hello China"))
         tags.add(ItemData("宁波"))
+        //方法内缺少拼音解析，找到对应的库或者接口返回即可实现标题的城市列表
         tags.sortByLetter()
         val listTag = tags.map { it.tag }.toList()
         val listTitle = tags.map { it.title }.toList()
