@@ -43,7 +43,8 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(), View.OnClickListen
     //开始预览，CameraX绑定Activity，随生命周期销毁而自动销毁
     @SuppressLint("ClickableViewAccessibility")
     private fun startCamera() {
-        scaleGestureDetector = ScaleGestureDetector(this, listener) //初始化双指缩放的控制器
+        scaleGestureDetector = ScaleGestureDetector(this, listener)
+        //初始化双指缩放的控制器
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
             imageCapture = ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build()
