@@ -18,8 +18,7 @@ androidx-lifecycle = "2.4.1"
 androidx-test = "1.1.2"
 androidx-espresso = "3.3.0"
 junit = "4.13.2"
-androidx-camera-view = "1.0.0-alpha17"
-androidx-camerax = "1.0.0-beta10"
+androidx-camerax = "1.1.0"
 google-material = "1.3.0"
 google-gson = "2.9.0"
 room = "2.4.2"
@@ -58,7 +57,7 @@ androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-r
 androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-common = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "androidx-lifecycle" }
-androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidx-camera-view" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidx-camerax" }
 androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidx-camerax" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidx-camerax" }
 androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test" }
