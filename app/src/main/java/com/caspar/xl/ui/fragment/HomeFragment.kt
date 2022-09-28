@@ -184,6 +184,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     mViewModel.local -> {
                         localPermission.launch(Permission.Group.LOCATION)
                     }
+                    mViewModel.crashLog -> {
+                        acStart<CrashLogActivity>()
+                    }
                 }
             }
         }

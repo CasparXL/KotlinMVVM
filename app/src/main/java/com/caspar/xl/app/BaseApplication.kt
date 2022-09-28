@@ -27,6 +27,7 @@ import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import okhttp3.internal.format
 import xcrash.XCrash
 import kotlin.system.exitProcess
 
