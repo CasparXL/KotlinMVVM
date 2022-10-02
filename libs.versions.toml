@@ -1,7 +1,7 @@
 [versions]
 minSdk = "21"
-compileSdk = "31"
-targetSdk = "31"
+compileSdk = "33"
+targetSdk = "33"
 versionCode = "1"
 versionName = "1.0.0"
 applicationId = "com.caspar.xl"
