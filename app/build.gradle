@@ -63,10 +63,6 @@ android {
     }
 
     //避免打正式包时一直下载groovy.jar的问题
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
 
     buildFeatures {
         viewBinding true
@@ -89,6 +85,7 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
+    namespace 'com.caspar.xl'
     //apk输出格式
     applicationVariants.all {
         variant ->

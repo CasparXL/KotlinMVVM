@@ -57,6 +57,7 @@ android {
             excludes += ['META-INF/rxjava.properties']
         }
     }
+    namespace 'com.caspar.base'
 }
 
 dependencies {
