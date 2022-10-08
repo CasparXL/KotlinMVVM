@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.CancellationSignal
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.caspar.base.utils.log.LogUtil
 import java.io.IOException
 import java.util.*
 import kotlin.coroutines.resume

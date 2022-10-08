@@ -61,11 +61,9 @@ class CrashLogActivity : BaseActivity<ActivityCrashLogBinding>() {
             }
         }
         mBindingView.btnClear.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
+            lifecycleScope.launch {
                 LogFileManager.clearCrashLog(0)
-                withContext(Dispatchers.Main){
-                    adapter.setList(LogFileManager.allLogFile()?.list()?.toList())
-                }
+                adapter.setList(LogFileManager.allLogFile()?.list()?.toList())
             }
         }
         adapter.setOnItemClickListener { a, v, p ->

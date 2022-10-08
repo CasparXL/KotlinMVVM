@@ -7,6 +7,8 @@ import android.os.Build
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.caspar.base.ext.toDateString
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -42,23 +44,25 @@ object LogFileManager {
      * @param isAll 0,全部删除 1,删除全部的crash日志 2,删除自定义日志
      */
     suspend fun clearCrashLog(isAll:Int){
-        logPath?.apply {
-            when(isAll){
-                0 -> this.apply {
-                    this.list()?.forEach {
-                        File(this,it).delete()
-                    }
-                }
-                1 -> {
-                    list()?.forEach {
-                        if (it.contains(crashName)){
+        withContext(Dispatchers.IO){
+            logPath?.apply {
+                when(isAll){
+                    0 -> this.apply {
+                        this.list()?.forEach {
                             File(this,it).delete()
                         }
                     }
+                    1 -> {
+                        list()?.forEach {
+                            if (it.contains(crashName)){
+                                File(this,it).delete()
+                            }
+                        }
+                    }
+                    2 -> getEventLog()?.delete()
+                    else->{}
                 }
-                2 -> getEventLog()?.delete()
             }
-
         }
     }
     /**
