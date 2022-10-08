@@ -29,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import okhttp3.internal.format
 import xcrash.XCrash
+import java.io.File
 import kotlin.system.exitProcess
 
 
@@ -46,7 +47,8 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
     //第三方框架或本地工具类初始化
     private fun init() {
         //打印日志初始化,打正式包将不再打印日志
-        LogUtil.init(BuildConfig.LOG_ENABLE, "浪")
+        //val file = File(filesDir,"log.txt")
+        LogUtil.init(BuildConfig.LOG_ENABLE, "浪", mFile = null)
         MMKV.initialize(this)//本地储存初始化
         RxBus.init()//RxBus初始化，用于全局WebSocket网络请求发送
         //Toast弹框初始化

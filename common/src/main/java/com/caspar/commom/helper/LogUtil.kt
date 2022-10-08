@@ -3,10 +3,12 @@ package com.caspar.commom.helper
 
 import android.text.TextUtils
 import android.util.Log
+import com.caspar.commom.ext.toDateString
+import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.PrintWriter
+import java.io.File
 import java.io.StringReader
 import java.io.StringWriter
 import javax.xml.transform.OutputKeys
@@ -20,6 +22,11 @@ import javax.xml.transform.stream.StreamSource
  * Description: logUtil
  */
 object LogUtil {
+    private var job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    /**
+     * 日志缓存文件
+     */
+    private var file: File? = null
     /**
      *  是否打印日志的标识位
      *  Whether to print the identity bit of the log
@@ -50,12 +57,20 @@ object LogUtil {
      *
      * @param debug 是否打印       Whether or not to print
      * @param Tag 日志Tag         Log Tag
+     * @param mFile 日志存储文件位置-测试阶段如果需要记录日志记录，则设置一个沙盒目录，方便查看日志问题
      */
-    fun init(isPrint: Boolean, Tag: String) {
+    fun init(isPrint: Boolean, Tag: String, mFile: File? = null) {
         debug = isPrint
         mTag = Tag
+        file = mFile
     }
 
+    /**
+     * 清除写入沙盒的日志文件
+     */
+    fun clearLogFile(){
+        file?.delete()
+    }
     /**
      * 打印文本格式:[线程:Thread.currentThread()] -> [方法名称:@param method] -> [所处文件行数:@param clazz:@param line] -> 正文
      *
@@ -88,6 +103,7 @@ object LogUtil {
         if (debug) {
             printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.v(mTag, it)
+                writeLogToFile(it)
             }
         }
     }
@@ -96,6 +112,23 @@ object LogUtil {
         if (debug) {
             printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.d(mTag, it)
+                writeLogToFile(it)
+            }
+        }
+    }
+
+    /**
+     * 当设置文件不为空时，写入日志到缓存文件中
+     */
+    private fun writeLogToFile(it: String) {
+        file?.apply {
+            job.launch(Dispatchers.IO) {
+                if (exists()) {
+                    appendText("\n" + System.currentTimeMillis()
+                        .toDateString() + "--->" + it)
+                } else {
+                    writeText(System.currentTimeMillis().toDateString() + "--->" + it)
+                }
             }
         }
     }
@@ -104,6 +137,7 @@ object LogUtil {
         if (debug) {
             printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.i(mTag, it)
+                writeLogToFile(it)
             }
         }
     }
@@ -112,6 +146,7 @@ object LogUtil {
         if (debug) {
             printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.w(mTag, it)
+                writeLogToFile(it)
             }
         }
     }
@@ -120,6 +155,7 @@ object LogUtil {
         if (debug) {
             printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.wtf(mTag, it)
+                writeLogToFile(it)
             }
         }
     }
@@ -128,6 +164,7 @@ object LogUtil {
         if (debug) {
             printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.e(mTag, it)
+                writeLogToFile(it)
             }
         }
     }
