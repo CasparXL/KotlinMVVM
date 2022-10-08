@@ -34,6 +34,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity">
+        <!-- 崩溃界面 -->
+        <activity
+            android:name=".ui.CrashActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:process=":crash"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.CrashLogDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

@@ -37,11 +37,6 @@ android {
                         "room.expandProjection": "true"]
             }
         }
-        defaultConfig {
-            ndk {
-                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-            }
-        }
     }
     buildTypes {
         release {
@@ -117,7 +112,7 @@ dependencies {
     implementation(libs.bundles.retrofit){
         exclude group: 'org.jetbrains.kotlin'
     }
-
+    implementation libs.crash
     implementation libs.google.gson
     implementation libs.bundles.rxjava
     implementation libs.toast
@@ -125,7 +120,6 @@ dependencies {
     implementation (libs.google.material) {
         exclude group: 'androidx.recyclerview'
     }
-    implementation 'com.iqiyi.xcrash:xcrash-android-lib:3.0.0'
     implementation libs.mmkv
     implementation libs.bundles.room
     implementation libs.bundles.camerax

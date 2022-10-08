@@ -11,12 +11,13 @@ import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
 import com.caspar.commom.ext.dp
 import com.caspar.commom.ext.setDrawableSize
+import com.caspar.commom.helper.LogFileManager
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.R
+import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.databinding.ActivityCrashLogDetailBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import xcrash.XCrash
 import java.io.File
 
 class CrashLogDetailActivity : BaseActivity<ActivityCrashLogDetailBinding>() {
@@ -25,16 +26,15 @@ class CrashLogDetailActivity : BaseActivity<ActivityCrashLogDetailBinding>() {
     }
     override fun initView(savedInstanceState: Bundle?) {
         val fileName = intent.getStringExtra(FILE_PATH)?:""
-        val file = File(XCrash.getLogDir(),fileName)
         mBindingView.title.tvRight.setOnClickListener {
-            shareFile(this, file.path)
+            shareFile(this, fileName)
         }
         mBindingView.title.tvRight.setDrawableSize(1, R.drawable.ic_share, 24.dp, 24.dp)
         mBindingView.title.tvCenter.text = fileName
         mBindingView.title.tvLeft.setOnClickListener { finish() }
         lifecycleScope.launch {
             mBindingView.tvText.text = "Loading..."
-            val fileContent = file.readText()
+            val fileContent = File(LogFileManager.allLogFile(),fileName).readText()
             delay(200)
             mBindingView.tvText.text = fileContent
         }

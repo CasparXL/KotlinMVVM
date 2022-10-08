@@ -17,7 +17,6 @@ import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.observeEvent
 import com.caspar.xl.viewmodel.TranslateViewModel
 import kotlinx.coroutines.launch
-import xcrash.XCrash
 import java.io.File
 
 class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClickListener {

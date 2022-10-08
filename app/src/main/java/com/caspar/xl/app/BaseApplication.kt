@@ -1,22 +1,24 @@
 package com.caspar.xl.app
 
 import android.app.Application
-import android.content.Context
-import android.os.Process
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
 import androidx.core.app.ActivityCompat
 import androidx.multidex.MultiDexApplication
+import cat.ereza.customactivityoncrash.config.CaocConfig
 import coil.Coil
 import coil.ComponentRegistry
 import coil.ImageLoader
 import com.caspar.commom.helper.ActivityStackManager
+import com.caspar.commom.helper.LogFileManager
 import com.caspar.commom.helper.LogUtil
 import com.caspar.xl.BuildConfig
+import com.caspar.xl.MainActivity
 import com.caspar.xl.R
 import com.caspar.xl.helper.PauseInterceptor
+import com.caspar.xl.ui.CrashActivity
 import com.caspar.xl.utils.rxjava.RxBus
 import com.hjq.toast.ToastUtils
 import com.hjq.toast.style.BlackToastStyle
@@ -27,10 +29,7 @@ import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import okhttp3.internal.format
-import xcrash.XCrash
 import java.io.File
-import kotlin.system.exitProcess
 
 
 /**
@@ -47,8 +46,8 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
     //第三方框架或本地工具类初始化
     private fun init() {
         //打印日志初始化,打正式包将不再打印日志
-        //val file = File(filesDir,"log.txt")
-        LogUtil.init(BuildConfig.LOG_ENABLE, "浪", mFile = null)
+        LogFileManager.initPath(packageName = packageName, parentPath = filesDir.path, name = "CustomLog")
+        LogUtil.init(BuildConfig.LOG_ENABLE, "浪", mFile = LogFileManager.getEventLog())
         MMKV.initialize(this)//本地储存初始化
         RxBus.init()//RxBus初始化，用于全局WebSocket网络请求发送
         //Toast弹框初始化
@@ -67,36 +66,21 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
                 })
                 .build()
         )
-    }
-
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        //Tombstone 文件默认将被写入到 Context#getFilesDir() + "/tombstones" 目录。（通常在： /data/data/PACKAGE_NAME/files/tombstones）
-        XCrash.init(this, XCrash.InitParameters().apply {
-            setJavaCallback { logPath, emergency ->
-                LogUtil.d("发生崩溃或错误->$emergency")
-                ActivityStackManager.finishAllActivity()
-                Process.killProcess(Process.myPid())
-                exitProcess(10)
-            }
-            setAnrCallback { logPath, emergency ->
-                ActivityStackManager.finishAllActivity()
-                LogUtil.d("发生Anr->$emergency")
-                Process.killProcess(Process.myPid())
-                exitProcess(10)
-            }
-            setNativeCallback { logPath, emergency ->
-                ActivityStackManager.finishAllActivity()
-                LogUtil.d("发生系统级别错误->$emergency")
-                Process.killProcess(Process.myPid())
-                exitProcess(10)
-            }
-        })
+        // Crash 捕捉界面
+        CaocConfig.Builder.create()
+            .backgroundMode(CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM)
+            .enabled(true)
+            .trackActivities(true)
+            .minTimeBetweenCrashesMs(2000) // 重启的 Activity
+            .restartActivity(MainActivity::class.java) // 错误的 Activity
+            .errorActivity(CrashActivity::class.java) // 设置监听器
+            .apply()
     }
 
     companion object {
         //Application上下文
         lateinit var context: Application
+
         //全局使用的协程，因为官方不推荐使用GlobalScope，因此在Application中创建一个全局的协程以便于非Activity，ViewModel的类使用协程
         var job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
@@ -121,7 +105,8 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
                 ClassicsFooter(context).setDrawableSize(20f)
             }
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ -> //全局设置主题颜色（优先级第二低，可以覆盖 DefaultRefreshInitializer 的配置，与下面的ClassicsHeader绑定）
-                MaterialHeader(context).setColorSchemeResources(R.color.appColor, android.R.color.black)
+                MaterialHeader(context).setColorSchemeResources(R.color.appColor,
+                    android.R.color.black)
             }
         }
     }
