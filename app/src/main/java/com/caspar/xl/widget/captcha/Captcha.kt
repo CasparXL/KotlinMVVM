@@ -15,7 +15,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.IntDef
-import com.caspar.commom.ext.dp
+import com.caspar.base.ext.dp
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ContainerBinding
 

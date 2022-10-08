@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.ext.acStart
+import com.caspar.base.ext.acStart
 import com.caspar.xl.databinding.ActivitySplashBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

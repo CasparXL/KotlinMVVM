@@ -27,4 +27,3 @@ dependencyResolutionManagement {
 rootProject.name='KotlinMVVM'
 include ':app'
 include ':base'
-include ':common'

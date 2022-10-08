@@ -100,7 +100,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     // 基础库
     implementation project(':base')
-    implementation project(':common')
     implementation libs.bundles.androidx.view
     implementation libs.bundles.kotlin
     implementation libs.bundles.lifecycle

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.caspar.base.action.ToastAction
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.utils.log.LogUtil
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType

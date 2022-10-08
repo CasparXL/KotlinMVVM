@@ -7,8 +7,8 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.ext.setOnClickListener
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.ext.setOnClickListener
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.bean.db.TeacherBean
 import com.caspar.xl.bean.db.UserBean
@@ -19,7 +19,6 @@ import com.caspar.xl.ext.observeState
 import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.viewmodel.RoomViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.debounce
 
 class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
     private val mViewModel: RoomViewModel by viewModels()

@@ -8,8 +8,8 @@ import android.view.View
 import androidx.core.graphics.drawable.toBitmap
 import coil.load
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.ext.setOnClickListener
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.ext.setOnClickListener
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityPaletteBinding
 

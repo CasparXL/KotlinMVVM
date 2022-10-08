@@ -10,8 +10,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.caspar.commom.ext.dp
-import com.caspar.commom.ext.sp
+import com.caspar.base.ext.dp
+import com.caspar.base.ext.sp
 import com.caspar.xl.widget.index.ext.getTextHeight
 import com.caspar.xl.widget.index.ext.getTextWidth
 import com.caspar.xl.widget.index.listener.OnDrawItemDecorationListener

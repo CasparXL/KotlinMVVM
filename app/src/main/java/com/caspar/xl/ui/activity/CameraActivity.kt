@@ -11,8 +11,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.base.BaseDialog
-import com.caspar.commom.ext.setOnClickListener
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.ext.setOnClickListener
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCameraBinding
 import com.caspar.xl.ui.dialog.WaitDialog

@@ -1,17 +1,13 @@
 package com.caspar.xl.ui.activity
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.ext.acStart
-import com.caspar.commom.ext.dp
-import com.caspar.commom.ext.setDrawableSize
-import com.caspar.commom.helper.LogFileManager
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.ext.acStart
+import com.caspar.base.ext.dp
+import com.caspar.base.ext.setDrawableSize
+import com.caspar.base.utils.log.LogFileManager
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCrashLogBinding
 import com.caspar.xl.ui.adapter.ItemCityAdapter

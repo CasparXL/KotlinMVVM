@@ -10,9 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.ext.dp
-import com.caspar.commom.ext.setOnClickListener
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.ext.dp
+import com.caspar.base.ext.setOnClickListener
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivitySelectImageBinding
 import com.caspar.xl.helper.PauseInterceptor

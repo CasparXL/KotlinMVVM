@@ -7,7 +7,7 @@ import android.os.Environment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.ActivitySelectFileBinding
 import com.caspar.xl.helper.MMKVUtil

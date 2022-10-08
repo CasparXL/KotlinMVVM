@@ -2,7 +2,7 @@ package com.caspar.xl.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.bean.response.City
 import com.caspar.xl.network.Api
 import kotlinx.coroutines.*

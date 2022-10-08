@@ -13,11 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.helper.DoubleClickHelper
-import com.caspar.commom.helper.LogFileManager
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.helper.DoubleClickHelper
+import com.caspar.base.utils.log.LogFileManager
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
-import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.databinding.ActivityCrashBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

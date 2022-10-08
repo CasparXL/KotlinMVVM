@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.base.FragmentPagerAdapter
-import com.caspar.commom.ext.setOnClickListener
+import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.databinding.ActivityMainBinding
 import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment

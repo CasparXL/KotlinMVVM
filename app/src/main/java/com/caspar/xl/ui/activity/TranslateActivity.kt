@@ -5,19 +5,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.ext.setOnClickListener
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.ext.setOnClickListener
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.observeEvent
 import com.caspar.xl.viewmodel.TranslateViewModel
 import kotlinx.coroutines.launch
-import java.io.File
 
 class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClickListener {
     private val mViewModel: TranslateViewModel by viewModels()

@@ -3,7 +3,6 @@ package com.caspar.base.base
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -11,8 +10,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.caspar.base.action.ToastAction
-import com.caspar.commom.helper.KeyBoardUtils
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.helper.KeyBoardUtils
+import com.caspar.base.utils.log.LogUtil
 import com.gyf.immersionbar.ktx.immersionBar
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method

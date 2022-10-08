@@ -6,8 +6,8 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.ext.dp
-import com.caspar.commom.ext.setOnClickListener
+import com.caspar.base.ext.dp
+import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityImageLoadBinding
 

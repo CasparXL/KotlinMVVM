@@ -3,7 +3,7 @@ package com.caspar.xl.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.SharedFlowEvents

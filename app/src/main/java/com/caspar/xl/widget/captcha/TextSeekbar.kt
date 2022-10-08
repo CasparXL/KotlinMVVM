@@ -5,7 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatSeekBar
-import com.caspar.commom.ext.dp
+import com.caspar.base.ext.dp
 import com.caspar.xl.R
 
 /**

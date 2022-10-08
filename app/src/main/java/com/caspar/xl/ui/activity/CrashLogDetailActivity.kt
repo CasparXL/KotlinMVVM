@@ -9,12 +9,11 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
-import com.caspar.commom.ext.dp
-import com.caspar.commom.ext.setDrawableSize
-import com.caspar.commom.helper.LogFileManager
+import com.caspar.base.ext.dp
+import com.caspar.base.ext.setDrawableSize
+import com.caspar.base.utils.log.LogFileManager
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.R
-import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.databinding.ActivityCrashLogDetailBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

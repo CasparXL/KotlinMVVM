@@ -2,10 +2,10 @@ package com.caspar.xl.network.websocket
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import com.caspar.commom.helper.LogUtil
-import com.caspar.commom.helper.LogUtil.e
-import com.caspar.commom.helper.LogUtil.i
-import com.caspar.commom.helper.LogUtil.json
+import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.LogUtil.e
+import com.caspar.base.utils.log.LogUtil.i
+import com.caspar.base.utils.log.LogUtil.json
 import com.caspar.xl.config.ApiConfig
 import okhttp3.*
 import okio.ByteString

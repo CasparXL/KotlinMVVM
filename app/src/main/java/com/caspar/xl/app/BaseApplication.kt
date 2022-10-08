@@ -11,9 +11,9 @@ import cat.ereza.customactivityoncrash.config.CaocConfig
 import coil.Coil
 import coil.ComponentRegistry
 import coil.ImageLoader
-import com.caspar.commom.helper.ActivityStackManager
-import com.caspar.commom.helper.LogFileManager
-import com.caspar.commom.helper.LogUtil
+import com.caspar.base.helper.ActivityStackManager
+import com.caspar.base.utils.log.LogFileManager
+import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.MainActivity
 import com.caspar.xl.R
@@ -29,7 +29,6 @@ import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import java.io.File
 
 
 /**
