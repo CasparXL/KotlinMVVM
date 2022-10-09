@@ -103,7 +103,6 @@ object LogUtil {
         if (debug) {
             printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.v(mTag, it)
-                writeLogToFile(it)
             }
         }
     }
@@ -112,6 +111,73 @@ object LogUtil {
         if (debug) {
             printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
                 Log.d(mTag, it)
+            }
+        }
+    }
+
+    fun i(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
+        if (debug) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
+                Log.i(mTag, it)
+            }
+        }
+    }
+
+    fun w(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
+        if (debug) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
+                Log.w(mTag, it)
+            }
+        }
+    }
+
+    fun wtf(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
+        if (debug) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
+                Log.wtf(mTag, it)
+            }
+        }
+    }
+
+    fun e(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
+        if (debug) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
+                Log.e(mTag, it)
+            }
+        }
+    }
+
+    fun eToFile(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
+        if (debug) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
+                Log.e(mTag, it)
+                writeLogToFile(it)
+            }
+        }
+    }
+
+    fun iToFile(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
+        if (debug) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
+                Log.i(mTag, it)
+                writeLogToFile(it)
+            }
+        }
+    }
+
+    fun dToFile(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
+        if (debug) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
+                Log.d(mTag, it)
+                writeLogToFile(it)
+            }
+        }
+    }
+
+    fun vToFile(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
+        if (debug) {
+            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
+                Log.v(mTag, it)
                 writeLogToFile(it)
             }
         }
@@ -129,42 +195,6 @@ object LogUtil {
                 } else {
                     writeText(System.currentTimeMillis().toDateString() + "--->" + it)
                 }
-            }
-        }
-    }
-
-    fun i(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
-        if (debug) {
-            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
-                Log.i(mTag, it)
-                writeLogToFile(it)
-            }
-        }
-    }
-
-    fun w(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
-        if (debug) {
-            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
-                Log.w(mTag, it)
-                writeLogToFile(it)
-            }
-        }
-    }
-
-    fun wtf(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
-        if (debug) {
-            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
-                Log.wtf(mTag, it)
-                writeLogToFile(it)
-            }
-        }
-    }
-
-    fun e(msg: String?, optionalTag: String? = mTag, index: Int = mIndex) {
-        if (debug) {
-            printLog(content(index = index, optionalTag = optionalTag, msg = msg)) {
-                Log.e(mTag, it)
-                writeLogToFile(it)
             }
         }
     }
