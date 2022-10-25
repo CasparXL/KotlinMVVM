@@ -19,11 +19,13 @@ internal class BitmapLoaderTask(private val callback: Callback) : AsyncTask<Stri
         fun result(bitmap: Bitmap?)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPostExecute(bitmap: Bitmap?) {
         super.onPostExecute(bitmap)
         callback.result(bitmap)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg params: String?): Bitmap? {
         var result: Bitmap? = null
         var url: URL? = null

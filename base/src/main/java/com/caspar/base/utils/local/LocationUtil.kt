@@ -67,6 +67,7 @@ suspend fun Context.getLocation(loc: Locale? = null): Triple<Boolean, LocationBe
                             LogUtil.d("触发定位信息")
                             //updateLocation(location, callback);
                         }
+                        @Deprecated("Deprecated in Java")
                         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
                         override fun onProviderEnabled(provider: String) {}
                         override fun onProviderDisabled(provider: String) {}

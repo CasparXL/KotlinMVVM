@@ -95,6 +95,7 @@ abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction
     /**
      * 跳转界面时隐藏软键盘
      */
+    @Deprecated("Deprecated in Java")
     override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
         hideSoftKeyboard()
         // 查看源码得知 startActivity 最终也会调用 startActivityForResult
