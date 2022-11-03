@@ -27,6 +27,7 @@ import com.caspar.xl.viewmodel.HomeViewModel
 import com.caspar.xl.widget.captcha.Captcha
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -119,9 +120,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     delay(5000)
                     refreshLayout.finishLoadMore()
                 }
-
             }
-
         })
         initAdapter()
     }

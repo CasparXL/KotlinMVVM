@@ -15,8 +15,9 @@ import com.caspar.base.utils.log.LogFileManager
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCrashLogDetailBinding
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class CrashLogDetailActivity : BaseActivity<ActivityCrashLogDetailBinding>() {
@@ -32,10 +33,20 @@ class CrashLogDetailActivity : BaseActivity<ActivityCrashLogDetailBinding>() {
         mBindingView.title.tvCenter.text = fileName
         mBindingView.title.tvLeft.setOnClickListener { finish() }
         lifecycleScope.launch {
-            mBindingView.tvText.text = "Loading..."
-            val fileContent = File(LogFileManager.allLogFile(),fileName).readText()
-            delay(200)
-            mBindingView.tvText.text = fileContent
+            withContext(Dispatchers.IO) {
+                //读取大文件专用方法，该写法可以流畅读取大文件内容
+                File(LogFileManager.allLogFile(), fileName).useLines {
+                    it.iterator().apply {
+                        while (this.hasNext()) {
+                            withContext(Dispatchers.Main) {
+                                mBindingView.tvText.text =
+                                    mBindingView.tvText.text.toString().plus("\n")
+                                        .plus(this@apply.next())
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
