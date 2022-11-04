@@ -10,51 +10,50 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.util.*
 
+
 /**
- * Retrofit的Post请求工具类
+ *
+ *
+ *  上传单张
+ *  @Multipart
+ *  @POST(ApiConstants.uploadImg)
+ *  suspend fun uploadImg(@Part part: List<MultipartBody.Part>): BaseBean<String>
+ *  上传多张图片
+ *  @Multipart
+ *  @POST(ApiConstants.deviceInstallImg)
+ *  suspend fun deviceInstallImg(@Part part: List<MultipartBody.Part>): BaseBean<List<String>>
+ *
+ *  调用时 val base = Api.api.uploadImg(head.toMultipartBody())
  */
-object PostType {
-    /**
-     * @param value
-     * @return
-     */
-    fun toStringRequestBody(value: String): RequestBody {
-        return value.toRequestBody("text/plain".toMediaTypeOrNull())
-    }
+/**
+ * 上传图片类型转换
+ *
+ * @param value
+ * @return
+ */
+fun File.toFileRequestBody(): RequestBody {
+    return this.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+}
 
-    /**
-     * 上传图片类型
-     *
-     * @param value
-     * @return
-     */
-    fun toFileRequestBody(value: File): RequestBody? {
-        return value.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-    }
+/**
+ * 单图片上传
+ */
+fun File.toMultipartBody(): List<MultipartBody.Part> {
+    return MultipartBody.Builder().setType(MultipartBody.FORM)
+        .addFormDataPart("file", this.name, this.toFileRequestBody())
+        .build().parts
+}
 
-    /**
-     * @param requestDataMap 用于Retrofit的Post请求form表单数据过多可以使用该请求
-     * @return
-     */
-    fun toMapRequestBody(requestDataMap: Map<String, String>): Map<String, RequestBody> {
-        val requestBodyMap: MutableMap<String, RequestBody> = HashMap()
-        for (key in requestDataMap.keys) {
-            val requestBody = (requestDataMap[key] ?: "").toRequestBody("multipart/form-data".toMediaTypeOrNull())
-            requestBodyMap[key] = requestBody
-        }
-        return requestBodyMap
+/**
+ * 多图片上传
+ */
+fun List<File>.toMultipartBody(): List<MultipartBody.Part>{
+    val mutableList:MutableList<MultipartBody.Part> = mutableListOf()
+    this.forEach {
+        val parts = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("file", it.name, it.toFileRequestBody())
+            .build().parts
+        mutableList.addAll(parts)
     }
-
-    /**
-     * @param Files 用于Retrofit的Post请求form表单数据过多可以使用该请求
-     * @return
-     */
-    fun toMapRequestBody(Files: List<File>): Map<String, RequestBody> {
-        val map = HashMap<String, RequestBody>()
-        for (file in Files) {
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-            map["pictures\";filename=\"" + file.name] = requestFile
-        }
-        return map
-    }
+    return mutableList
 }
