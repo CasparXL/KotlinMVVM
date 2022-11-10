@@ -23,12 +23,21 @@ class RefreshListActivity : BaseActivity<ActivityRefreshListBinding>() {
     val mAdapter: RefreshListAdapter = RefreshListAdapter()
     val mViewModel: RefreshListViewModel by viewModels()
 
-    @OptIn(ExperimentalTime::class)
     override fun initView(savedInstanceState: Bundle?) {
+        mBindingView.title.tvCenter.text = "适配器高效刷新"
         mBindingView.title.tvLeft.setOnClickListener {
+            finish()
+        }
+        mBindingView.btnRefresh.setOnClickListener {
             mViewModel.pageNo = 2
             mViewModel.messageList()
         }
+        initAdapter()
+        initObserver()
+        mViewModel.messageList()
+    }
+
+    private fun initAdapter() {
         mBindingView.srlRefresh.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
             override fun onRefresh(refreshLayout: RefreshLayout) {
                 mViewModel.pageNo = 1
@@ -49,11 +58,17 @@ class RefreshListActivity : BaseActivity<ActivityRefreshListBinding>() {
             }
         })
         mBindingView.rvList.itemAnimator = null
+        //设置UI回调
         mAdapter.setDiffCallback(RefreshListAdapter.DiffDemoCallback())
         mBindingView.rvList.adapter = mAdapter
         mAdapter.setOnItemClickListener { a, v, p ->
-
+            //更新单个数据这么操作即可
+            mAdapter.setData(p, mAdapter.data[p].copy(name = "$p"))
         }
+    }
+
+    @OptIn(ExperimentalTime::class)
+    private fun initObserver() {
         lifecycleScope.launch {
             mViewModel.messageEvent.collect {
                 measureTime {
