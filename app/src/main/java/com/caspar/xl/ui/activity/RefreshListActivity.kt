@@ -78,16 +78,20 @@ class RefreshListActivity : BaseActivity<ActivityRefreshListBinding>() {
                     if (mViewModel.pageNo == 1) {
                         mAdapter.setDiffNewData(data)
                     } else {
+                        //将所有数据源按一页Size的数量分组
                         val list = mAdapter.data.chunked(mViewModel.pageSize).toMutableList()
+                        //如果分组数量小于当前页数，代表新增数据
                         if (list.size < mViewModel.pageNo) {
                             list.add(it)
                         } else {
                             list[mViewModel.pageNo - 1] = it
                         }
+                        //所有数据重新叠加
                         val emptyList = mutableListOf<MessageListBean>()
                         list.map {
                             emptyList.addAll(it)
                         }
+                        //刷新UI
                         mAdapter.setDiffNewData(emptyList)
                     }
                 }.let {
