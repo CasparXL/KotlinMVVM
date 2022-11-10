@@ -34,6 +34,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity">
+        <activity
+            android:name=".ui.activity.RefreshListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <!-- 崩溃界面 -->
         <activity
             android:name=".ui.CrashActivity"
@@ -56,8 +61,7 @@
             android:name=".ui.activity.SelectCityActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            android:screenOrientation="portrait" />
-        <!-- 适配 Android 7.0 文件意图 -->
+            android:screenOrientation="portrait" /> <!-- 适配 Android 7.0 文件意图 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

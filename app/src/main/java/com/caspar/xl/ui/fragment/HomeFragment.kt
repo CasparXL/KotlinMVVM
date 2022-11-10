@@ -186,6 +186,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     mViewModel.crashLog -> {
                         acStart<CrashLogActivity>()
                     }
+                    mViewModel.refreshList -> {
+                        acStart<RefreshListActivity>()
+                    }
                 }
             }
         }
