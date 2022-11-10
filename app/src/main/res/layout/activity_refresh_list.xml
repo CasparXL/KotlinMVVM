@@ -17,6 +17,12 @@
         android:layout_height="wrap_content"
         android:text="更新部分数据(第二页数据部分替换)" />
 
+    <Button
+        android:id="@+id/btn_changed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="数据逆反顺序切换，切刷新加载逻辑也变化(现在:从小到大)" />
+
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/srl_refresh"
         android:layout_width="match_parent"
