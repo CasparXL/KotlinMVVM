@@ -35,16 +35,16 @@ class TranslateViewModel(application: Application) : AndroidViewModel(applicatio
                 if (result.errorCode == 0) {
                     _translateResult.emit(result)
                 } else {
-                    _viewEvent.setEvent(ViewEvent.ShowToast("翻译失败"))
+                    _viewEvent.setEvent(ViewEvent.ShowToast("请求失败"))
                 }
-                _viewEvent.setEvent(ViewEvent.DismissDialog)
             }.onStart {
                 _viewEvent.setEvent(ViewEvent.ShowDialog)
             }.catch { ex ->
                 //当网络请求尚未完成，且抛出了error，则返回Error出去
                 val networkResult = call(ex)
-                LogUtil.d(networkResult.toString())
-                _viewEvent.setEvent(ViewEvent.DismissDialog,ViewEvent.ShowToast("登录失败:${networkResult.second}"))
+                _viewEvent.setEvent(ViewEvent.ShowToast("请求失败:${networkResult.second}"))
+            }.onCompletion {
+                _viewEvent.setEvent(ViewEvent.DismissDialog)
             }.collect()
         }
     }
