@@ -2,7 +2,7 @@
 plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
 }
 
 allprojects {
@@ -12,7 +12,7 @@ allprojects {
             def requested = details.requested
             if (requested.group == 'org.jetbrains.kotlin') {
                 if (requested.name.startsWith("kotlin-stdlib")) {
-                    details.useVersion '1.7.10'
+                    details.useVersion '1.7.20'
                 }
             }
         }
