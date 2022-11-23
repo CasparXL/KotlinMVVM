@@ -100,10 +100,7 @@ class RefreshListActivity : BaseActivity<ActivityRefreshListBinding>() {
                             list[mViewModel.pageNo - 1] = it
                         }
                         //所有数据重新叠加
-                        val emptyList = mutableListOf<MessageListBean>()
-                        list.map { allData ->
-                            emptyList.addAll(allData)
-                        }
+                        val emptyList = list.flatten()
                         //当排序是反方向时,先排序反方向，然后筛选掉旧数据，最终在反方向回来
                         val finalList = emptyList.reversed().distinctBy { db-> db.id }.reversed().toMutableList()
                         //刷新UI
