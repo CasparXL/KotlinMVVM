@@ -55,7 +55,6 @@ class HomeFragment : BaseFragment() {
     private val localPermission = requestMultiplePermissions(allGranted = {
         lifecycleScope.launchWhenCreated {
             getLocal(0)
-//            getLocal(0, Locale.ENGLISH)
         }
     }, denied = {
         toast("你拒绝了以下权限->${GsonUtils.toJson(it)}")
@@ -110,7 +109,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
-        return FragmentHomeBinding.inflate(inflater,container,false).apply {
+        return FragmentHomeBinding.inflate(inflater, container,false).apply {
             mBindingView = this
         }
     }

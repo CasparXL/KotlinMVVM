@@ -18,9 +18,11 @@ import java.lang.reflect.ParameterizedType
  * @time 2020/4/2
  */
 abstract class BaseFragment : Fragment(), ToastAction {
+    private var _binding: ViewBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return getViewBinding(inflater, container).root
+        _binding = getViewBinding(inflater, container)
+        return _binding!!.root
     }
 
     //获取父Activity
@@ -36,5 +38,10 @@ abstract class BaseFragment : Fragment(), ToastAction {
     abstract fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding
 
     abstract fun initView(savedInstanceState: Bundle?)
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 }
