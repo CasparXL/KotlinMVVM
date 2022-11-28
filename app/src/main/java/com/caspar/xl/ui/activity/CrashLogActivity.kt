@@ -2,6 +2,7 @@ package com.caspar.xl.ui.activity
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.acStart
 import com.caspar.base.ext.dp
@@ -21,8 +22,15 @@ import java.io.File
 /**
  * 崩溃日志列表
  */
-class CrashLogActivity : BaseActivity<ActivityCrashLogBinding>() {
+class CrashLogActivity : BaseActivity() {
+    private lateinit var mBindingView: ActivityCrashLogBinding
     private val adapter by lazy { ItemCityAdapter() }
+    override fun getViewBinding(): ViewBinding {
+        return ActivityCrashLogBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
         val logList = LogFileManager.allLogFile()
         mBindingView.title.tvLeft.setOnClickListener { finish() }

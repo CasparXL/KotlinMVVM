@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.caspar.base.base.BaseActivity
@@ -27,7 +28,8 @@ import kotlinx.coroutines.launch
  * time   : 2019/06/27
  * desc   : 崩溃捕捉界面
  */
-class CrashActivity : BaseActivity<ActivityCrashBinding>(), View.OnClickListener {
+class CrashActivity : BaseActivity(), View.OnClickListener {
+    private lateinit var mBindingView: ActivityCrashBinding
     private var mConfig: CaocConfig? = null
     private var mDialog: AlertDialog? = null
 
@@ -57,6 +59,12 @@ class CrashActivity : BaseActivity<ActivityCrashBinding>(), View.OnClickListener
     private fun copyErrorToClipboard() {
         val errorInformation = CustomActivityOnCrash.getAllErrorDetailsFromIntent(this@CrashActivity, intent)
         (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText(getString(R.string.crash_error_info), errorInformation))
+    }
+
+    override fun getViewBinding(): ViewBinding {
+        return ActivityCrashBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {

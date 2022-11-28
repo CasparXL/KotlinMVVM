@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.utils.log.LogUtil
@@ -16,8 +17,14 @@ import com.caspar.xl.ext.observeEvent
 import com.caspar.xl.viewmodel.TranslateViewModel
 import kotlinx.coroutines.launch
 
-class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClickListener {
+class TranslateActivity : BaseActivity(), View.OnClickListener {
+    private lateinit var mBindingView: ActivityTranslateBinding
     private val mViewModel: TranslateViewModel by viewModels()
+    override fun getViewBinding(): ViewBinding {
+        return ActivityTranslateBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
@@ -35,6 +42,7 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
             }
         }
     }
+
     //网络请求监听
     private fun initNetworkObserver() {
         lifecycleScope.launch {
@@ -45,6 +53,7 @@ class TranslateActivity : BaseActivity<ActivityTranslateBinding>(), View.OnClick
             }
         }
     }
+
     //视图事件监听
     private fun initViewObserver() {
         mViewModel.viewEvent.observeEvent(this@TranslateActivity) {

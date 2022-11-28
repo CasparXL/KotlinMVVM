@@ -3,6 +3,7 @@ package com.caspar.xl
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.base.FragmentPagerAdapter
 import com.caspar.base.ext.setOnClickListener
@@ -10,8 +11,14 @@ import com.caspar.xl.databinding.ActivityMainBinding
 import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment
 
-class MainActivity : BaseActivity<ActivityMainBinding>(), View.OnClickListener {
+class MainActivity : BaseActivity(), View.OnClickListener {
+    private lateinit var mBindingView: ActivityMainBinding
     private lateinit var mPagerAdapter: FragmentPagerAdapter<Fragment>
+    override fun getViewBinding(): ViewBinding {
+        return ActivityMainBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_home, R.id.tv_mine)

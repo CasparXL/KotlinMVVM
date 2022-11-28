@@ -6,10 +6,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseFragment
 import com.caspar.base.ext.*
 import com.caspar.base.utils.log.LogUtil
@@ -36,7 +39,9 @@ import java.util.*
  *  @Create 2020/6/13.
  *  @Use
  */
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseFragment() {
+    private lateinit var mBindingView: FragmentHomeBinding
+
     //首页列表适配器
     private val mAdapter: HomeMenuAdapter by lazy { HomeMenuAdapter() }
 
@@ -100,6 +105,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             else -> {
                 selectFile.launch(createIntent<SelectFileActivity>())
             }
+        }
+    }
+
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
+        return FragmentHomeBinding.inflate(inflater,container,false).apply {
+            mBindingView = this
         }
     }
 

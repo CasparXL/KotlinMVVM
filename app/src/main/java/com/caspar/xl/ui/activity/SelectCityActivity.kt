@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.xl.databinding.ActivitySelectCityBinding
 import com.caspar.xl.ui.adapter.ItemCityAdapter
@@ -13,11 +14,17 @@ import com.caspar.xl.widget.index.decoration.GroupHeaderItemDecoration
 import com.caspar.xl.widget.index.ext.sortByLetter
 import com.caspar.xl.widget.index.listener.OnSideBarTouchListener
 
-class SelectCityActivity : BaseActivity<ActivitySelectCityBinding>() {
-    val mAdapter : ItemCityAdapter by lazy {
+class SelectCityActivity : BaseActivity() {
+    private lateinit var mBindingView: ActivitySelectCityBinding
+    private val mAdapter: ItemCityAdapter by lazy {
         ItemCityAdapter()
     }
     var tags: MutableList<ItemData> = mutableListOf()
+    override fun getViewBinding(): ViewBinding {
+        return ActivitySelectCityBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.include.tvLeft.setOnClickListener { finish() }
@@ -62,7 +69,11 @@ class SelectCityActivity : BaseActivity<ActivitySelectCityBinding>() {
         tags.sortByLetter()
         val listTag = tags.map { it.tag }.toList()
         val listTitle = tags.map { it.title }.toList()
-        mBindingView.rvList.addItemDecoration(GroupHeaderItemDecoration(listTag).setGroupHeaderHeight(30).setGroupHeaderLeftPadding(20))
+        mBindingView.rvList.addItemDecoration(
+            GroupHeaderItemDecoration(listTag).setGroupHeaderHeight(
+                30
+            ).setGroupHeaderLeftPadding(20)
+        )
         mBindingView.rvList.addItemDecoration(DivideItemDecoration().setTags(listTag))
         mBindingView.rvList.adapter = mAdapter
         mAdapter.setList(listTitle)
@@ -71,7 +82,10 @@ class SelectCityActivity : BaseActivity<ActivitySelectCityBinding>() {
                 mBindingView.tip.isVisible = true
                 mBindingView.tip.text = text
                 if (position != -1) {
-                    (mBindingView.rvList.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 0)
+                    (mBindingView.rvList.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                        position,
+                        0
+                    )
                 }
             }
 

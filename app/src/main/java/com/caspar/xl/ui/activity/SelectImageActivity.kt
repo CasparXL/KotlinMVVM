@@ -9,6 +9,7 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.setOnClickListener
@@ -30,11 +31,17 @@ import java.util.*
  * 如果用Glide，在滑动时则不会存在卡顿问题，因此适配器中图片加载的方案请谨慎选择
  * 2021-12-16 --- 新增方案，在Application中使用Coil.setImageLoader，添加适配器，使用Flow.first方法做判断校验，如果是暂停阶段，则不加载图片，使用预览图片，当停止了滑动状态，才开始加载
  */
-class SelectImageActivity : BaseActivity<ActivitySelectImageBinding>(), View.OnClickListener {
+class SelectImageActivity : BaseActivity(), View.OnClickListener {
+    private lateinit var mBindingView: ActivitySelectImageBinding
     private val mAdapter: SelectImageAdapter by lazy { SelectImageAdapter() }
 
     /** 图片专辑  */
     private val mAllAlbum = HashMap<String, MutableList<String>>()
+    override fun getViewBinding(): ViewBinding {
+        return ActivitySelectImageBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_left)

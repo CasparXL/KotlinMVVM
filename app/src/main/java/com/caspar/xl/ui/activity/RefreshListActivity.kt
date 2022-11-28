@@ -3,6 +3,7 @@ package com.caspar.xl.ui.activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.databinding.ActivityRefreshListBinding
@@ -21,9 +22,15 @@ import kotlin.time.measureTime
  * 提高UI刷新速度
  * 不论是什么顺序的数据,都可能存在问题，根据需求自行调整，规避最严重的bug即可,只要数据出现的频率不是很大，那么很多时候刷新页面数据就能解决当前已有的所有问题
  */
-class RefreshListActivity : BaseActivity<ActivityRefreshListBinding>() {
+class RefreshListActivity : BaseActivity() {
+    private lateinit var mBindingView: ActivityRefreshListBinding
     val mAdapter: RefreshListAdapter = RefreshListAdapter()
     val mViewModel: RefreshListViewModel by viewModels()
+    override fun getViewBinding(): ViewBinding {
+        return ActivityRefreshListBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvCenter.text = "适配器高效刷新"
@@ -32,7 +39,8 @@ class RefreshListActivity : BaseActivity<ActivityRefreshListBinding>() {
         }
         mBindingView.btnChanged.setOnClickListener {
             mViewModel.revered = !mViewModel.revered
-            mBindingView.btnChanged.text = "数据逆反顺序切换，切刷新加载逻辑也变化(现在:${if (mViewModel.revered) "从大到小" else "从小到大"})"
+            mBindingView.btnChanged.text =
+                "数据逆反顺序切换，切刷新加载逻辑也变化(现在:${if (mViewModel.revered) "从大到小" else "从小到大"})"
             if (mViewModel.revered) {
                 toast("新数据顶在第二页的前面,所以第二页出现重复数据，移除部分重复内容")
             } else {
@@ -79,8 +87,8 @@ class RefreshListActivity : BaseActivity<ActivityRefreshListBinding>() {
         lifecycleScope.launch {
             mViewModel.messageEvent.collect {
                 //没有更多数据时，pageNo-1,不刷新列表
-                if (it.isEmpty() && mViewModel.pageNo != 1){
-                    mViewModel.pageNo --
+                if (it.isEmpty() && mViewModel.pageNo != 1) {
+                    mViewModel.pageNo--
                     return@collect
                 }
                 //新增数据不是在列表最前方的话(即最新数据在列表最顶部的情况(当前时间的数据在最顶部))，该方法可以高效刷新当前页或者加载更多数据
@@ -102,13 +110,14 @@ class RefreshListActivity : BaseActivity<ActivityRefreshListBinding>() {
                         //所有数据重新叠加
                         val emptyList = list.flatten()
                         //当排序是反方向时,先排序反方向，然后筛选掉旧数据，最终在反方向回来
-                        val finalList = emptyList.reversed().distinctBy { db-> db.id }.reversed().toMutableList()
+                        val finalList = emptyList.reversed().distinctBy { db -> db.id }.reversed()
+                            .toMutableList()
                         //刷新UI
                         mAdapter.setDiffNewData(finalList)
                         //最终列表没有达到当前页需要的数量时，pageNo - 1
                         // (正常来说从大到小的顺序时(即时间顺序从现在到以前)，第二页出现了重复数据，才有可能减少pageNo的情况)
-                        if (finalList.size < mViewModel.pageNo * mViewModel.pageSize){
-                            mViewModel.pageNo --
+                        if (finalList.size < mViewModel.pageNo * mViewModel.pageSize) {
+                            mViewModel.pageNo--
                         }
                     }
                 }.let {

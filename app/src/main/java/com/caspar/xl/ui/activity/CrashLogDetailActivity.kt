@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.setDrawableSize
@@ -20,10 +21,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class CrashLogDetailActivity : BaseActivity<ActivityCrashLogDetailBinding>() {
-    companion object{
+class CrashLogDetailActivity : BaseActivity() {
+    private lateinit var mBindingView:ActivityCrashLogDetailBinding
+
+    companion object {
         const val FILE_PATH = "FILE_PATH"
     }
+
+    override fun getViewBinding(): ViewBinding {
+        return ActivityCrashLogDetailBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
         val fileName = intent.getStringExtra(FILE_PATH)?:""
         mBindingView.title.tvRight.setOnClickListener {

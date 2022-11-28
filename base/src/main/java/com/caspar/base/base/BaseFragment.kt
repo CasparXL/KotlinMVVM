@@ -17,31 +17,10 @@ import java.lang.reflect.ParameterizedType
  * @author CasparXL
  * @time 2020/4/2
  */
-abstract class BaseFragment<SV : ViewBinding> : Fragment(), ToastAction {
-    protected lateinit var mBindingView: SV
+abstract class BaseFragment : Fragment(), ToastAction {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return initBindView(inflater, container)
-    }
-
-    //初始化ViewBinding
-    private fun initBindView(inflater: LayoutInflater, container: ViewGroup?): View {
-        val superclass = javaClass.genericSuperclass
-        val aClass = (superclass as ParameterizedType).actualTypeArguments[0] as Class<*>
-        try {
-            val method: Method = aClass.getDeclaredMethod("inflate", LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.java)
-            mBindingView = method.invoke(null, inflater, container, false) as SV
-        } catch (e: NoSuchMethodException) {
-            LogUtil.e(e)
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            LogUtil.e(e)
-            e.printStackTrace()
-        } catch (e: InvocationTargetException) {
-            LogUtil.e(e)
-            e.printStackTrace()
-        }
-        return mBindingView.root
+        return getViewBinding(inflater, container).root
     }
 
     //获取父Activity
@@ -53,6 +32,8 @@ abstract class BaseFragment<SV : ViewBinding> : Fragment(), ToastAction {
         super.onViewCreated(view, savedInstanceState)
         initView(savedInstanceState)
     }
+
+    abstract fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding
 
     abstract fun initView(savedInstanceState: Bundle?)
 

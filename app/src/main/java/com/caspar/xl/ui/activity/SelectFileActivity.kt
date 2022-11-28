@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Environment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.config.Constant
@@ -19,9 +20,15 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 
-class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
+class SelectFileActivity : BaseActivity() {
+    private lateinit var mBindingView: ActivitySelectFileBinding
     private val mAdapter = SelectFileAdapter()
     private var currentFile: File? = null
+    override fun getViewBinding(): ViewBinding {
+        return ActivitySelectFileBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
@@ -45,8 +52,8 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
                     MMKVUtil.encode(Constant.ADDRESS_HISTORICAL, file.parent)
                     LogUtil.e(file.path)
                     val intent = Intent()
-                    intent.putExtra("path",file.path)
-                    setResult(Constant.SELECT_FILE_PATH,intent)
+                    intent.putExtra("path", file.path)
+                    setResult(Constant.SELECT_FILE_PATH, intent)
                     finish()
                 }
             }
@@ -60,7 +67,7 @@ class SelectFileActivity : BaseActivity<ActivitySelectFileBinding>() {
      */
     private fun initFilePath() {
         val oldPath = MMKVUtil.decodeString(Constant.ADDRESS_HISTORICAL)
-        if (oldPath.isEmpty()){
+        if (oldPath.isEmpty()) {
             toRootDirectory()
         } else {
             currentFile = File(oldPath)

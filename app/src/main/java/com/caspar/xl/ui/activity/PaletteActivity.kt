@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
+import androidx.viewbinding.ViewBinding
 import coil.load
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
@@ -14,8 +15,14 @@ import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityPaletteBinding
 
 
-class PaletteActivity : BaseActivity<ActivityPaletteBinding>(), View.OnClickListener {
+class PaletteActivity : BaseActivity(), View.OnClickListener {
     private var bitmap: Bitmap? = null
+    private lateinit var mBindingView: ActivityPaletteBinding
+    override fun getViewBinding(): ViewBinding {
+        return ActivityPaletteBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_left)
@@ -39,14 +46,16 @@ class PaletteActivity : BaseActivity<ActivityPaletteBinding>(), View.OnClickList
                     val xsdX = event.x / view.width
                     val xsdY = event.y / view.height
                     LogUtil.e("bit宽高[${this.width},${this.height}],图片宽高[${view.width},${view.height}]")
-                    val color: Int = getPixel((xsdX * this.width).toInt(), (xsdY * this.height).toInt())
+                    val color: Int =
+                        getPixel((xsdX * this.width).toInt(), (xsdY * this.height).toInt())
                     val r: Int = Color.red(color)
                     val g: Int = Color.green(color)
                     val b: Int = Color.blue(color)
                     mBindingView.viewBackground.setBackgroundColor(color)
                     LogUtil.e("颜色->[r->$r,g->$g,b->$b]")
                 } ?: run {
-                    bitmap = mBindingView.ivImage.drawable.toBitmap(height = view.height).copy(Bitmap.Config.ARGB_8888, true)
+                    bitmap = mBindingView.ivImage.drawable.toBitmap(height = view.height)
+                        .copy(Bitmap.Config.ARGB_8888, true)
                     LogUtil.e("创建了一个bitmap")
                 }
                 LogUtil.e("移动位置->[${event.x},${event.y}]")
@@ -56,8 +65,8 @@ class PaletteActivity : BaseActivity<ActivityPaletteBinding>(), View.OnClickList
     }
 
     override fun onClick(v: View) {
-        when(v.id){
-            R.id.tv_left ->{
+        when (v.id) {
+            R.id.tv_left -> {
                 finish()
             }
         }

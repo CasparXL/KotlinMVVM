@@ -23,49 +23,28 @@ import java.lang.reflect.ParameterizedType
  * @description 如果使用了ARouter,Activity顶部需要加上@Router注解，参数path为标注路径，示例:@Route(path = ARouterApi.MAIN)
  * @time 2020/4/2
  */
-abstract class BaseActivity<SV : ViewBinding> : AppCompatActivity(), ToastAction {
+abstract class BaseActivity : AppCompatActivity(), ToastAction {
     /***************************************初始化视图以及变量,相关生命周期**********************************************/
-    /**
-     * ViewBinding
-     */
-    protected lateinit var mBindingView: SV
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view = initViewBinding()
-        setContentView(view)
         immersionBar {
             statusBarDarkFont(true)
             if (keyboardEnable()) {
                 keyboardEnable(true)
             }
         }
+        setContentView(getViewBinding().root)
         initView(savedInstanceState)
     }
 
-    private fun initViewBinding(): View {
-        val superclass = javaClass.genericSuperclass
-        val aClass = (superclass as ParameterizedType).actualTypeArguments[0] as Class<*>
-        try {
-            val method: Method = aClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
-            mBindingView = method.invoke(null, layoutInflater) as SV
-        } catch (e: NoSuchMethodException) {
-            LogUtil.e(e)
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            LogUtil.e(e)
-            e.printStackTrace()
-        } catch (e: InvocationTargetException) {
-            LogUtil.e(e)
-            e.printStackTrace()
-        }
-        return mBindingView.root
-    }
 
     override fun onNewIntent(intent: Intent?) { //页面特殊销毁的话通过该方法重新赋值
         super.onNewIntent(intent)
         setIntent(intent)
     }
+
+    protected abstract fun getViewBinding(): ViewBinding
 
     /***初始化视图数据***/
     protected abstract fun initView(savedInstanceState: Bundle?)

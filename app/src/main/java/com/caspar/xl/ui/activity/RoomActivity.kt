@@ -6,6 +6,7 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.utils.log.LogUtil
@@ -20,18 +21,26 @@ import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.viewmodel.RoomViewModel
 import kotlinx.coroutines.*
 
-class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
+class RoomActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: RoomViewModel by viewModels()
+    private lateinit var mBindingView: ActivityRoomBinding
+    override fun getViewBinding(): ViewBinding {
+        return ActivityRoomBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.tvLogcat.movementMethod = ScrollingMovementMethod.getInstance()
         searchAll()
-        setOnClickListener(this,
+        setOnClickListener(
+            this,
             R.id.btnSearch,
             R.id.tv_left,
             R.id.btnInsert,
             R.id.btnClear,
-            R.id.btnSearchAll)
+            R.id.btnSearchAll
+        )
         mViewModel.viewStates.let { state ->
             state.observeState(this, RoomViewState::str) {
                 LogUtil.d("str文字变化->${it}")
@@ -50,7 +59,8 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
             withContext(Dispatchers.IO) {
                 mViewModel.viewStates.value.str =
                     "学生数据\n" + GsonUtils.toJson(mViewModel.getAllUser()) + "\n\n老师数据:\n\n" + GsonUtils.toJson(
-                        mViewModel.getAllTeacher())
+                        mViewModel.getAllTeacher()
+                    )
             }
             mBindingView.tvLogcat.text = mViewModel.viewStates.value.str
         }
@@ -110,20 +120,26 @@ class RoomActivity : BaseActivity<ActivityRoomBinding>(), View.OnClickListener {
                 }
                 lifecycleScope.launch(error) {
                     //模拟随机添加学生和老师数据
-                    val teacherBean = TeacherBean(id = (0..100).random().toLong(),
+                    val teacherBean = TeacherBean(
+                        id = (0..100).random().toLong(),
                         name = "老师" + (0..100).random(),
-                        age = (0..100).random())
+                        age = (0..100).random()
+                    )
                     val teacherId = mViewModel.insertTeacher(teacherBean)
                     mViewModel.updateTeacherId(teacherId)
-                    mViewModel.updateStr(if (teacherId != -1L) {
-                        "添加老师数据成功[id:${teacherBean.id},name=${teacherBean.name}]\n"
-                    } else {
-                        "添加老师数据失败[id:${teacherBean.id},name=${teacherBean.name}]\n请进行重新添加老师信息[错误原因可能是因为随机数产生时，当前id在表中已存在]\n"
-                    })
-                    val user = UserBean(id = (0..100).random().toLong(),
+                    mViewModel.updateStr(
+                        if (teacherId != -1L) {
+                            "添加老师数据成功[id:${teacherBean.id},name=${teacherBean.name}]\n"
+                        } else {
+                            "添加老师数据失败[id:${teacherBean.id},name=${teacherBean.name}]\n请进行重新添加老师信息[错误原因可能是因为随机数产生时，当前id在表中已存在]\n"
+                        }
+                    )
+                    val user = UserBean(
+                        id = (0..100).random().toLong(),
                         name = "学生" + (0..100).random(),
                         age = (0..100).random(),
-                        tId = teacherBean.id)
+                        tId = teacherBean.id
+                    )
                     mViewModel.updateUserId(user.id)
                     LogUtil.e("老师id $teacherId,学生id $mViewModel.viewStates.value.userId")
                     val userId = mViewModel.insertUser(user)

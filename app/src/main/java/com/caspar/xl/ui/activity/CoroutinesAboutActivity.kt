@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.base.BaseDialog
 import com.caspar.base.ext.setOnClickListener
@@ -17,15 +18,21 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CoroutinesAboutActivity : BaseActivity<ActivityCoroutinesAboutBinding>(),
+class CoroutinesAboutActivity : BaseActivity(),
     View.OnClickListener {
-
+    private lateinit var mBindingView:ActivityCoroutinesAboutBinding
     private val mViewModel: CoroutinesViewModel by viewModels()
     var dialog : BaseDialog? = null
     var dialogBuilder : WaitDialog.Builder? = null
 
     //用于模拟取消任务场景做临时变量
     private var job: Job? = null
+
+    override fun getViewBinding(): ViewBinding {
+        return ActivityCoroutinesAboutBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         if (dialog == null){

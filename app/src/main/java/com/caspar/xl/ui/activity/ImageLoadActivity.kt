@@ -2,6 +2,7 @@ package com.caspar.xl.ui.activity
 
 import android.os.Bundle
 import android.view.View
+import androidx.viewbinding.ViewBinding
 import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
@@ -11,9 +12,16 @@ import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityImageLoadBinding
 
-class ImageLoadActivity : BaseActivity<ActivityImageLoadBinding>(), View.OnClickListener {
+class ImageLoadActivity : BaseActivity(), View.OnClickListener {
+    private lateinit var mBindingView:ActivityImageLoadBinding
     private val imageUrl: String =
         "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2496571732,442429806&fm=26&gp=0.jpg"
+
+    override fun getViewBinding(): ViewBinding {
+        return ActivityImageLoadBinding.inflate(layoutInflater).apply {
+            mBindingView = this
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_left, R.id.btn_load)
