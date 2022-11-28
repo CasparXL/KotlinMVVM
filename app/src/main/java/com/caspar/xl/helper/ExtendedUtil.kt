@@ -2,8 +2,10 @@ package com.caspar.xl.helper
 
 
 import com.caspar.base.utils.log.LogUtil
+import com.caspar.xl.bean.BaseBean
 import com.caspar.xl.network.util.NetException
 import com.google.gson.JsonParseException
+import kotlinx.coroutines.CoroutineExceptionHandler
 import org.json.JSONException
 import retrofit2.HttpException
 import java.io.InterruptedIOException
@@ -12,9 +14,15 @@ import java.net.UnknownHostException
 import java.text.ParseException
 
 /**
- * 数据仓库中的异步请求Error回调
+ * 默认协程全部拦截,使用方式launch(DefaultErrorHandelCoroutine),
+ * 当launch代码块内部出现异常,会中断后续代码块,届时，请在launch的invokeOnCompletion代码块中读取该异常并做相应处理
  */
-fun Any.call(throwable: Throwable): Pair<Int,String>{
+val DefaultErrorHandelCoroutine = CoroutineExceptionHandler { _, _ -> }
+
+/**
+ * 解析数据异常
+ */
+fun exportError(throwable: Throwable): Pair<Int, String> {
     LogUtil.e(throwable)
     return when (throwable) {
         is HttpException -> {
@@ -32,3 +40,32 @@ fun Any.call(throwable: Throwable): Pair<Int,String>{
         else -> -1 to NetException.UNKNOWN_ERROR
     }
 }
+
+/**
+ * 有基类的情况下使用
+ */
+suspend fun <T> baseResult(final: () -> Unit = {}, block: suspend () -> BaseBean<T>): Result<T> {
+    return try {
+        block().getResult()
+    } catch (e: Exception) {
+        Result.failure(e)
+    } finally {
+        final()
+    }
+}
+
+/**
+ * 无基类的情况下使用
+ */
+suspend fun <T> otherResult(final: () -> Unit = {}, block: suspend () -> T ): Result<T> {
+    return try {
+        Result.success(block.invoke())
+    } catch (e: Exception) {
+        Result.failure(e)
+    } finally {
+        final()
+    }
+}
+
+
+

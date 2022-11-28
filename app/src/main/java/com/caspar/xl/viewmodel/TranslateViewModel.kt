@@ -8,7 +8,8 @@ import com.caspar.xl.bean.response.TranslateBean
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.SharedFlowEvents
 import com.caspar.xl.ext.setEvent
-import com.caspar.xl.helper.call
+import com.caspar.xl.helper.exportError
+import com.caspar.xl.helper.otherResult
 import com.caspar.xl.network.Api
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,31 +22,21 @@ class TranslateViewModel(application: Application) : AndroidViewModel(applicatio
     /***基础请求管理**/
     private val _viewEvent: SharedFlowEvents<ViewEvent> = SharedFlowEvents()
     val viewEvent = _viewEvent.asSharedFlow()
-    //网络请求，使用MutableStateFlow，可以在不必要的时候节省资源,类似于LiveData的生命周期感知
+
+    //设置性质网络的请求，使用MutableSharedFlow，
+    //读取并固定展示性质的网络请求，可以使用MutableStateFlow，可以在不必要的时候节省资源,类似于LiveData的生命周期感知
     private val _translateResult: MutableSharedFlow<TranslateBean> = MutableSharedFlow()
     val translateResult = _translateResult.asSharedFlow()
+
     /**
      * 网络请求
      */
     fun translate(text: String) {
         viewModelScope.launch {
-            flow<TranslateBean> {
-                //当网络请求成功会走完当前void，并返回Success出去
-                val result = Api.api.translate(text = text)
-                if (result.errorCode == 0) {
-                    _translateResult.emit(result)
-                } else {
-                    _viewEvent.setEvent(ViewEvent.ShowToast("请求失败"))
-                }
-            }.onStart {
-                _viewEvent.setEvent(ViewEvent.ShowDialog)
-            }.catch { ex ->
-                //当网络请求尚未完成，且抛出了error，则返回Error出去
-                val networkResult = call(ex)
-                _viewEvent.setEvent(ViewEvent.ShowToast("请求失败:${networkResult.second}"))
-            }.onCompletion {
-                _viewEvent.setEvent(ViewEvent.DismissDialog)
-            }.collect()
+            val result = otherResult { Api.api.translate(text = text) }
+            result.onSuccess { _translateResult.emit(it) }
+                .onFailure { _viewEvent.setEvent(ViewEvent.ShowToast(exportError(it).second)) }
+            _viewEvent.setEvent(ViewEvent.DismissDialog)
         }
     }
 }
