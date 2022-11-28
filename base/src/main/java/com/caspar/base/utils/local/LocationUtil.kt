@@ -14,6 +14,7 @@ import android.os.CancellationSignal
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.caspar.base.utils.log.LogUtil
+import kotlinx.coroutines.delay
 import java.io.IOException
 import java.util.*
 import kotlin.coroutines.resume
@@ -139,4 +140,23 @@ suspend fun Context.getLocation(loc: Locale? = null): Triple<Boolean, LocationBe
             }
         }
     }
+}
+
+suspend fun Context.getLocal(
+    int: Int = 1,
+    maxRetry: Int = 3,
+    locale: Locale? = Locale.getDefault(),
+): LocationBean? {
+    val location = this.getLocation(locale)
+    if (location.first) {
+        return location.second
+    } else {
+        if (int < maxRetry) {
+            delay(100)
+            getLocal(int + 1)
+        } else {
+            return null
+        }
+    }
+    return null
 }

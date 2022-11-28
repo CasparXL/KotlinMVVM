@@ -17,6 +17,7 @@ import com.caspar.base.base.BaseFragment
 import com.caspar.base.ext.*
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.base.helper.Permission
+import com.caspar.base.utils.local.getLocal
 import com.caspar.base.utils.local.getLocation
 import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.config.Constant
@@ -226,28 +227,21 @@ class HomeFragment : BaseFragment() {
      * 多次获取，因为首次获取到定位权限时不一定能获取到定位信息
      */
     private suspend fun getLocal(int: Int, locale: Locale? = null) {
-        val location = requireContext().getLocation(locale)
-        if (location.first) {
-            val address = location.second
+        val location = requireContext().getLocal(locale = locale)
+        location?.apply {
             val hashMapOf = hashMapOf<String, Any>()
-            hashMapOf["国家"] = address.country
-            hashMapOf["省"] = address.province
-            hashMapOf["市"] = address.city
-            hashMapOf["区"] = address.area
-            hashMapOf["邮编"] = address.adCode
-            hashMapOf["区号"] = address.cityCode
-            hashMapOf["详细住址"] = address.addressDetail
-            hashMapOf["经度"] = address.latitude
-            hashMapOf["纬度"] = address.longitude
-            toast("国家[${address.country}] 省份[${address.province}] 城市[${address.city}] 区[${address.area}] 详细住址[${address.addressDetail}] 经度[${address.latitude}] 纬度[${address.longitude}]")
+            hashMapOf["国家"] = this.country
+            hashMapOf["省"] = this.province
+            hashMapOf["市"] = this.city
+            hashMapOf["区"] = this.area
+            hashMapOf["邮编"] = this.adCode
+            hashMapOf["区号"] = this.cityCode
+            hashMapOf["详细住址"] = this.addressDetail
+            hashMapOf["经度"] = this.latitude
+            hashMapOf["纬度"] = this.longitude
+            toast("国家[${this.country}] 省份[${this.province}] 城市[${this.city}] 区[${this.area}] 详细住址[${this.addressDetail}] 经度[${this.latitude}] 纬度[${this.longitude}]")
             LogUtil.json(GsonUtils.toJson(hashMapOf))
-            LogUtil.json(GsonUtils.toJson(address))
-        } else {
-            if (int < 3) {
-                delay(100)
-                getLocal(int+1, locale)
-            }
-            LogUtil.d("获取失败第${int+1}次")
+            LogUtil.json(GsonUtils.toJson(this))
         }
     }
 }
