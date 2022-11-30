@@ -19,18 +19,9 @@ import javax.net.ssl.*
  */
 object Api {
     private const val DEFAULT_TIMEOUT: Long = 30
-    val api: ApiService by lazy {
-        //支持RxJava2
-        val retrofit = Retrofit.Builder().baseUrl(ApiConfig.BaseUrl)
-            .addConverterFactory(ScalarsConverterFactory.create()) //添加ScalarsConverterFactory支持
-            .addConverterFactory(GsonConverterFactory.create())//可以接收自定义的Gson，当然也可以不传
-            .client(unsafeOkHttpClient)
-            .build()
-        return@lazy retrofit.create(ApiService::class.java)
-    }
 
     // Install the all-trusting trust manager TLS
-    private val unsafeOkHttpClient: OkHttpClient
+     val unsafeOkHttpClient: OkHttpClient
         get() = try {
             // Install the all-trusting trust manager TLS
             val sslContext = SSLContext.getInstance("TLS")

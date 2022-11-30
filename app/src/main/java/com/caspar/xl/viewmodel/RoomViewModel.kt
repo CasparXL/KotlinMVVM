@@ -6,15 +6,18 @@ import com.caspar.xl.bean.db.TeacherBean
 import com.caspar.xl.bean.db.UserBean
 import com.caspar.xl.db.RoomManager
 import com.caspar.xl.eventandstate.RoomViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
 /**
  *  @Create 2020/7/4.
  *  @Use
  */
-class RoomViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class RoomViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
     private val _viewStates = MutableStateFlow(RoomViewState())
     val viewStates = _viewStates.asStateFlow()
 

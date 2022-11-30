@@ -11,7 +11,9 @@ import com.caspar.base.ext.dp
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityImageLoadBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ImageLoadActivity : BaseActivity(), View.OnClickListener {
     private lateinit var mBindingView:ActivityImageLoadBinding
     private val imageUrl: String =

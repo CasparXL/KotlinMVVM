@@ -14,12 +14,14 @@ import com.caspar.xl.databinding.ActivitySelectFileBinding
 import com.caspar.xl.helper.MMKVUtil
 import com.caspar.xl.ui.adapter.FileBean
 import com.caspar.xl.ui.adapter.SelectFileAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 
+@AndroidEntryPoint
 class SelectFileActivity : BaseActivity() {
     private lateinit var mBindingView: ActivitySelectFileBinding
     private val mAdapter = SelectFileAdapter()

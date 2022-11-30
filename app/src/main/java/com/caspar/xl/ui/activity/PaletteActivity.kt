@@ -13,8 +13,10 @@ import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityPaletteBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class PaletteActivity : BaseActivity(), View.OnClickListener {
     private var bitmap: Bitmap? = null
     private lateinit var mBindingView: ActivityPaletteBinding

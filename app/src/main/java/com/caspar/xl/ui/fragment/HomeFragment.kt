@@ -31,6 +31,7 @@ import com.caspar.xl.viewmodel.HomeViewModel
 import com.caspar.xl.widget.captcha.Captcha
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -40,6 +41,7 @@ import java.util.*
  *  @Create 2020/6/13.
  *  @Use
  */
+@AndroidEntryPoint
 class HomeFragment : BaseFragment() {
     private lateinit var mBindingView: FragmentHomeBinding
 

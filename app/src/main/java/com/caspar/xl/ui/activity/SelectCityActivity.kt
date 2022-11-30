@@ -13,7 +13,9 @@ import com.caspar.xl.widget.index.decoration.DivideItemDecoration
 import com.caspar.xl.widget.index.decoration.GroupHeaderItemDecoration
 import com.caspar.xl.widget.index.ext.sortByLetter
 import com.caspar.xl.widget.index.listener.OnSideBarTouchListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SelectCityActivity : BaseActivity() {
     private lateinit var mBindingView: ActivitySelectCityBinding
     private val mAdapter: ItemCityAdapter by lazy {

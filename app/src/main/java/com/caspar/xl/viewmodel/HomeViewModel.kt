@@ -2,12 +2,16 @@ package com.caspar.xl.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.caspar.xl.network.ApiService
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  *  "CasparXL" 创建 2020/5/12.
  *   界面名称以及功能: 首页功能菜单
  */
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class HomeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
     val translate = "翻译"
     val camera = "相机"
     val room = "数据库"

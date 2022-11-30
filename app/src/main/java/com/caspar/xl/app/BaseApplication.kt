@@ -26,6 +26,7 @@ import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.tencent.mmkv.MMKV
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -34,6 +35,7 @@ import kotlinx.coroutines.SupervisorJob
 /**
  * 初始化Application
  */
+@HiltAndroidApp
 class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
 
     override fun onCreate() {

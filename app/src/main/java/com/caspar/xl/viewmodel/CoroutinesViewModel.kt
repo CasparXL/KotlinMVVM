@@ -5,10 +5,13 @@ import androidx.lifecycle.AndroidViewModel
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.bean.response.City
 import com.caspar.xl.network.Api
+import com.caspar.xl.network.ApiService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -16,7 +19,8 @@ import kotlin.coroutines.suspendCoroutine
  *  "CasparXL" 创建 2020/5/12.
  *   界面名称以及功能: 协程相关功能使用
  */
-class CoroutinesViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class CoroutinesViewModel @Inject constructor(application: Application, private val api: ApiService) : AndroidViewModel(application) {
 
     /**
      * 用于封装java类似的回调返回值，使api在协程中可以用变量接收
@@ -25,7 +29,7 @@ class CoroutinesViewModel(application: Application) : AndroidViewModel(applicati
      */
     suspend fun http(): City? {
         return suspendCoroutine {
-            Api.api.getSyncCity().enqueue(object : Callback<City> {
+            api.getSyncCity().enqueue(object : Callback<City> {
                 override fun onResponse(call: Call<City>, response: Response<City>) {
                     it.resume(response.body())
                 }

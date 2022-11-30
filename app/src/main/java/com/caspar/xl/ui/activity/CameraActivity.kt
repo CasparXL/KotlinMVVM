@@ -17,13 +17,14 @@ import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCameraBinding
 import com.caspar.xl.ui.dialog.WaitDialog
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-
+@AndroidEntryPoint
 class CameraActivity : BaseActivity(), View.OnClickListener {
     private lateinit var mBindingView: ActivityCameraBinding
     var cameraControl: CameraControl? = null

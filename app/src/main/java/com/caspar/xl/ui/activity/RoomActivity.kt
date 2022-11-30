@@ -19,8 +19,10 @@ import com.caspar.xl.eventandstate.RoomViewState
 import com.caspar.xl.ext.observeState
 import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.viewmodel.RoomViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
+@AndroidEntryPoint
 class RoomActivity : BaseActivity(), View.OnClickListener {
     private val mViewModel: RoomViewModel by viewModels()
     private lateinit var mBindingView: ActivityRoomBinding

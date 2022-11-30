@@ -19,6 +19,7 @@ import com.caspar.xl.databinding.ActivitySelectImageBinding
 import com.caspar.xl.helper.PauseInterceptor
 import com.caspar.xl.ui.adapter.SelectImageAdapter
 import com.caspar.xl.utils.decoration.Decoration
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,6 +32,7 @@ import java.util.*
  * 如果用Glide，在滑动时则不会存在卡顿问题，因此适配器中图片加载的方案请谨慎选择
  * 2021-12-16 --- 新增方案，在Application中使用Coil.setImageLoader，添加适配器，使用Flow.first方法做判断校验，如果是暂停阶段，则不加载图片，使用预览图片，当停止了滑动状态，才开始加载
  */
+@AndroidEntryPoint
 class SelectImageActivity : BaseActivity(), View.OnClickListener {
     private lateinit var mBindingView: ActivitySelectImageBinding
     private val mAdapter: SelectImageAdapter by lazy { SelectImageAdapter() }

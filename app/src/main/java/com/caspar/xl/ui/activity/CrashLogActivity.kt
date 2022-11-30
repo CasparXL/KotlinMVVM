@@ -13,6 +13,7 @@ import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCrashLogBinding
 import com.caspar.xl.ui.adapter.ItemCityAdapter
 import com.caspar.xl.utils.decoration.Decoration
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,6 +23,7 @@ import java.io.File
 /**
  * 崩溃日志列表
  */
+@AndroidEntryPoint
 class CrashLogActivity : BaseActivity() {
     private lateinit var mBindingView: ActivityCrashLogBinding
     private val adapter by lazy { ItemCityAdapter() }

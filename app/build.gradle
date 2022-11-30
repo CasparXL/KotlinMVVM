@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 
@@ -31,7 +32,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [
+                arguments += [
                         "room.schemaLocation"  : "$projectDir/schemas".toString(),
                         "room.incremental"     : "true",
                         "room.expandProjection": "true"]
@@ -119,6 +120,8 @@ dependencies {
     implementation (libs.google.material) {
         exclude group: 'androidx.recyclerview'
     }
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
     implementation libs.mmkv
     implementation libs.bundles.room
     implementation libs.bundles.camerax
@@ -131,3 +134,7 @@ dependencies {
     androidTestImplementation libs.bundles.androidtestImpl
 }
 
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
+}

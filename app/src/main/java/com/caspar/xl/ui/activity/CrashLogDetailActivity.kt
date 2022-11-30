@@ -16,11 +16,13 @@ import com.caspar.base.utils.log.LogFileManager
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCrashLogDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
+@AndroidEntryPoint
 class CrashLogDetailActivity : BaseActivity() {
     private lateinit var mBindingView:ActivityCrashLogDetailBinding
 

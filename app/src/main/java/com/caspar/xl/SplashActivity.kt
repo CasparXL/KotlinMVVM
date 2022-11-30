@@ -8,10 +8,12 @@ import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.acStart
 import com.caspar.xl.databinding.ActivitySplashBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
+@AndroidEntryPoint
 class SplashActivity : BaseActivity() {
     override fun getViewBinding(): ViewBinding {
         return ActivitySplashBinding.inflate(layoutInflater)

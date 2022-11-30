@@ -15,10 +15,14 @@ import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.observeEvent
 import com.caspar.xl.viewmodel.TranslateViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TranslateActivity : BaseActivity(), View.OnClickListener {
     private lateinit var mBindingView: ActivityTranslateBinding
+
     private val mViewModel: TranslateViewModel by viewModels()
     override fun getViewBinding(): ViewBinding {
         return ActivityTranslateBinding.inflate(layoutInflater).apply {

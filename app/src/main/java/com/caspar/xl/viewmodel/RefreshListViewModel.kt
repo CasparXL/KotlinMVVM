@@ -4,11 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.ui.adapter.MessageListBean
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.random.Random
 
-class RefreshListViewModel : ViewModel() {
+@HiltViewModel
+class RefreshListViewModel @Inject constructor() : ViewModel() {
     var pageNo: Int = 1
     val pageSize: Int = 10
     //是否反方向数据

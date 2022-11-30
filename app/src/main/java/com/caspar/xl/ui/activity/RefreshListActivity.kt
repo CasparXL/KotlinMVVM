@@ -13,6 +13,7 @@ import com.caspar.xl.ui.adapter.RefreshListAdapter
 import com.caspar.xl.viewmodel.RefreshListViewModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
@@ -22,6 +23,7 @@ import kotlin.time.measureTime
  * 提高UI刷新速度
  * 不论是什么顺序的数据,都可能存在问题，根据需求自行调整，规避最严重的bug即可,只要数据出现的频率不是很大，那么很多时候刷新页面数据就能解决当前已有的所有问题
  */
+@AndroidEntryPoint
 class RefreshListActivity : BaseActivity() {
     private lateinit var mBindingView: ActivityRefreshListBinding
     val mAdapter: RefreshListAdapter = RefreshListAdapter()

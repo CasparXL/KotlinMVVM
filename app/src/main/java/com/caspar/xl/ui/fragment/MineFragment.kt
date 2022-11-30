@@ -7,11 +7,13 @@ import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseFragment
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.databinding.FragmentMineBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  *  @Create 2020/6/13.
  *  @Use
  */
+@AndroidEntryPoint
 class MineFragment : BaseFragment() {
     private lateinit var mBindingView: FragmentMineBinding
 

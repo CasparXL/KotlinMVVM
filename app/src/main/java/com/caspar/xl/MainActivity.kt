@@ -10,7 +10,9 @@ import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.databinding.ActivityMainBinding
 import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity(), View.OnClickListener {
     private lateinit var mBindingView: ActivityMainBinding
     private lateinit var mPagerAdapter: FragmentPagerAdapter<Fragment>

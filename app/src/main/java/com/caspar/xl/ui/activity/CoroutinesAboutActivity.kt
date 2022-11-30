@@ -13,11 +13,12 @@ import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCoroutinesAboutBinding
 import com.caspar.xl.ui.dialog.WaitDialog
 import com.caspar.xl.viewmodel.CoroutinesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+@AndroidEntryPoint
 class CoroutinesAboutActivity : BaseActivity(),
     View.OnClickListener {
     private lateinit var mBindingView:ActivityCoroutinesAboutBinding
