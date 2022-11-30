@@ -4,8 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.bean.response.City
-import com.caspar.xl.network.Api
 import com.caspar.xl.network.ApiService
+import com.caspar.xl.di.BodyOkHttpClient
+import com.caspar.xl.di.HeaderOkHttpClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import retrofit2.Call
@@ -20,7 +21,7 @@ import kotlin.coroutines.suspendCoroutine
  *   界面名称以及功能: 协程相关功能使用
  */
 @HiltViewModel
-class CoroutinesViewModel @Inject constructor(application: Application, private val api: ApiService) : AndroidViewModel(application) {
+class CoroutinesViewModel @Inject constructor(application: Application, @HeaderOkHttpClient private val api: ApiService) : AndroidViewModel(application) {
 
     /**
      * 用于封装java类似的回调返回值，使api在协程中可以用变量接收

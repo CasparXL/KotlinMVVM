@@ -1,15 +1,12 @@
 package com.caspar.xl.di
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.bean.db.TeacherDao
 import com.caspar.xl.bean.db.UserDao
 import com.caspar.xl.config.ApiConfig
 import com.caspar.xl.db.RoomManager
-import com.caspar.xl.network.Api
-import com.caspar.xl.network.ApiService
+import com.caspar.xl.network.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,13 +21,25 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @BodyOkHttpClient
     @Provides
-    @Singleton
-    fun provideWeatherApi(): ApiService {
+    fun provideBodyApi(): ApiService {
         return Retrofit.Builder().baseUrl(ApiConfig.BaseUrl)
             .addConverterFactory(ScalarsConverterFactory.create()) //添加ScalarsConverterFactory支持
             .addConverterFactory(GsonConverterFactory.create())//可以接收自定义的Gson，当然也可以不传
-            .client(Api.unsafeOkHttpClient)
+            .client(Api.okhttpLogBody)
+            .build()
+            .create()
+    }
+
+    @HeaderOkHttpClient
+    @Provides
+    fun provideHeaderApi(): ApiService {
+        return Retrofit.Builder().baseUrl(ApiConfig.BaseUrl)
+            .addConverterFactory(ScalarsConverterFactory.create()) //添加ScalarsConverterFactory支持
+            .addConverterFactory(GsonConverterFactory.create())//可以接收自定义的Gson，当然也可以不传
+            .client(Api.okhttpHeader)
             .build()
             .create()
     }

@@ -1,20 +1,17 @@
 package com.caspar.xl.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.bean.response.TranslateBean
+import com.caspar.xl.di.BodyOkHttpClient
+import com.caspar.xl.di.HeaderOkHttpClient
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.SharedFlowEvents
 import com.caspar.xl.ext.setEvent
 import com.caspar.xl.helper.exportError
 import com.caspar.xl.helper.otherResult
-import com.caspar.xl.network.Api
 import com.caspar.xl.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +21,7 @@ import javax.inject.Inject
  *   界面名称以及功能:
  */
 @HiltViewModel
-class TranslateViewModel @Inject constructor(private val api:ApiService) : ViewModel() {
+class TranslateViewModel @Inject constructor(@BodyOkHttpClient private val api:ApiService) : ViewModel() {
     /***基础请求管理**/
     private val _viewEvent: SharedFlowEvents<ViewEvent> = SharedFlowEvents()
     val viewEvent = _viewEvent.asSharedFlow()
