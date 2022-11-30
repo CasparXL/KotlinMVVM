@@ -163,8 +163,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener {
                 }
                 lifecycleScope.launch(error) {
                     withContext(Dispatchers.IO) {
-                        RoomManager.getInstance().getUserDao().deleteAll()
-                        RoomManager.getInstance().getTeacherDao().deleteAll()
+                        mViewModel.clear()
                     }
                     //若要删除失败，下面两个方法互相调换一下顺序
                     mViewModel.updateStr("")

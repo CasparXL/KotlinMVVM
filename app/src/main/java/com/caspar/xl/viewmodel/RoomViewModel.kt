@@ -3,7 +3,9 @@ package com.caspar.xl.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.caspar.xl.bean.db.TeacherBean
+import com.caspar.xl.bean.db.TeacherDao
 import com.caspar.xl.bean.db.UserBean
+import com.caspar.xl.bean.db.UserDao
 import com.caspar.xl.db.RoomManager
 import com.caspar.xl.eventandstate.RoomViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +19,11 @@ import javax.inject.Inject
  *  @Use
  */
 @HiltViewModel
-class RoomViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
+class RoomViewModel @Inject constructor(
+    application: Application,
+    private val teacherDao: TeacherDao,
+    private val userDao: UserDao
+) : AndroidViewModel(application) {
     private val _viewStates = MutableStateFlow(RoomViewState())
     val viewStates = _viewStates.asStateFlow()
 
@@ -37,62 +43,70 @@ class RoomViewModel @Inject constructor(application: Application) : AndroidViewM
      * 获取学生数量
      */
     suspend fun getAllUser(): List<UserBean> {
-        return RoomManager.getInstance().getUserDao().getAllUser()
+        return userDao.getAllUser()
     }
 
     /**
      * 获取老师数量
      */
     suspend fun getAllTeacher(): List<TeacherBean> {
-        return RoomManager.getInstance().getTeacherDao().getAllTeacher()
+        return teacherDao.getAllTeacher()
     }
 
     /**
      * 获取老师数量
      */
     suspend fun getTeacherSize(): Int {
-        return RoomManager.getInstance().getTeacherDao().getAllTeacher().size
+        return teacherDao.getAllTeacher().size
     }
 
     /**
      * 获取老师对应的Id
      */
     suspend fun getTeacherForId(index: Int): Long {
-        return RoomManager.getInstance().getTeacherDao().getAllTeacher()[index].id
+        return teacherDao.getAllTeacher()[index].id
     }
 
     /**
      * 获取老师数量
      */
     suspend fun getTeacherById(index: Long): TeacherBean {
-        return RoomManager.getInstance().getTeacherDao().getTeacherById(index)
+        return teacherDao.getTeacherById(index)
     }
 
     /**
      * 新增老师
      */
     suspend fun insertTeacher(index: TeacherBean): Long {
-        return RoomManager.getInstance().getTeacherDao().insert(index)
+        return teacherDao.insert(index)
     }
 
     /**
      * 根据老师id获取学生信息
      */
     suspend fun getUserByTid(index: Long): List<UserBean> {
-        return RoomManager.getInstance().getUserDao().getUserByTid(index)
+        return userDao.getUserByTid(index)
     }
 
     /**
      * 根据用户id获取学生信息
      */
     suspend fun getUserById(index: Long): UserBean {
-        return RoomManager.getInstance().getUserDao().getUserById(index)
+        return userDao.getUserById(index)
     }
 
     /**
      * 新增学生
      */
     suspend fun insertUser(index: UserBean): Long {
-        return RoomManager.getInstance().getUserDao().insert(index)
+        return userDao.insert(index)
+    }
+
+    /**
+     * 新增学生
+     */
+    suspend fun clear() {
+        userDao.deleteAll()
+        teacherDao.deleteAll()
     }
 }
