@@ -1,6 +1,8 @@
 package com.caspar.xl.ui.fragment
 
+import android.animation.ValueAnimator
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +14,8 @@ import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseFragment
 import com.caspar.base.ext.*
@@ -29,6 +33,10 @@ import com.caspar.xl.ui.dialog.VerifyDialog
 import com.caspar.xl.utils.decoration.Decoration
 import com.caspar.xl.viewmodel.HomeViewModel
 import com.caspar.xl.widget.captcha.Captcha
+import com.chad.library.adapter.base.dragswipe.QuickDragAndSwipe
+import com.chad.library.adapter.base.dragswipe.listener.DragAndSwipeDataCallback
+import com.chad.library.adapter.base.dragswipe.listener.OnItemDragListener
+import com.chad.library.adapter.base.viewholder.QuickViewHolder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,9 +52,9 @@ import java.util.*
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
     private lateinit var mBindingView: FragmentHomeBinding
-
+    private val quickDragAndSwipe = QuickDragAndSwipe().setDragMoveFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
     //首页列表适配器
-    private val mAdapter: HomeMenuAdapter by lazy { HomeMenuAdapter() }
+    private val mAdapter: HomeMenuAdapter = HomeMenuAdapter()
 
     //首页ViewModel
     private val mViewModel: HomeViewModel by viewModels()
@@ -56,7 +64,7 @@ class HomeFragment : BaseFragment() {
     //请求定位所需的权限
     private val localPermission = requestMultiplePermissions(allGranted = {
         lifecycleScope.launchWhenCreated {
-            getLocal(0)
+            getLocal()
         }
     }, denied = {
         toast("你拒绝了以下权限->${GsonUtils.toJson(it)}")
@@ -142,10 +150,10 @@ class HomeFragment : BaseFragment() {
         mBindingView.rvList.layoutManager = GridLayoutManager(context, 2)
         mBindingView.rvList.addItemDecoration(Decoration.GridDecoration(2, 10.dp, true))
         mBindingView.rvList.adapter = mAdapter
-        mAdapter.setList(mViewModel.mData)
+        mAdapter.submitList(mViewModel.mData)
         mAdapter.setOnItemClickListener { _, _, position ->
             run {
-                val menu = mAdapter.data[position]
+                val menu = mAdapter.items[position]
                 toOtherPage = menu
                 when (menu) {
                     mViewModel.translate -> {
@@ -205,8 +213,9 @@ class HomeFragment : BaseFragment() {
                 }
             }
         }
-        mAdapter.draggableModule.isDragEnabled = true //依赖库自带拖拽功能
-        mAdapter.draggableModule.attachToRecyclerView(mBindingView.rvList) //绑定适配器才能拖拽
+        // 滑动事件
+        quickDragAndSwipe.attachToRecyclerView(mBindingView.rvList)
+            .setDataCallback(mAdapter)
     }
 
     //兼容安卓10 ,11读写权限问题,11的手机暂时没有，所以需要有条件了再测，再次点击跳转按钮也可以
@@ -227,7 +236,7 @@ class HomeFragment : BaseFragment() {
     /**
      * 多次获取，因为首次获取到定位权限时不一定能获取到定位信息
      */
-    private suspend fun getLocal(int: Int, locale: Locale? = null) {
+    private suspend fun getLocal(locale: Locale? = null) {
         val location = requireContext().getLocal(locale = locale)
         location?.apply {
             val hashMapOf = hashMapOf<String, Any>()

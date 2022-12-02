@@ -1,35 +1,21 @@
 package com.caspar.xl.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ItemRefreshListBinding
+import com.chad.library.adapter.base.BaseDifferAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 
 
 /**
  * 我的消息中列表的适配器
  */
-class RefreshListAdapter : BaseQuickAdapter<MessageListBean, BaseViewBindingHolder<ItemRefreshListBinding>>(
-    R.layout.item_refresh_list) {
+class RefreshListAdapter : BaseDifferAdapter<MessageListBean, BaseViewBindingHolder<ItemRefreshListBinding>>(DiffDemoCallback()) {
 
-    //如果非要使用ViewBinding，则应该重写onCreateDefViewHolder方法，否则将会导致类型无法强转的Crash
-    override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): BaseViewBindingHolder<ItemRefreshListBinding> {
-        val binding = ItemRefreshListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return BaseViewBindingHolder(binding)
-    }
-
-    //类型 0=系统通知,1=天气预警,2=故障告警,3=安装通知
-    override fun convert(holder: BaseViewBindingHolder<ItemRefreshListBinding>, item: MessageListBean) {
-        with(holder.viewBinding) {
-            LogUtil.d("refresh${holder.bindingAdapterPosition}")
-            tvId.text = "Id:${item.id}"
-            tvName.text = "Name:${item.name}"
-            tvAge.text = "Age:${item.age}"
-        }
-    }
     class DiffDemoCallback : DiffUtil.ItemCallback<MessageListBean>() {
         /**
          * 判断是否是同一个item
@@ -73,6 +59,22 @@ class RefreshListAdapter : BaseQuickAdapter<MessageListBean, BaseViewBindingHold
         ): Any? {
             return null
         }
+    }
+
+    override fun onBindViewHolder(holder: BaseViewBindingHolder<ItemRefreshListBinding>, position: Int, item: MessageListBean?) {
+        with(holder.viewBinding) {
+            LogUtil.d("refresh${holder.bindingAdapterPosition}")
+            item?.apply {
+                tvId.text = "Id:${id}"
+                tvName.text = "Name:${name}"
+                tvAge.text = "Age:${age}"
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(context: Context, parent: ViewGroup, viewType: Int): BaseViewBindingHolder<ItemRefreshListBinding> {
+        val binding = ItemRefreshListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BaseViewBindingHolder(binding)
     }
 }
 data class MessageListBean(val id:Int,val name:String,val age:Int)

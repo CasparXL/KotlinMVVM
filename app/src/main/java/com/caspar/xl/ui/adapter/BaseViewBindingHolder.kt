@@ -1,7 +1,7 @@
 package com.caspar.xl.ui.adapter
 
 import androidx.viewbinding.ViewBinding
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.QuickViewHolder
 
 
 /**
@@ -11,6 +11,6 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
  * @property viewBinding BD?
  * @constructor
  */
-open class BaseViewBindingHolder<BD : ViewBinding>(view: BD) : BaseViewHolder(view.root) {
+open class BaseViewBindingHolder<BD : ViewBinding>(view: BD) : QuickViewHolder(view.root) {
     val viewBinding = view
 }

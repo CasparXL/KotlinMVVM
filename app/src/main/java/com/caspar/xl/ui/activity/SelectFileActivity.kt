@@ -43,7 +43,7 @@ class SelectFileActivity : BaseActivity() {
             }
         }
         mAdapter.setOnItemClickListener { _, _, position ->
-            val file = mAdapter.data[position].file
+            val file = mAdapter.items[position].file
             if (position == 0) {
                 backFiles()
             } else {
@@ -121,7 +121,7 @@ class SelectFileActivity : BaseActivity() {
                     }
                     filesList.addAll(list.sortedBy { it.name.lowercase(Locale.ROOT) })
                     withContext(Dispatchers.Main) {
-                        mAdapter.setList(filesList)
+                        mAdapter.submitList(filesList)
                     }
                 } ?: run {
                     LogUtil.e("返回到了原目录")

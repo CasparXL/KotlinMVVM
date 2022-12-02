@@ -54,7 +54,7 @@ class CrashLogActivity : BaseActivity() {
         mBindingView.title.tvRight.setDrawableSize(1, R.drawable.ic_share, 24.dp, 24.dp)
         mBindingView.rvList.addItemDecoration(Decoration.decoration(10.dp, 10.dp, 0, 0))
         mBindingView.rvList.adapter = adapter
-        adapter.setList(LogFileManager.allLogFile()?.list()?.toList())
+        adapter.submitList(LogFileManager.allLogFile()?.list()?.toList())
         mBindingView.btnCrash.setOnClickListener {
             val number = (Math.random()*10).toInt()
             LogUtil.d("随机数:${number}")
@@ -73,12 +73,12 @@ class CrashLogActivity : BaseActivity() {
         mBindingView.btnClear.setOnClickListener {
             lifecycleScope.launch {
                 LogFileManager.clearCrashLog(0)
-                adapter.setList(LogFileManager.allLogFile()?.list()?.toList())
+                adapter.submitList(LogFileManager.allLogFile()?.list()?.toList())
             }
         }
         adapter.setOnItemClickListener { a, v, p ->
             acStart<CrashLogDetailActivity> {
-                putExtra(CrashLogDetailActivity.FILE_PATH, adapter.data[p])
+                putExtra(CrashLogDetailActivity.FILE_PATH, adapter.items[p])
             }
         }
     }

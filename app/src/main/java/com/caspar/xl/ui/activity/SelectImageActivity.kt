@@ -72,7 +72,7 @@ class SelectImageActivity : BaseActivity(), View.OnClickListener {
             })
         }
         mAdapter.setOnItemClickListener { _, _, position ->
-            val select: String = mAdapter.getItem(position)
+            val select: String = mAdapter.items[position]
             mAdapter.selectItem(select)
         }
         loadImages()
@@ -82,8 +82,7 @@ class SelectImageActivity : BaseActivity(), View.OnClickListener {
     private fun loadImages() {
         lifecycleScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
-                mAdapter.data.clear()
-                mAdapter.notifyDataSetChanged()
+                mAdapter.submitList(listOf())
             }
             val contentUri = MediaStore.Files.getContentUri("external")
             val sortOrder = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC"
@@ -136,18 +135,14 @@ class SelectImageActivity : BaseActivity(), View.OnClickListener {
                             data.add(path)
 //                            mAdapter.data.add(path)
                             withContext(Dispatchers.Main){
-                                mAdapter.addData(path)
+                                mAdapter.add(path)
                             }
                         }
                     } while (cursor.moveToNext())
                     cursor.close()
                 }
                 withContext(Dispatchers.Main) {
-                    LogUtil.d("图片数量->${mAdapter.data.size}")
-                    // 滚动回第一个位置
-                    mBindingView.rvList.scrollToPosition(0)
-//                    mAdapter.notifyDataSetChanged()
-                    mBindingView.title.tvRight.text = "All Image"
+                    LogUtil.d("图片数量->${mAdapter.itemCount}")
                 }
             }
         }

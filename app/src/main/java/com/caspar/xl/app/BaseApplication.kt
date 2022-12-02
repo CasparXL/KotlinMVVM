@@ -19,7 +19,6 @@ import com.caspar.xl.MainActivity
 import com.caspar.xl.R
 import com.caspar.xl.helper.PauseInterceptor
 import com.caspar.xl.ui.CrashActivity
-import com.caspar.xl.utils.rxjava.RxBus
 import com.hjq.toast.ToastUtils
 import com.hjq.toast.style.BlackToastStyle
 import com.scwang.smart.refresh.footer.ClassicsFooter
@@ -50,7 +49,6 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
         LogFileManager.initPath(packageName = packageName, parentPath = filesDir.path, name = "CustomLog")
         LogUtil.init(BuildConfig.LOG_ENABLE, "浪", mFile = LogFileManager.getEventLog())
         MMKV.initialize(this)//本地储存初始化
-        RxBus.init()//RxBus初始化，用于全局WebSocket网络请求发送
         //Toast弹框初始化
         ToastUtils.init(this)
         ToastUtils.setStyle(BlackToastStyle())

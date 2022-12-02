@@ -73,14 +73,13 @@ class RefreshListActivity : BaseActivity() {
         })
         mBindingView.rvList.itemAnimator = null
         //设置UI回调
-        mAdapter.setDiffCallback(RefreshListAdapter.DiffDemoCallback())
         mBindingView.rvList.adapter = mAdapter
         mAdapter.setOnItemClickListener { a, v, p ->
             //更新单个数据这么操作即可,
             //更多时候，单个数据更新是最合理的,点击进入详情界面，
             //做完操作以后，从详情请求最新数据，带回来到当前Item更新数据,这个时候只刷新当前Item的数据，即可达到最新状态
             //若当前设备详情查询不到,则代表已被移除,回来时移除当前Item即可
-            mAdapter.setData(p, mAdapter.data[p].copy(name = "$p"))
+            mAdapter[p] = mAdapter.items[p].copy(name = "$p")
         }
     }
 
@@ -99,10 +98,10 @@ class RefreshListActivity : BaseActivity() {
                     mBindingView.srlRefresh.finishLoadMore()
                     val data = it.toMutableList()
                     if (mViewModel.pageNo == 1) {
-                        mAdapter.setDiffNewData(data)
+                        mAdapter.submitList(data)
                     } else {
                         //将所有数据源按一页Size的数量分组
-                        val list = mAdapter.data.chunked(mViewModel.pageSize).toMutableList()
+                        val list = mAdapter.items.chunked(mViewModel.pageSize).toMutableList()
                         //如果分组数量小于当前页数，代表新增数据
                         if (list.size < mViewModel.pageNo) {
                             list.add(it)
@@ -115,7 +114,7 @@ class RefreshListActivity : BaseActivity() {
                         val finalList = emptyList.reversed().distinctBy { db -> db.id }.reversed()
                             .toMutableList()
                         //刷新UI
-                        mAdapter.setDiffNewData(finalList)
+                        mAdapter.submitList(finalList)
                         //最终列表没有达到当前页需要的数量时，pageNo - 1
                         // (正常来说从大到小的顺序时(即时间顺序从现在到以前)，第二页出现了重复数据，才有可能减少pageNo的情况)
                         if (finalList.size < mViewModel.pageNo * mViewModel.pageSize) {

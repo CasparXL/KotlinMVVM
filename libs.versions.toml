@@ -6,30 +6,30 @@ versionCode = "1"
 versionName = "1.0.0"
 applicationId = "com.caspar.xl"
 kotlin = "1.7.20"
-coroutines = "1.6.0"
+coroutines = "1.6.4"
 androidx-activity = "1.6.1"
 androidx-fragment = "1.5.4"
 androidx-recyclerview = "1.2.1"
-androidx-appcompat = "1.4.1"
-androidx-constraintlayout = "1.4.1"
+androidx-appcompat = "1.5.1"
+androidx-constraintlayout = "2.1.4"
 androidx-multidex = "2.0.1"
 androidx-core-ktx = "1.7.0"
-androidx-lifecycle = "2.4.1"
+androidx-lifecycle = "2.5.1"
 androidx-test = "1.1.2"
 androidx-espresso = "3.3.0"
 junit = "4.13.2"
 androidx-camerax = "1.1.0"
-google-material = "1.5.0"
+google-material = "1.7.0"
 google-gson = "2.10"
 room = "2.4.3"
-rx-android = "3.0.0"
-rx-java = "3.1.4"
+rx-android = "3.0.2"
+rx-java = "3.1.5"
 retrofit = "2.9.0"
 okhttp-log = "5.0.0-alpha.6"
 smart = "2.0.5"
 coil = "2.2.2"
 toast = "10.3"
-adapter = "3.0.7"
+adapter = "4.0.0-beta04"
 mmkv = "1.2.14"
 mqtt-client = "1.1.0"
 mqtt-android = "1.1.1"
@@ -80,7 +80,7 @@ smart-header = { group = "io.github.scwang90", name = "refresh-header-material",
 smart-footer = { group = "io.github.scwang90", name = "refresh-footer-classics", version.ref = "smart" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 toast = { group = "com.github.getActivity", name = "ToastUtils", version.ref = "toast" }
-adapter = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "adapter" }
+adapter = { group = "io.github.cymchad", name = "BaseRecyclerViewAdapterHelper", version.ref = "adapter" }
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 mqtt-client = { group = "org.eclipse.paho", name = "org.eclipse.paho.client.mqttv3", version.ref = "mqtt-client" }
 mqtt-android = { group = "org.eclipse.paho", name = "org.eclipse.paho.android.service", version.ref = "mqtt-android" }

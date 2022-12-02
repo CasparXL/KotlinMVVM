@@ -147,10 +147,6 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
         super.dismiss()
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return lifecycle
-    }
-
     /**
      * 设置一个显示监听器
      *

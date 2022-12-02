@@ -114,14 +114,13 @@ dependencies {
     }
     implementation libs.crash
     implementation libs.google.gson
-    implementation libs.bundles.rxjava
     implementation libs.toast
     implementation libs.adapter
     implementation (libs.google.material) {
         exclude group: 'androidx.recyclerview'
     }
-    implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-compiler:2.44"
+    implementation "com.google.dagger:hilt-android:2.44.2"
+    kapt "com.google.dagger:hilt-compiler:2.44.2"
     implementation libs.mmkv
     implementation libs.bundles.room
     implementation libs.bundles.camerax

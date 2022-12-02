@@ -78,7 +78,7 @@ class SelectCityActivity : BaseActivity() {
         )
         mBindingView.rvList.addItemDecoration(DivideItemDecoration().setTags(listTag))
         mBindingView.rvList.adapter = mAdapter
-        mAdapter.setList(listTitle)
+        mAdapter.submitList(listTitle)
         mBindingView.sbRight.setOnSideBarTouchListener(listTag, object : OnSideBarTouchListener {
             override fun onTouch(text: String, position: Int) {
                 mBindingView.tip.isVisible = true
