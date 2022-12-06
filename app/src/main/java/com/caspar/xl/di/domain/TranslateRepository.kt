@@ -8,7 +8,7 @@ import com.caspar.xl.bean.response.TranslateBean
 interface TranslateRepository {
     /**
      * 翻译接口
-     * @return 登录结果
+     * @return 翻译结果
      */
     suspend fun requestTranslate(text:String): Result<TranslateBean>
 }
