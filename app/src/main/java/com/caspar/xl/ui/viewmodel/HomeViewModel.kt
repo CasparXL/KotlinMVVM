@@ -1,4 +1,4 @@
-package com.caspar.xl.viewmodel
+package com.caspar.xl.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

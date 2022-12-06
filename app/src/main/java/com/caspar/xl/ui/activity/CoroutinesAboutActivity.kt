@@ -12,7 +12,7 @@ import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCoroutinesAboutBinding
 import com.caspar.xl.ui.dialog.WaitDialog
-import com.caspar.xl.viewmodel.CoroutinesViewModel
+import com.caspar.xl.ui.viewmodel.CoroutinesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

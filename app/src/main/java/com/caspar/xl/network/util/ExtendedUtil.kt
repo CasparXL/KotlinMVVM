@@ -1,11 +1,12 @@
-package com.caspar.xl.helper
+package com.caspar.xl.network.util
 
 
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.bean.BaseBean
-import com.caspar.xl.network.util.NetException
 import com.google.gson.JsonParseException
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONException
 import retrofit2.HttpException
 import java.io.InterruptedIOException
@@ -22,7 +23,7 @@ val DefaultErrorHandelCoroutine = CoroutineExceptionHandler { _, _ -> }
 /**
  * 解析数据异常
  */
-fun exportError(throwable: Throwable): Pair<Int, String> {
+private fun exportError(throwable: Throwable): Pair<Int, String> {
     LogUtil.e(throwable)
     return when (throwable) {
         is HttpException -> {
@@ -45,25 +46,33 @@ fun exportError(throwable: Throwable): Pair<Int, String> {
  * 有基类的情况下使用
  */
 suspend fun <T> baseResult(final: () -> Unit = {}, block: suspend () -> BaseBean<T>): Result<T> {
-    return try {
-        block().getResult()
-    } catch (e: Exception) {
-        Result.failure(e)
-    } finally {
-        final()
+    return withContext(Dispatchers.IO) {
+        try {
+            block().getResult()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            val exportError = exportError(e)
+            Result.failure(Exception(exportError.second))
+        } finally {
+            final()
+        }
     }
 }
 
 /**
  * 无基类的情况下使用
  */
-suspend fun <T> otherResult(final: () -> Unit = {}, block: suspend () -> T ): Result<T> {
-    return try {
-        Result.success(block.invoke())
-    } catch (e: Exception) {
-        Result.failure(e)
-    } finally {
-        final()
+suspend fun <T> otherResult(final: () -> Unit = {}, block: suspend () -> T): Result<T> {
+    return withContext(Dispatchers.IO) {
+        try {
+            Result.success(block.invoke())
+        } catch (e: Exception) {
+            e.printStackTrace()
+            val exportError = exportError(e)
+            Result.failure(Exception(exportError.second))
+        } finally {
+            final()
+        }
     }
 }
 

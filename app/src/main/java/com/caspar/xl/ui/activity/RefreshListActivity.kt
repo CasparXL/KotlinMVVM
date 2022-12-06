@@ -10,7 +10,7 @@ import com.caspar.xl.databinding.ActivityRefreshListBinding
 import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.ui.adapter.MessageListBean
 import com.caspar.xl.ui.adapter.RefreshListAdapter
-import com.caspar.xl.viewmodel.RefreshListViewModel
+import com.caspar.xl.ui.viewmodel.RefreshListViewModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import dagger.hilt.android.AndroidEntryPoint

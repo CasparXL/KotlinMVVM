@@ -18,7 +18,7 @@ import com.caspar.xl.db.RoomManager
 import com.caspar.xl.eventandstate.RoomViewState
 import com.caspar.xl.ext.observeState
 import com.caspar.xl.network.util.GsonUtils
-import com.caspar.xl.viewmodel.RoomViewModel
+import com.caspar.xl.ui.viewmodel.RoomViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 

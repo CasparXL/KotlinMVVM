@@ -1,16 +1,12 @@
-package com.caspar.xl.viewmodel
+package com.caspar.xl.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.caspar.xl.bean.response.TranslateBean
-import com.caspar.xl.di.BodyOkHttpClient
-import com.caspar.xl.di.HeaderOkHttpClient
+import com.caspar.xl.di.domain.TranslateRepository
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.SharedFlowEvents
 import com.caspar.xl.ext.setEvent
-import com.caspar.xl.helper.exportError
-import com.caspar.xl.helper.otherResult
-import com.caspar.xl.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,7 +17,10 @@ import javax.inject.Inject
  *   界面名称以及功能:
  */
 @HiltViewModel
-class TranslateViewModel @Inject constructor(@BodyOkHttpClient private val api:ApiService) : ViewModel() {
+class TranslateViewModel @Inject constructor(
+    private val repository: TranslateRepository
+) :
+    ViewModel() {
     /***基础请求管理**/
     private val _viewEvent: SharedFlowEvents<ViewEvent> = SharedFlowEvents()
     val viewEvent = _viewEvent.asSharedFlow()
@@ -36,9 +35,9 @@ class TranslateViewModel @Inject constructor(@BodyOkHttpClient private val api:A
      */
     fun translate(text: String) {
         viewModelScope.launch {
-            val result = otherResult { api.translate(text = text) }
+            val result = repository.requestTranslate(text)
             result.onSuccess { _translateResult.emit(it) }
-                .onFailure { _viewEvent.setEvent(ViewEvent.ShowToast(exportError(it).second)) }
+                .onFailure { _viewEvent.setEvent(ViewEvent.ShowToast(it.message ?: "")) }
             _viewEvent.setEvent(ViewEvent.DismissDialog)
         }
     }

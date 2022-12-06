@@ -14,7 +14,7 @@ import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.observeEvent
-import com.caspar.xl.viewmodel.TranslateViewModel
+import com.caspar.xl.ui.viewmodel.TranslateViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

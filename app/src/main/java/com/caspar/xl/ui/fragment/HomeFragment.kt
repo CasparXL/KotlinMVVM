@@ -31,7 +31,7 @@ import com.caspar.xl.ui.activity.*
 import com.caspar.xl.ui.adapter.HomeMenuAdapter
 import com.caspar.xl.ui.dialog.VerifyDialog
 import com.caspar.xl.utils.decoration.Decoration
-import com.caspar.xl.viewmodel.HomeViewModel
+import com.caspar.xl.ui.viewmodel.HomeViewModel
 import com.caspar.xl.widget.captcha.Captcha
 import com.chad.library.adapter.base.dragswipe.QuickDragAndSwipe
 import com.chad.library.adapter.base.dragswipe.listener.DragAndSwipeDataCallback
