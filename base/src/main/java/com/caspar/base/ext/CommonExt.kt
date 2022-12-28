@@ -86,32 +86,25 @@ fun Int.toBinaryString(): String {
     string.append(binaryNumber.toString())
     return string.toString()
 }
+
 /**
  * 设置图片的tint颜色
  * @param color 颜色
  * @param background 是否设置背景，是的话，仅背景色设置，否则只设置图片资源的tint
  */
 fun ImageView.setTintColor(@ColorRes color: Int, background: Boolean = false) {
-    val colorRes = ContextCompat.getColor(context, color)
-    val colors = intArrayOf(colorRes, colorRes)
-    val states = arrayOfNulls<IntArray>(2)
-    states[0] = intArrayOf(R.attr.state_pressed)
-    states[1] = intArrayOf(R.attr.state_enabled)
     if (background) {
-        backgroundTintList = ColorStateList(states, colors)
+        backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, color))
     } else {
-        imageTintList = ColorStateList(states, colors)
+        imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, color))
     }
 }
+
 
 /**
  * 设置图片的tint颜色
  * @param color 颜色
  */
 fun View.setTintColor(color: Int) {
-    val colors = intArrayOf(ContextCompat.getColor(context,color), ContextCompat.getColor(context, color))
-    val states = arrayOfNulls<IntArray>(2)
-    states[0] = intArrayOf(R.attr.state_pressed)
-    states[1] = intArrayOf(R.attr.state_enabled)
-    backgroundTintList = ColorStateList(states, colors)
+    backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context,color))
 }
