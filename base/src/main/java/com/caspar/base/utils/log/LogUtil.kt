@@ -3,7 +3,7 @@ package com.caspar.base.utils.log
 
 import android.text.TextUtils
 import android.util.Log
-import com.caspar.base.ext.toDateString
+import com.caspar.base.ext.timeFormatDate
 import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -191,9 +191,9 @@ object LogUtil {
             job.launch(Dispatchers.IO) {
                 if (exists()) {
                     appendText("\n" + System.currentTimeMillis()
-                        .toDateString() + "--->" + it)
+                        .timeFormatDate() + "--->" + it)
                 } else {
-                    writeText(System.currentTimeMillis().toDateString() + "--->" + it)
+                    writeText(System.currentTimeMillis().timeFormatDate() + "--->" + it)
                 }
             }
         }

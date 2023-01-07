@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import com.caspar.base.ext.toDateString
+import com.caspar.base.ext.timeFormatDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -87,14 +87,14 @@ object LogFileManager {
             if (!it.exists()) {
                 it.mkdirs()
             }
-            File(it, "${crashName}_${System.currentTimeMillis().toDateString("yyyyMMdd")}_Log.txt")
+            File(it, "${crashName}_${System.currentTimeMillis().timeFormatDate("yyyyMMdd")}_Log.txt")
         } ?: run {
             null
         }
     }
 
     fun ZipFolder(srcFileString: String, zipFileString: String) : String{
-        val path = zipFileString + "" + System.currentTimeMillis().toDateString("yyyyMMdd") + ".zip"
+        val path = zipFileString + "" + System.currentTimeMillis().timeFormatDate("yyyyMMdd") + ".zip"
         //创建ZIP
         try {
             val outZip = ZipOutputStream(FileOutputStream(File(path)))

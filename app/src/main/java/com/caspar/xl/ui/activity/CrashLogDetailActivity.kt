@@ -62,8 +62,8 @@ class CrashLogDetailActivity : BaseActivity() {
         }
     }
 
-    fun shareFile(context: Context, fileName: String) {
-        val file = File(fileName)
+    private fun shareFile(context: Context, fileName: String) {
+        val file = File(LogFileManager.allLogFile(), fileName)
         if (file.exists()) {
             val share = Intent(Intent.ACTION_SEND)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

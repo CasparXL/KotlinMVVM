@@ -65,6 +65,7 @@ android {
     }
 
     compileOptions {//使用JAVA8语法解析
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -101,6 +102,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     // 基础库
     implementation project(':base')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
     implementation libs.bundles.androidx.view
     implementation libs.bundles.kotlin
     implementation libs.bundles.lifecycle
