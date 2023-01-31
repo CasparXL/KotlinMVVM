@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
@@ -26,6 +27,8 @@ import com.caspar.base.utils.local.getLocation
 import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.FragmentHomeBinding
+import com.caspar.xl.ext.Method
+import com.caspar.xl.ext.binding
 import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.ui.activity.*
 import com.caspar.xl.ui.adapter.HomeMenuAdapter
@@ -51,8 +54,10 @@ import java.util.*
  */
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
-    private lateinit var mBindingView: FragmentHomeBinding
-    private val quickDragAndSwipe = QuickDragAndSwipe().setDragMoveFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+    private val mBindingView: FragmentHomeBinding by binding()
+    private val quickDragAndSwipe =
+        QuickDragAndSwipe().setDragMoveFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+
     //首页列表适配器
     private val mAdapter: HomeMenuAdapter = HomeMenuAdapter()
 
@@ -61,6 +66,7 @@ class HomeFragment : BaseFragment() {
 
     //跳转到某个界面，这里是用来标识需要储存权限的几个界面
     private var toOtherPage: String = ""
+
     //请求定位所需的权限
     private val localPermission = requestMultiplePermissions(allGranted = {
         lifecycleScope.launchWhenCreated {
@@ -71,6 +77,7 @@ class HomeFragment : BaseFragment() {
     }, explained = {
         toast("你拒绝了以下权限，并点击了不再询问->${GsonUtils.toJson(it)}")
     })
+
     //请求拍照所需的权限
     private val permission = requestMultiplePermissions(allGranted = {
         acStart<CameraActivity>()
@@ -118,14 +125,17 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): ViewBinding {
-        return FragmentHomeBinding.inflate(inflater, container,false).apply {
-            mBindingView = this
-        }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        LogUtil.d(viewLifecycleOwner.lifecycle.currentState.toString())
+        return mBindingView.root
     }
 
-
+    override fun initData(savedInstanceState: Bundle?) {
+        super.initData(savedInstanceState)
+        LogUtil.d(viewLifecycleOwner.lifecycle.currentState.toString())
+    }
     override fun initView(savedInstanceState: Bundle?) {
+        LogUtil.d(viewLifecycleOwner.lifecycle.currentState.toString())
         mBindingView.title.tvLeft.isInvisible = true
         mBindingView.srlRefresh.setEnableAutoLoadMore(false)
         mBindingView.srlRefresh.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
@@ -184,22 +194,23 @@ class HomeFragment : BaseFragment() {
                         acStart<SelectCityActivity>()
                     }
                     mViewModel.verifyCaptcha -> {
-                        VerifyDialog.Builder(requireContext()).setListener(object : Captcha.CaptchaListener{
-                            override fun onAccess(time: Long): String {
-                                LogUtil.d(time.toString())
-                                return time.toString()
-                            }
+                        VerifyDialog.Builder(requireContext())
+                            .setListener(object : Captcha.CaptchaListener {
+                                override fun onAccess(time: Long): String {
+                                    LogUtil.d(time.toString())
+                                    return time.toString()
+                                }
 
-                            override fun onFailed(failCount: Int): String {
-                                LogUtil.d(failCount.toString())
-                                return failCount.toString()
-                            }
+                                override fun onFailed(failCount: Int): String {
+                                    LogUtil.d(failCount.toString())
+                                    return failCount.toString()
+                                }
 
-                            override fun onMaxFailed(): String {
-                                LogUtil.d("超出了失败次数")
-                                return "超出了失败次数"
-                            }
-                        }).create().show()
+                                override fun onMaxFailed(): String {
+                                    LogUtil.d("超出了失败次数")
+                                    return "超出了失败次数"
+                                }
+                            }).create().show()
                     }
                     mViewModel.local -> {
                         localPermission.launch(Permission.Group.LOCATION)
