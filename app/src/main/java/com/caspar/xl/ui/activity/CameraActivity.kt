@@ -16,6 +16,7 @@ import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCameraBinding
+import com.caspar.xl.ext.binding
 import com.caspar.xl.ui.dialog.WaitDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -26,7 +27,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 @AndroidEntryPoint
 class CameraActivity : BaseActivity(), View.OnClickListener {
-    private lateinit var mBindingView: ActivityCameraBinding
+    private val mBindingView: ActivityCameraBinding by binding()
     var cameraControl: CameraControl? = null
     private lateinit var scaleGestureDetector: ScaleGestureDetector
     private lateinit var imageAnalyzer: ImageAnalysis
@@ -35,12 +36,6 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
     var create: BaseDialog? = null
-
-    override fun getViewBinding(): ViewBinding {
-        return ActivityCameraBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvCenter.text = "CameraX"

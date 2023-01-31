@@ -13,6 +13,7 @@ import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.eventandstate.ViewEvent
+import com.caspar.xl.ext.binding
 import com.caspar.xl.ext.observeEvent
 import com.caspar.xl.ui.viewmodel.TranslateViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,14 +22,9 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TranslateActivity : BaseActivity(), View.OnClickListener {
-    private lateinit var mBindingView: ActivityTranslateBinding
+    private val mBindingView: ActivityTranslateBinding by binding()
 
     private val mViewModel: TranslateViewModel by viewModels()
-    override fun getViewBinding(): ViewBinding {
-        return ActivityTranslateBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {

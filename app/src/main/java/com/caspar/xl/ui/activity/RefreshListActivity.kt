@@ -7,6 +7,7 @@ import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.databinding.ActivityRefreshListBinding
+import com.caspar.xl.ext.binding
 import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.ui.adapter.MessageListBean
 import com.caspar.xl.ui.adapter.RefreshListAdapter
@@ -25,15 +26,9 @@ import kotlin.time.measureTime
  */
 @AndroidEntryPoint
 class RefreshListActivity : BaseActivity() {
-    private lateinit var mBindingView: ActivityRefreshListBinding
+    private val mBindingView: ActivityRefreshListBinding by binding()
     val mAdapter: RefreshListAdapter = RefreshListAdapter()
     val mViewModel: RefreshListViewModel by viewModels()
-    override fun getViewBinding(): ViewBinding {
-        return ActivityRefreshListBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
-
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvCenter.text = "适配器高效刷新"
         mBindingView.title.tvLeft.setOnClickListener {

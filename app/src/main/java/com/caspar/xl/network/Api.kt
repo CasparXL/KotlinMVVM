@@ -35,6 +35,7 @@ object Api {
                     readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                     connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                     writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    //拦截器是有执行顺序的，所以日志拦截器放在最后一位，可以保证数据展示完整
                     addInterceptor(AuthInterceptor())
                     addInterceptor(
                         if (BuildConfig.LOG_ENABLE) HttpLoggingInterceptor().setLevel(
@@ -62,6 +63,7 @@ object Api {
                     readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                     connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                     writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    //拦截器是有执行顺序的，所以日志拦截器放在最后一位，可以保证数据展示完整
                     addInterceptor(AuthInterceptor())
                     addInterceptor(
                         if (BuildConfig.LOG_ENABLE) HttpLoggingInterceptor().setLevel(

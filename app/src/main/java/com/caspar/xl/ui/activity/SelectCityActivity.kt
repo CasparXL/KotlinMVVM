@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.xl.databinding.ActivitySelectCityBinding
+import com.caspar.xl.ext.binding
 import com.caspar.xl.ui.adapter.ItemCityAdapter
 import com.caspar.xl.widget.index.bean.ItemData
 import com.caspar.xl.widget.index.decoration.DivideItemDecoration
@@ -17,16 +18,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SelectCityActivity : BaseActivity() {
-    private lateinit var mBindingView: ActivitySelectCityBinding
+    private val mBindingView: ActivitySelectCityBinding by binding()
     private val mAdapter: ItemCityAdapter by lazy {
         ItemCityAdapter()
     }
     var tags: MutableList<ItemData> = mutableListOf()
-    override fun getViewBinding(): ViewBinding {
-        return ActivitySelectCityBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.include.tvLeft.setOnClickListener { finish() }

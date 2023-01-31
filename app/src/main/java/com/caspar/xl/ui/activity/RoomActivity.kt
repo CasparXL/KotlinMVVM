@@ -16,6 +16,7 @@ import com.caspar.xl.bean.db.UserBean
 import com.caspar.xl.databinding.ActivityRoomBinding
 import com.caspar.xl.db.RoomManager
 import com.caspar.xl.eventandstate.RoomViewState
+import com.caspar.xl.ext.binding
 import com.caspar.xl.ext.observeState
 import com.caspar.xl.network.util.GsonUtils
 import com.caspar.xl.ui.viewmodel.RoomViewModel
@@ -24,13 +25,8 @@ import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class RoomActivity : BaseActivity(), View.OnClickListener {
+    private val mBindingView: ActivityRoomBinding by binding()
     private val mViewModel: RoomViewModel by viewModels()
-    private lateinit var mBindingView: ActivityRoomBinding
-    override fun getViewBinding(): ViewBinding {
-        return ActivityRoomBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.tvLogcat.movementMethod = ScrollingMovementMethod.getInstance()

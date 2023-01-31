@@ -11,6 +11,7 @@ import com.caspar.base.utils.log.LogFileManager
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCrashLogBinding
+import com.caspar.xl.ext.binding
 import com.caspar.xl.ui.adapter.ItemCityAdapter
 import com.caspar.xl.utils.decoration.Decoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,13 +26,8 @@ import java.io.File
  */
 @AndroidEntryPoint
 class CrashLogActivity : BaseActivity() {
-    private lateinit var mBindingView: ActivityCrashLogBinding
+    private val mBindingView: ActivityCrashLogBinding by binding()
     private val adapter by lazy { ItemCityAdapter() }
-    override fun getViewBinding(): ViewBinding {
-        return ActivityCrashLogBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         val logList = LogFileManager.allLogFile()

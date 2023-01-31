@@ -13,22 +13,18 @@ import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityPaletteBinding
+import com.caspar.xl.ext.binding
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class PaletteActivity : BaseActivity(), View.OnClickListener {
     private var bitmap: Bitmap? = null
-    private lateinit var mBindingView: ActivityPaletteBinding
-    override fun getViewBinding(): ViewBinding {
-        return ActivityPaletteBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
+    private val mBindingView: ActivityPaletteBinding by binding()
 
     override fun initView(savedInstanceState: Bundle?) {
-        setOnClickListener(this, R.id.tv_left)
         mBindingView.title.tvCenter.text = "颜色提取器"
+        setOnClickListener(this, R.id.tv_left)
         initImageTouchAndLoading()
     }
 

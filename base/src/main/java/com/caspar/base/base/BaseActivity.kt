@@ -34,7 +34,6 @@ abstract class BaseActivity : AppCompatActivity(), ToastAction {
                 keyboardEnable(true)
             }
         }
-        setContentView(getViewBinding().root)
         initView(savedInstanceState)
     }
 
@@ -43,8 +42,6 @@ abstract class BaseActivity : AppCompatActivity(), ToastAction {
         super.onNewIntent(intent)
         setIntent(intent)
     }
-
-    protected abstract fun getViewBinding(): ViewBinding
 
     /***初始化视图数据***/
     protected abstract fun initView(savedInstanceState: Bundle?)

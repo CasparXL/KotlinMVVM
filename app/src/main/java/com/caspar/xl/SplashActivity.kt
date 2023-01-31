@@ -8,6 +8,7 @@ import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.acStart
 import com.caspar.xl.databinding.ActivitySplashBinding
+import com.caspar.xl.ext.binding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -15,11 +16,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
-    override fun getViewBinding(): ViewBinding {
-        return ActivitySplashBinding.inflate(layoutInflater)
-    }
-
-
+    private val binding: ActivitySplashBinding by binding()
     override fun initView(savedInstanceState: Bundle?) {
         // 后台返回时可能启动这个页面 http://blog.csdn.net/jianiuqi/article/details/54091181
         if (intent.flags and Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT != 0) {

@@ -11,6 +11,7 @@ import com.caspar.base.base.BaseActivity
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.ActivitySelectFileBinding
+import com.caspar.xl.ext.binding
 import com.caspar.xl.helper.MMKVUtil
 import com.caspar.xl.ui.adapter.FileBean
 import com.caspar.xl.ui.adapter.SelectFileAdapter
@@ -23,14 +24,10 @@ import java.util.*
 
 @AndroidEntryPoint
 class SelectFileActivity : BaseActivity() {
-    private lateinit var mBindingView: ActivitySelectFileBinding
+    private val mBindingView: ActivitySelectFileBinding by binding()
     private val mAdapter = SelectFileAdapter()
     private var currentFile: File? = null
-    override fun getViewBinding(): ViewBinding {
-        return ActivitySelectFileBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
+
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {

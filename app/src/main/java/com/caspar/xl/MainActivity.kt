@@ -9,19 +9,15 @@ import com.caspar.base.base.FragmentPagerAdapter
 import com.caspar.base.ext.*
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.databinding.ActivityMainBinding
+import com.caspar.xl.ext.binding
 import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity(), View.OnClickListener {
-    private lateinit var mBindingView: ActivityMainBinding
+    private val mBindingView: ActivityMainBinding by binding()
     private lateinit var mPagerAdapter: FragmentPagerAdapter<Fragment>
-    override fun getViewBinding(): ViewBinding {
-        return ActivityMainBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         setOnClickListener(this, R.id.tv_home, R.id.tv_mine)

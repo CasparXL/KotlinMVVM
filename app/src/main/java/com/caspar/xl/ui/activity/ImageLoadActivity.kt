@@ -11,23 +11,18 @@ import com.caspar.base.ext.dp
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityImageLoadBinding
+import com.caspar.xl.ext.binding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ImageLoadActivity : BaseActivity(), View.OnClickListener {
-    private lateinit var mBindingView:ActivityImageLoadBinding
+    private val mBindingView:ActivityImageLoadBinding by binding()
     private val imageUrl: String =
         "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2496571732,442429806&fm=26&gp=0.jpg"
 
-    override fun getViewBinding(): ViewBinding {
-        return ActivityImageLoadBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
-
     override fun initView(savedInstanceState: Bundle?) {
-        setOnClickListener(this, R.id.tv_left, R.id.btn_load)
         mBindingView.title.tvCenter.text = "图片加载"
+        setOnClickListener(this, R.id.tv_left, R.id.btn_load)
         mBindingView.etUrl.setText(imageUrl)
     }
 

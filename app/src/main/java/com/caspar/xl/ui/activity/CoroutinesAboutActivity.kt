@@ -11,6 +11,7 @@ import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCoroutinesAboutBinding
+import com.caspar.xl.ext.binding
 import com.caspar.xl.ui.dialog.WaitDialog
 import com.caspar.xl.ui.viewmodel.CoroutinesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,30 +19,33 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 @AndroidEntryPoint
 class CoroutinesAboutActivity : BaseActivity(),
     View.OnClickListener {
-    private lateinit var mBindingView:ActivityCoroutinesAboutBinding
+    private val mBindingView: ActivityCoroutinesAboutBinding by binding()
     private val mViewModel: CoroutinesViewModel by viewModels()
-    var dialog : BaseDialog? = null
-    var dialogBuilder : WaitDialog.Builder? = null
+    var dialog: BaseDialog? = null
+    var dialogBuilder: WaitDialog.Builder? = null
 
     //用于模拟取消任务场景做临时变量
     private var job: Job? = null
 
-    override fun getViewBinding(): ViewBinding {
-        return ActivityCoroutinesAboutBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
-
     override fun initView(savedInstanceState: Bundle?) {
-        if (dialog == null){
+        if (dialog == null) {
             dialogBuilder = WaitDialog.Builder(this).setMessage("稍等")
             dialog = dialogBuilder?.create()
         }
-        setOnClickListener(this, R.id.tv_left, R.id.btn_http, R.id.btn_timeout, R.id.btn_not_timeout, R.id.btn_start_plan, R.id.btn_cancel_plan)
         mBindingView.title.tvCenter.text = "协程场景模拟"
+        setOnClickListener(
+            this,
+            R.id.tv_left,
+            R.id.btn_http,
+            R.id.btn_timeout,
+            R.id.btn_not_timeout,
+            R.id.btn_start_plan,
+            R.id.btn_cancel_plan
+        )
     }
 
     override fun onClick(v: View) {

@@ -19,6 +19,7 @@ import com.caspar.base.utils.log.LogFileManager
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCrashBinding
+import com.caspar.xl.ext.binding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -29,7 +30,7 @@ import kotlinx.coroutines.launch
  * desc   : 崩溃捕捉界面
  */
 class CrashActivity : BaseActivity(), View.OnClickListener {
-    private lateinit var mBindingView: ActivityCrashBinding
+    private val mBindingView: ActivityCrashBinding by binding()
     private var mConfig: CaocConfig? = null
     private var mDialog: AlertDialog? = null
 
@@ -59,12 +60,6 @@ class CrashActivity : BaseActivity(), View.OnClickListener {
     private fun copyErrorToClipboard() {
         val errorInformation = CustomActivityOnCrash.getAllErrorDetailsFromIntent(this@CrashActivity, intent)
         (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText(getString(R.string.crash_error_info), errorInformation))
-    }
-
-    override fun getViewBinding(): ViewBinding {
-        return ActivityCrashBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {

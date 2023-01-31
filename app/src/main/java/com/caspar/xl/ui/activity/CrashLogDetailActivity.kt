@@ -16,6 +16,7 @@ import com.caspar.base.utils.log.LogFileManager
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCrashLogDetailBinding
+import com.caspar.xl.ext.binding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,16 +25,10 @@ import java.io.File
 
 @AndroidEntryPoint
 class CrashLogDetailActivity : BaseActivity() {
-    private lateinit var mBindingView:ActivityCrashLogDetailBinding
+    private val mBindingView:ActivityCrashLogDetailBinding by binding()
 
     companion object {
         const val FILE_PATH = "FILE_PATH"
-    }
-
-    override fun getViewBinding(): ViewBinding {
-        return ActivityCrashLogDetailBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {

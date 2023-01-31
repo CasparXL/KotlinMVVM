@@ -16,6 +16,7 @@ import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivitySelectImageBinding
+import com.caspar.xl.ext.binding
 import com.caspar.xl.helper.PauseInterceptor
 import com.caspar.xl.ui.adapter.SelectImageAdapter
 import com.caspar.xl.utils.decoration.Decoration
@@ -34,20 +35,15 @@ import java.util.*
  */
 @AndroidEntryPoint
 class SelectImageActivity : BaseActivity(), View.OnClickListener {
-    private lateinit var mBindingView: ActivitySelectImageBinding
+    private val mBindingView: ActivitySelectImageBinding by binding()
     private val mAdapter: SelectImageAdapter by lazy { SelectImageAdapter() }
 
     /** 图片专辑  */
     private val mAllAlbum = HashMap<String, MutableList<String>>()
-    override fun getViewBinding(): ViewBinding {
-        return ActivitySelectImageBinding.inflate(layoutInflater).apply {
-            mBindingView = this
-        }
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
-        setOnClickListener(this, R.id.tv_left)
         mBindingView.title.tvCenter.text = "相册选择器"
+        setOnClickListener(this, R.id.tv_left)
         with(mBindingView) {
             rvList.layoutManager = GridLayoutManager(this@SelectImageActivity, 3)
             rvList.itemAnimator = null
