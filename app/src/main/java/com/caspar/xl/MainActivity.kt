@@ -20,8 +20,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private lateinit var mPagerAdapter: FragmentPagerAdapter<Fragment>
 
     override fun initView(savedInstanceState: Bundle?) {
-        setOnClickListener(this, R.id.tv_home, R.id.tv_mine)
         initViewPager()
+        setOnClickListener(this, R.id.tv_home, R.id.tv_mine)
     }
 
     private fun initViewPager() {
