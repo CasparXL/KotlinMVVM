@@ -10,6 +10,7 @@ annotation class Authenticated
 
 /**
  * 请求头加入用户Token
+ * 搭配[Authenticated]使用才会生效,加入可该注解，才会将请求头写入,否则不会传入请求头
  */
 class AuthInterceptor: Interceptor {
 
