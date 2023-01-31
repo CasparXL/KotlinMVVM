@@ -3,13 +3,10 @@ package com.caspar.xl.ui.activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.databinding.ActivityRefreshListBinding
 import com.caspar.xl.ext.binding
-import com.caspar.xl.network.util.GsonUtils
-import com.caspar.xl.ui.adapter.MessageListBean
 import com.caspar.xl.ui.adapter.RefreshListAdapter
 import com.caspar.xl.ui.viewmodel.RefreshListViewModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout

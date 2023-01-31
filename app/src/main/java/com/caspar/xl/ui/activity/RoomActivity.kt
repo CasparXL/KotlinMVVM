@@ -6,7 +6,6 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.utils.log.LogUtil
@@ -14,11 +13,11 @@ import com.caspar.xl.R
 import com.caspar.xl.bean.db.TeacherBean
 import com.caspar.xl.bean.db.UserBean
 import com.caspar.xl.databinding.ActivityRoomBinding
-import com.caspar.xl.db.RoomManager
 import com.caspar.xl.eventandstate.RoomViewState
 import com.caspar.xl.ext.binding
+import com.caspar.xl.ext.fromJson
 import com.caspar.xl.ext.observeState
-import com.caspar.xl.network.util.GsonUtils
+import com.caspar.xl.ext.toJson
 import com.caspar.xl.ui.viewmodel.RoomViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -56,9 +55,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 mViewModel.viewStates.value.str =
-                    "学生数据\n" + GsonUtils.toJson(mViewModel.getAllUser()) + "\n\n老师数据:\n\n" + GsonUtils.toJson(
-                        mViewModel.getAllTeacher()
-                    )
+                    "学生数据\n" + mViewModel.getAllUser().toJson() + "\n\n老师数据:\n\n" +mViewModel.getAllTeacher().toJson()
             }
             mBindingView.tvLogcat.text = mViewModel.viewStates.value.str
         }
@@ -78,8 +75,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener {
                         val id = mViewModel.getTeacherForId(tId)
                         mViewModel.viewStates.value.str = "查找到老师，老师对应的id为${id}\n"
                         val user = mViewModel.getUserByTid(id)
-                        if (!user.isNullOrEmpty()) {
-                            mViewModel.viewStates.value.str += GsonUtils.toJson(user)
+                        if (user.isNotEmpty()) {
+                            mViewModel.viewStates.value.str += user.toJson()
                             mBindingView.tvLogcat.text = mViewModel.viewStates.value.str
                         } else {
                             mViewModel.viewStates.value.str += "该老师没有对应的学生"

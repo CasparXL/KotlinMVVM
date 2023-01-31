@@ -1,8 +1,6 @@
 package com.caspar.xl.ui.fragment
 
-import android.animation.ValueAnimator
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,20 +14,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseFragment
 import com.caspar.base.ext.*
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.base.helper.Permission
 import com.caspar.base.utils.local.getLocal
-import com.caspar.base.utils.local.getLocation
 import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.FragmentHomeBinding
-import com.caspar.xl.ext.Method
 import com.caspar.xl.ext.binding
-import com.caspar.xl.network.util.GsonUtils
+import com.caspar.xl.ext.toJson
 import com.caspar.xl.ui.activity.*
 import com.caspar.xl.ui.adapter.HomeMenuAdapter
 import com.caspar.xl.ui.dialog.VerifyDialog
@@ -37,13 +31,9 @@ import com.caspar.xl.utils.decoration.Decoration
 import com.caspar.xl.ui.viewmodel.HomeViewModel
 import com.caspar.xl.widget.captcha.Captcha
 import com.chad.library.adapter.base.dragswipe.QuickDragAndSwipe
-import com.chad.library.adapter.base.dragswipe.listener.DragAndSwipeDataCallback
-import com.chad.library.adapter.base.dragswipe.listener.OnItemDragListener
-import com.chad.library.adapter.base.viewholder.QuickViewHolder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -73,18 +63,18 @@ class HomeFragment : BaseFragment() {
             getLocal()
         }
     }, denied = {
-        toast("你拒绝了以下权限->${GsonUtils.toJson(it)}")
+        toast("你拒绝了以下权限->${it.toJson()}")
     }, explained = {
-        toast("你拒绝了以下权限，并点击了不再询问->${GsonUtils.toJson(it)}")
+        toast("你拒绝了以下权限，并点击了不再询问->${it.toJson()}")
     })
 
     //请求拍照所需的权限
     private val permission = requestMultiplePermissions(allGranted = {
         acStart<CameraActivity>()
     }, denied = {
-        toast("你拒绝了以下权限->${GsonUtils.toJson(it)}")
+        toast("你拒绝了以下权限->${it.toJson()}")
     }, explained = {
-        toast("你拒绝了以下权限，并点击了不再询问->${GsonUtils.toJson(it)}")
+        toast("你拒绝了以下权限，并点击了不再询问->${it.toJson()}")
     })
 
     //选择文件的跳转回调
@@ -103,9 +93,9 @@ class HomeFragment : BaseFragment() {
         allGranted = {
             toPermissionActivity()
         }, denied = {
-            toast("你拒绝了以下权限->${GsonUtils.toJson(it)}")
+            toast("你拒绝了以下权限->${it.toJson()}")
         }, explained = {
-            toast("你拒绝了以下权限，并点击了不再询问->${GsonUtils.toJson(it)}")
+            toast("你拒绝了以下权限，并点击了不再询问->${it.toJson()}")
         })
 
     /**
@@ -261,8 +251,8 @@ class HomeFragment : BaseFragment() {
             hashMapOf["经度"] = this.latitude
             hashMapOf["纬度"] = this.longitude
             toast("国家[${this.country}] 省份[${this.province}] 城市[${this.city}] 区[${this.area}] 详细住址[${this.addressDetail}] 经度[${this.latitude}] 纬度[${this.longitude}]")
-            LogUtil.json(GsonUtils.toJson(hashMapOf))
-            LogUtil.json(GsonUtils.toJson(this))
+            LogUtil.json(hashMapOf.toJson())
+            LogUtil.json(this.toJson())
         }
     }
 }
