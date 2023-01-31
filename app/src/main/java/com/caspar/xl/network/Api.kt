@@ -3,6 +3,7 @@ package com.caspar.xl.network
 import android.annotation.SuppressLint
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.config.ApiConfig
+import com.caspar.xl.network.interceptor.AuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,8 +21,8 @@ import javax.net.ssl.*
 object Api {
     private const val DEFAULT_TIMEOUT: Long = 30
 
-     // Install the all-trusting trust manager TLS
-     val okhttpHeader: OkHttpClient
+    // Install the all-trusting trust manager TLS
+    val okhttpHeader: OkHttpClient
         get() = try {
             // Install the all-trusting trust manager TLS
             val sslContext = SSLContext.getInstance("TLS")
@@ -29,26 +30,26 @@ object Api {
             // Create an ssl socket factory with our all-trusting manager
             val sslSocketFactory = sslContext.socketFactory
             val okBuilder = OkHttpClient.Builder()
-            okBuilder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
-            okBuilder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            okBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            okBuilder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            okBuilder.addInterceptor(if (BuildConfig.LOG_ENABLE) HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS) else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
-            /*okBuilder.addInterceptor { chain ->
-                val request: Request = chain.request().newBuilder()
-                                       .header("Cache-Control", "public") //如果只有一个请求头，就使用这
-                                       .addHeader("header2","aa") //如果是多个请求头，就是用addHeader
-                                       .removeHeader("Pragma")//删除掉请求过程中的所有key为Pragma的请求头
-                                       .build()
-                chain.proceed(request);
-            }*/
-            okBuilder.hostnameVerifier { _, _ -> true }
+                .apply {
+                    sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+                    readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    addInterceptor(AuthInterceptor())
+                    addInterceptor(
+                        if (BuildConfig.LOG_ENABLE) HttpLoggingInterceptor().setLevel(
+                            HttpLoggingInterceptor.Level.HEADERS
+                        ) else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+                    )
+                    hostnameVerifier { _, _ -> true }
+                }
             okBuilder.build()
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
+
     // Install the all-trusting trust manager TLS
-     val okhttpLogBody: OkHttpClient
+    val okhttpLogBody: OkHttpClient
         get() = try {
             // Install the all-trusting trust manager TLS
             val sslContext = SSLContext.getInstance("TLS")
@@ -56,20 +57,19 @@ object Api {
             // Create an ssl socket factory with our all-trusting manager
             val sslSocketFactory = sslContext.socketFactory
             val okBuilder = OkHttpClient.Builder()
-            okBuilder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
-            okBuilder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            okBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            okBuilder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            okBuilder.addInterceptor(if (BuildConfig.LOG_ENABLE) HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY) else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
-            /*okBuilder.addInterceptor { chain ->
-                val request: Request = chain.request().newBuilder()
-                                       .header("Cache-Control", "public") //如果只有一个请求头，就使用这
-                                       .addHeader("header2","aa") //如果是多个请求头，就是用addHeader
-                                       .removeHeader("Pragma")//删除掉请求过程中的所有key为Pragma的请求头
-                                       .build()
-                chain.proceed(request);
-            }*/
-            okBuilder.hostnameVerifier { _, _ -> true }
+                .apply {
+                    sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+                    readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                    addInterceptor(AuthInterceptor())
+                    addInterceptor(
+                        if (BuildConfig.LOG_ENABLE) HttpLoggingInterceptor().setLevel(
+                            HttpLoggingInterceptor.Level.BODY
+                        ) else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+                    )
+                    hostnameVerifier { _, _ -> true }
+                }
             okBuilder.build()
         } catch (e: Exception) {
             throw RuntimeException(e)

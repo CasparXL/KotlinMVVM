@@ -10,6 +10,7 @@ import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import java.text.DecimalFormat
+import kotlin.reflect.KProperty
 
 /**
  *  @Create 2020/6/25.
