@@ -1,10 +1,13 @@
 package com.caspar.base.ext
 
-import java.text.SimpleDateFormat
 import java.time.*
 import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAccessor
 import java.util.*
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
 
 /**
  *  @Create 2020/6/25.
@@ -72,4 +75,36 @@ fun LocalDateTime.toTimeString(format: String = "yyyy-MM-dd HH:mm:ss"): String {
         ""
     }
     return time
+}
+
+/**
+ * 根据Duration转换时间,如 60*1000.milliseconds(毫秒).formatTime -->
+ */
+fun kotlin.time.Duration.formatTime(): String {
+    val day = this.inWholeDays.days
+    val hour = this.inWholeHours.hours - day
+    val minute = (this.inWholeMinutes.minutes - hour - day).inWholeMinutes.minutes
+    val second =
+        (this.inWholeSeconds.seconds - minute - hour - day).inWholeSeconds.seconds
+
+    val dayString = day.toInt(DurationUnit.DAYS)
+    val hourString = hour.toInt(DurationUnit.HOURS)
+    val minuteString = minute.toInt(DurationUnit.MINUTES)
+    val secondString = second.toInt(DurationUnit.SECONDS)
+
+    return when {
+        dayString > 0 -> {
+            "${dayString}d:".plus("${hourString}h:")
+                .plus("${minuteString}m:").plus("${secondString}s")
+        }
+        hourString > 0 -> {
+            "${hourString}h:".plus("${minuteString}m:").plus("${secondString}s")
+        }
+        minuteString > 0 -> {
+            "${minuteString}m:".plus("${secondString}s")
+        }
+        else -> {
+            "${secondString}s"
+        }
+    }
 }
