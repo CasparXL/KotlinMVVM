@@ -5,6 +5,7 @@ plugins {
     id("kotlin-kapt")
 }
 android {
+    namespace = "com.caspar.base"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -45,19 +46,18 @@ android {
     //使用JAVA8语法解析
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     //kotlin JDK1.8支持
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     packagingOptions {
         resources {
             excludes.add("META-INF/rxjava.properties")
         }
     }
-    namespace = "com.caspar.base"
 }
 
 dependencies {

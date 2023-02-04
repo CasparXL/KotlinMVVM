@@ -22,6 +22,7 @@ allprojects {
         options {
             encoding("UTF-8")
             charset("UTF-8")
+            description = "http://docs.oracle.com/javase/11/docs/api"
         }
     }
     buildDir = File(rootDir, "build/${path.replace(':', '/')}")

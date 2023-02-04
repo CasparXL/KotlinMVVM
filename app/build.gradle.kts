@@ -14,6 +14,7 @@ plugins {
 
 
 android {
+    namespace = libs.versions.applicationId.get()
     signingConfigs {
         create("release"){
             keyAlias = "kotlinmvvm"
@@ -68,12 +69,12 @@ android {
 
     compileOptions {//使用JAVA8语法解析
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     //kotlin的java8支持
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     packagingOptions {
         resources {
@@ -84,7 +85,6 @@ android {
         abortOnError = false
         checkReleaseBuilds = false
     }
-    namespace = "com.caspar.xl"
     //apk输出格式
     applicationVariants.all {
         val dtfInput = DateTimeFormatter.ofPattern("yyyyMMddHHmmss", Locale.getDefault())
