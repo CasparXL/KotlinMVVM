@@ -66,13 +66,13 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
-    compileOptions {//使用JAVA8语法解析
+    //使用JAVA11语法解析
+    compileOptions {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    //kotlin的java8支持
+    //kotlin的java11支持
     kotlinOptions {
         jvmTarget = "11"
     }

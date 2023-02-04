@@ -43,7 +43,7 @@ android {
         // for view binding :
         // viewBinding = true
     }
-    //使用JAVA8语法解析
+    //使用JAVA11语法解析
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
