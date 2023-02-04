@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -72,6 +73,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlin {
+        jvmToolchain(11)
+    }
     //kotlin的java11支持
     kotlinOptions {
         jvmTarget = "11"
@@ -115,27 +119,25 @@ dependencies {
     implementation(libs.bundles.coroutines)
     implementation(libs.flycoTabLayout)
     implementation(libs.chart)
-
     implementation(libs.androidx.multidex)
     implementation(libs.bundles.retrofit) {
-        exclude("org.jetbrains.kotlin")
+        exclude(libs.kotlin.stdlib.get().module.group)
     }
     implementation(libs.crash)
     implementation(libs.google.gson)
     implementation(libs.toast)
     implementation(libs.adapter)
     implementation(libs.google.material) {
-        exclude("androidx.recyclerview")
+        exclude(libs.androidx.recyclerview.get().module.group)
     }
-    implementation("com.google.dagger:hilt-android:2.44.2")
-    kapt("com.google.dagger:hilt-compiler:2.44.2")
+    implementation(libs.hilt.android)
     implementation(libs.mmkv)
     implementation(libs.bundles.room)
     implementation(libs.bundles.camerax)
     implementation(libs.bundles.smart)
     implementation(libs.coil)
     implementation(libs.lottie)
-    kapt(libs.room.compiler)
+    kapt(libs.bundles.kapt)
     debugImplementation(libs.leakcanary)
     testImplementation(libs.bundles.testImplementation)
     androidTestImplementation(libs.bundles.androidtestImpl)

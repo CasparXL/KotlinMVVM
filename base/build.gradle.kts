@@ -49,7 +49,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    //kotlin JDK1.8支持
+    kotlin {
+        jvmToolchain(11)
+    }
+    //kotlin JDK11支持
     kotlinOptions {
         jvmTarget = "11"
     }
