@@ -3,27 +3,24 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven(url = "https://jitpack.io")
     }
 }
-//开启依赖管理
-enableFeaturePreview('VERSION_CATALOGS')
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven(url = "https://jitpack.io")
     }
     //导入依赖文件
     versionCatalogs {
-        libs {
+        create("libs") {
             from(files("libs.versions.toml"))
         }
     }
 }
 
-
-rootProject.name='KotlinMVVM'
-include ':app'
-include ':base'
+rootProject.name = "KotlinMVVM"
+include(":app")
+include(":base")
