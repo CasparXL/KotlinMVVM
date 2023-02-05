@@ -1,15 +1,21 @@
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application") version "7.4.1" apply false
-    id("org.jetbrains.kotlin.android") version "1.8.0" apply false
-    id("com.google.dagger.hilt.android") version "2.44" apply false
-//    id 'com.android.library' version '7.4.1' apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.hilt) apply false
 }
 allprojects {
     configurations.all {
         resolutionStrategy.eachDependency {
-            if (requested.group == "org.jetbrains.kotlin") {
-                if (requested.name.startsWith("kotlin-stdlib")) {
+            if (requested.group == libs.kotlin.stdlib.get().module.group) {
+                if (requested.name.startsWith(libs.kotlin.stdlib.get().module.name)) {
+                    useVersion(libs.versions.kotlin.get())
+                }
+            } else if (requested.group == libs.kotlin.reflect.get().module.group){
+                if (requested.name.startsWith(libs.kotlin.reflect.get().module.name)) {
                     useVersion(libs.versions.kotlin.get())
                 }
             }
