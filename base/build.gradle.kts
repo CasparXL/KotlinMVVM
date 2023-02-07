@@ -66,7 +66,8 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar","*.aar"))))
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
-    implementation(libs.bundles.kotlin)
+    implementation(platform(libs.kotlin.bom))
+
 
     implementation(libs.bundles.androidx.view)
     implementation(libs.bundles.lifecycle)
@@ -74,7 +75,6 @@ dependencies {
     implementation(libs.toast)
     implementation(libs.bundles.coroutines)
     implementation(libs.bundles.immersionbar)
-    implementation(libs.bundles.kotlin)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidtestImpl)

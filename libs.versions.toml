@@ -43,8 +43,8 @@ flycoTabLayout = "3.0.0"
 chart = "v3.1.0"
 
 [libraries]
-kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
-kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+#kotlin group->kotlin-stdlib,kotlin-stdlib-jdk7,kotlin-stdlib-jdk8,kotlin-stdlib-common
+kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity" }
@@ -98,8 +98,6 @@ chart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "
 
 
 [bundles]
-#kotlin基础组件
-kotlin = ["kotlin-stdlib", "kotlin-reflect"]
 #kotlin协程相关
 coroutines = ["kotlinx-coroutines-core", "kotlinx-coroutines-android"]
 #androidx生命周期以及试图core相关

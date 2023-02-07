@@ -1,16 +1,16 @@
-import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id(libs.plugins.android.application.get().pluginId)
+    id(libs.plugins.kotlin.get().pluginId)
+    id(libs.plugins.hilt.get().pluginId)
     id("kotlin-parcelize")
     id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 
@@ -113,16 +113,14 @@ dependencies {
     // 基础库
     implementation(project(":base"))
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
+    implementation(platform(libs.kotlin.bom))
     implementation(libs.bundles.androidx.view)
-    implementation(libs.bundles.kotlin)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.coroutines)
     implementation(libs.flycoTabLayout)
     implementation(libs.chart)
     implementation(libs.androidx.multidex)
-    implementation(libs.bundles.retrofit) {
-        exclude(libs.kotlin.stdlib.get().module.group)
-    }
+    implementation(libs.bundles.retrofit)
     implementation(libs.crash)
     implementation(libs.google.gson)
     implementation(libs.toast)
