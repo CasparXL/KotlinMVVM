@@ -4,27 +4,28 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.binding
 import com.caspar.xl.ext.observeEvent
+import com.caspar.xl.helper.loadNet
+import com.caspar.xl.ui.dialog.WaitDialog
 import com.caspar.xl.ui.viewmodel.TranslateViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TranslateActivity : BaseActivity(), View.OnClickListener {
     private val mBindingView: ActivityTranslateBinding by binding()
 
     private val mViewModel: TranslateViewModel by viewModels()
+    private val dialog by lazy {
+        WaitDialog.Builder(this).setMessage("稍等")
+    }
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
@@ -32,14 +33,8 @@ class TranslateActivity : BaseActivity(), View.OnClickListener {
         setOnClickListener(this, R.id.tv_left)
         initViewObserver()
         initNetworkObserver()
-        mBindingView.etEnter.addTextChangedListener { text ->
-            run {
-                if (text.isNullOrEmpty()) {
-                    mBindingView.tvText.text = ""
-                } else {
-                    mViewModel.translate(text.toString())
-                }
-            }
+        mBindingView.etEnter.setOnClickListener {
+            mViewModel.getImage()
         }
     }
 
@@ -47,9 +42,7 @@ class TranslateActivity : BaseActivity(), View.OnClickListener {
     private fun initNetworkObserver() {
         lifecycleScope.launch {
             mViewModel.translateResult.collect {
-                mBindingView.tvText.text = "原文:\n${mBindingView.etEnter.text}\n译文:\n${
-                    it.translateResult?.get(0)?.get(0)?.tgt
-                }"
+                mBindingView.ivImage.loadNet(it.random().url?:"", R.drawable.image_loading_bg)
             }
         }
     }
@@ -58,10 +51,10 @@ class TranslateActivity : BaseActivity(), View.OnClickListener {
     private fun initViewObserver() {
         mViewModel.viewEvent.observeEvent(this@TranslateActivity) {
             when (it) {
-                ViewEvent.DismissDialog -> LogUtil.d("请求结束")
-                ViewEvent.ShowDialog -> LogUtil.d("开始请求")
+                ViewEvent.DismissDialog -> dialog.dismiss()
+                ViewEvent.ShowDialog -> dialog.show()
                 is ViewEvent.ShowToast -> {
-                    mBindingView.tvText.text = it.message
+                    toast(it.message)
                 }
             }
         }

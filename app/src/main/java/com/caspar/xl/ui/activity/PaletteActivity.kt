@@ -6,14 +6,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
-import androidx.viewbinding.ViewBinding
-import coil.load
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityPaletteBinding
 import com.caspar.xl.ext.binding
+import com.caspar.xl.helper.loadUrl
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,7 +29,7 @@ class PaletteActivity : BaseActivity(), View.OnClickListener {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initImageTouchAndLoading() {
-        mBindingView.ivImage.load("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg4.cache.netease.com%2Fphoto%2F0001%2F2009-10-01%2F5KI1QL2T0UQ20001.jpg&refer=http%3A%2F%2Fimg4.cache.netease.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1622197388&t=2f6a650c5908e16381aa3ad1ddf46567")
+        mBindingView.ivImage.loadUrl("https://img2.baidu.com/it/u=3202947311,1179654885&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500")
         mBindingView.ivImage.setOnTouchListener { view, event ->
             //bitmap的长宽
             if (event.y in (0f..(view.height).toFloat()) && event.x in (0f..(view.width).toFloat())) {

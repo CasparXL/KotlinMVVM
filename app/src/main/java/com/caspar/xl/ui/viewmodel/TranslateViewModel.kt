@@ -2,7 +2,7 @@ package com.caspar.xl.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.caspar.xl.bean.response.TranslateBean
+import com.caspar.xl.bean.response.ImageBean
 import com.caspar.xl.di.domain.TranslateRepository
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.SharedFlowEvents
@@ -27,15 +27,16 @@ class TranslateViewModel @Inject constructor(
 
     //设置性质网络的请求，使用MutableSharedFlow，
     //读取并固定展示性质的网络请求，可以使用MutableStateFlow，可以在不必要的时候节省资源,类似于LiveData的生命周期感知
-    private val _translateResult: MutableSharedFlow<TranslateBean> = MutableSharedFlow()
+    private val _translateResult: MutableSharedFlow<List<ImageBean>> = MutableSharedFlow()
     val translateResult = _translateResult.asSharedFlow()
 
     /**
      * 网络请求
      */
-    fun translate(text: String) {
+    fun getImage() {
         viewModelScope.launch {
-            val result = repository.requestTranslate(text)
+            _viewEvent.setEvent(ViewEvent.ShowDialog)
+            val result = repository.requestGetImages()
             result.onSuccess { _translateResult.emit(it) }
                 .onFailure { _viewEvent.setEvent(ViewEvent.ShowToast(it.message ?: "")) }
             _viewEvent.setEvent(ViewEvent.DismissDialog)

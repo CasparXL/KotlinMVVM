@@ -11,5 +11,5 @@ object ApiConfig {
         "http://datavmap-public.oss-cn-hangzhou.aliyuncs.com/areas/csv/100000_province.json"
 
     //网络请求,翻译
-    const val Translate = "http://fanyi.youdao.com/translate"
+    const val Translate = "https://api.thecatapi.com/v1/images/search"
 }

@@ -1,7 +1,7 @@
 package com.caspar.xl.network
 
 import com.caspar.xl.bean.response.City
-import com.caspar.xl.bean.response.TranslateBean
+import com.caspar.xl.bean.response.ImageBean
 import com.caspar.xl.config.ApiConfig
 import com.caspar.xl.network.interceptor.Authenticated
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +33,7 @@ interface ApiService {
      * 翻译
      */
     @GET(ApiConfig.Translate)
-    suspend fun translate(@Query("doctype") doctype: String = "json", @Query("type") type: String = "AUTO", @Query("i") text: String): TranslateBean
+    suspend fun requestTranslate(@Query("limit") int: String = "10"): List<ImageBean>
 
     /**
      * config设置

@@ -2,7 +2,6 @@ package com.caspar.xl.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.caspar.xl.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -12,7 +11,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HomeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
-    val translate = "翻译"
+    val ktorGetImages = "获取图片"
     val camera = "相机"
     val room = "数据库"
     val selectFile = "文件选择器"
@@ -27,7 +26,7 @@ class HomeViewModel @Inject constructor(application: Application) : AndroidViewM
     val refreshList = "刷新部分布局"
 
     //功能列表
-    val mData: List<String> = arrayListOf(translate,
+    val mData: List<String> = arrayListOf(ktorGetImages,
         camera,
         room,
         selectFile,

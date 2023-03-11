@@ -8,16 +8,12 @@ import androidx.camera.core.CameraXConfig
 import androidx.core.app.ActivityCompat
 import androidx.multidex.MultiDexApplication
 import cat.ereza.customactivityoncrash.config.CaocConfig
-import coil.Coil
-import coil.ComponentRegistry
-import coil.ImageLoader
 import com.caspar.base.helper.ActivityStackManager
 import com.caspar.base.utils.log.LogFileManager
 import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.BuildConfig
 import com.caspar.xl.MainActivity
 import com.caspar.xl.R
-import com.caspar.xl.helper.PauseInterceptor
 import com.caspar.xl.ui.CrashActivity
 import com.hjq.toast.ToastUtils
 import com.hjq.toast.style.BlackToastStyle
@@ -55,16 +51,6 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
         ToastUtils.setGravity(Gravity.BOTTOM, 0, 100)
         //全局堆栈管理初始化
         ActivityStackManager.init(context)
-        //Coil增加拦截器，用于判断RecyclerView快速滑动卡顿的问题
-        Coil.setImageLoader(
-            ImageLoader.Builder(this)
-                .placeholder(ActivityCompat.getDrawable(this, R.drawable.image_loading_bg))
-                .error(ActivityCompat.getDrawable(this, R.drawable.image_loading_bg))
-                .components(fun ComponentRegistry.Builder.() {
-                    add(PauseInterceptor())
-                })
-                .build()
-        )
         // Crash 捕捉界面
         CaocConfig.Builder.create()
             .backgroundMode(CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM)

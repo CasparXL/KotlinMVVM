@@ -8,8 +8,6 @@ import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.setOnClickListener
@@ -17,7 +15,6 @@ import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivitySelectImageBinding
 import com.caspar.xl.ext.binding
-import com.caspar.xl.helper.PauseInterceptor
 import com.caspar.xl.ui.adapter.SelectImageAdapter
 import com.caspar.xl.utils.decoration.Decoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,23 +46,6 @@ class SelectImageActivity : BaseActivity(), View.OnClickListener {
             rvList.itemAnimator = null
             rvList.addItemDecoration(Decoration.GridDecoration(3, 3.dp, true))
             rvList.adapter = mAdapter
-            rvList.addOnScrollListener(object :RecyclerView.OnScrollListener(){
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    LogUtil.e("状态${newState}")
-                    when (newState) {
-                        RecyclerView.SCROLL_STATE_IDLE -> {
-                            PauseInterceptor.isPaused.value = false
-                        }
-                        RecyclerView.SCROLL_STATE_DRAGGING -> {
-                            PauseInterceptor.isPaused.value = true
-                        }
-                        RecyclerView.SCROLL_STATE_SETTLING -> {
-                            PauseInterceptor.isPaused.value = true
-                        }
-                    }
-                }
-            })
         }
         mAdapter.setOnItemClickListener { _, _, position ->
             val select: String = mAdapter.items[position]

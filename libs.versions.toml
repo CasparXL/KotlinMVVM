@@ -27,9 +27,10 @@ room = "2.4.3"
 rx-android = "3.0.2"
 rx-java = "3.1.5"
 retrofit = "2.9.0"
+ktor = "2.2.4"
 okhttp-log = "5.0.0-alpha.11"
 smart = "2.0.5"
-coil = "2.2.2"
+glide = "4.15.0"
 toast = "10.3"
 adapter = "4.0.0-beta04"
 mmkv = "1.2.15"
@@ -79,10 +80,17 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 retrofit-converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit" }
 okhttp-log = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp-log" }
+
+ktor-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-gson = { group = "io.ktor", name = "ktor-serialization-gson", version.ref = "ktor" }
+ktor-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
+
 smart-kernel = { group = "io.github.scwang90", name = "refresh-layout-kernel", version.ref = "smart" }
 smart-header = { group = "io.github.scwang90", name = "refresh-header-material", version.ref = "smart" }
 smart-footer = { group = "io.github.scwang90", name = "refresh-footer-classics", version.ref = "smart" }
-coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 toast = { group = "com.github.getActivity", name = "ToastUtils", version.ref = "toast" }
 adapter = { group = "io.github.cymchad", name = "BaseRecyclerViewAdapterHelper", version.ref = "adapter" }
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
@@ -112,6 +120,8 @@ google = ["google-material", "google-gson"]
 room = ["room-runtime", "room-ktx"]
 #rxjava相关
 rxjava = ["rx-java", "rx-android"]
+#ktor相关
+ktor = ["ktor-android","ktor-logging","ktor-negotiation","ktor-gson","ktor-auth"]
 #retrofit相关
 retrofit = ["retrofit", "retrofit-converter-gson", "retrofit-converter-scalars", "okhttp-log"]
 #下拉刷新相关

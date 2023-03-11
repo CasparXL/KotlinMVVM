@@ -156,7 +156,7 @@ class HomeFragment : BaseFragment() {
                 val menu = mAdapter.items[position]
                 toOtherPage = menu
                 when (menu) {
-                    mViewModel.translate -> {
+                    mViewModel.ktorGetImages -> {
                         acStart<TranslateActivity>()
                     }
                     mViewModel.camera -> {

@@ -130,10 +130,11 @@ dependencies {
     }
     implementation(libs.hilt.android)
     implementation(libs.mmkv)
+    implementation(libs.bundles.retrofit)
     implementation(libs.bundles.room)
     implementation(libs.bundles.camerax)
     implementation(libs.bundles.smart)
-    implementation(libs.coil)
+    implementation(libs.glide)
     implementation(libs.lottie)
     kapt(libs.bundles.kapt)
     debugImplementation(libs.leakcanary)

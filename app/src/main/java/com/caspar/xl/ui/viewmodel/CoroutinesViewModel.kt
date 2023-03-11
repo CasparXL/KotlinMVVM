@@ -21,7 +21,10 @@ import kotlin.coroutines.suspendCoroutine
  *   界面名称以及功能: 协程相关功能使用
  */
 @HiltViewModel
-class CoroutinesViewModel @Inject constructor(application: Application, @BodyOkHttpClient private val api: ApiService) : AndroidViewModel(application) {
+class CoroutinesViewModel @Inject constructor(
+    application: Application,
+    @BodyOkHttpClient private val api: ApiService
+) : AndroidViewModel(application) {
 
     /**
      * 用于封装java类似的回调返回值，使api在协程中可以用变量接收
