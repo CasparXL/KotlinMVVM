@@ -49,12 +49,14 @@ android {
     }
     buildTypes {
         release {
+            resValue("bool","log_enable", "false")
             isMinifyEnabled = true   //开启混淆
             isShrinkResources = true  //移出无用资源
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
         }
         debug {
+            resValue("bool","log_enable", "true")
             isMinifyEnabled = false   //开启混淆
             isShrinkResources = false  //移出无用资源
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
@@ -65,6 +67,7 @@ android {
     //避免打正式包时一直下载groovy.jar的问题
     buildFeatures {
         viewBinding = true
+        resValues = true
     }
     //使用JAVA11语法解析
     compileOptions {

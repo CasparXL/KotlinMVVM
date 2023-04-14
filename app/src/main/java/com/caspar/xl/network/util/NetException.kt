@@ -1,6 +1,6 @@
 package com.caspar.xl.network.util
 
-import com.caspar.xl.R
+import com.caspar.base.R
 import com.caspar.xl.app.BaseApplication
 
 /**

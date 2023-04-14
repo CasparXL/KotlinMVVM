@@ -1,7 +1,9 @@
 package com.caspar.xl.network
 
 import android.annotation.SuppressLint
-import com.caspar.xl.BuildConfig
+import com.caspar.xl.R
+import com.caspar.xl.app.BaseApplication
+
 import com.caspar.xl.config.ApiConfig
 import com.caspar.xl.network.interceptor.AuthInterceptor
 import okhttp3.OkHttpClient
@@ -38,7 +40,7 @@ object Api {
                     //拦截器是有执行顺序的，所以日志拦截器放在最后一位，可以保证数据展示完整
                     addInterceptor(AuthInterceptor())
                     addInterceptor(
-                        if (BuildConfig.DEBUG) HttpLoggingInterceptor().setLevel(
+                        if (BaseApplication.context.resources.getBoolean(R.bool.log_enable)) HttpLoggingInterceptor().setLevel(
                             HttpLoggingInterceptor.Level.HEADERS
                         ) else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
                     )
@@ -66,7 +68,7 @@ object Api {
                     //拦截器是有执行顺序的，所以日志拦截器放在最后一位，可以保证数据展示完整
                     addInterceptor(AuthInterceptor())
                     addInterceptor(
-                        if (BuildConfig.DEBUG) HttpLoggingInterceptor().setLevel(
+                        if (BaseApplication.context.resources.getBoolean(R.bool.log_enable)) HttpLoggingInterceptor().setLevel(
                             HttpLoggingInterceptor.Level.BODY
                         ) else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
                     )

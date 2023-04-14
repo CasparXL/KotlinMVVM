@@ -11,7 +11,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.caspar.xl.R
+import com.caspar.base.R
 import com.caspar.xl.widget.index.ext.getTextHeight
 import com.caspar.xl.widget.index.ext.getTextWidth
 

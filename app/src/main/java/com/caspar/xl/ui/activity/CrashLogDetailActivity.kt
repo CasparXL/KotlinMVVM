@@ -13,8 +13,9 @@ import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.setDrawableSize
 import com.caspar.base.utils.log.LogFileManager
-import com.caspar.xl.BuildConfig
+
 import com.caspar.xl.R
+import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.databinding.ActivityCrashLogDetailBinding
 import com.caspar.xl.ext.binding
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,7 +63,7 @@ class CrashLogDetailActivity : BaseActivity() {
         if (file.exists()) {
             val share = Intent(Intent.ACTION_SEND)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                val contentUri: Uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
+                val contentUri: Uri = FileProvider.getUriForFile(context,  BaseApplication.context.applicationInfo.packageName + ".provider", file)
                 share.putExtra(Intent.EXTRA_STREAM, contentUri)
                 share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             } else {

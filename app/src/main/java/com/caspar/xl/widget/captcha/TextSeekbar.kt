@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatSeekBar
+import androidx.core.content.ContextCompat
 import com.caspar.base.ext.dp
 import com.caspar.xl.R
 
@@ -23,7 +24,7 @@ class TextSeekbar : AppCompatSeekBar {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int = 0) : super(context, attrs, defStyleAttr) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.TextSeekbar)
         mMode = typedArray.getInteger(R.styleable.TextSeekbar_text_mode, MODE_NO_TEXT)
-        mTextColor = typedArray.getColor(R.styleable.TextSeekbar_text_color, resources.getColor(R.color.appColor))
+        mTextColor = typedArray.getColor(R.styleable.TextSeekbar_text_color, ContextCompat.getColor(context, com.caspar.base.R.color.appColor))
         mTextSize = typedArray.getDimensionPixelSize(R.styleable.TextSeekbar_text_size, 14.dp)
         typedArray.recycle()
 

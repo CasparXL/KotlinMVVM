@@ -12,7 +12,6 @@ import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.caspar.base.helper.ActivityStackManager
 import com.caspar.base.utils.log.LogFileManager
 import com.caspar.base.utils.log.LogUtil
-import com.caspar.xl.BuildConfig
 import com.caspar.xl.MainActivity
 import com.caspar.xl.R
 import com.caspar.xl.ui.CrashActivity
@@ -44,7 +43,7 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
     private fun init() {
         //打印日志初始化,打正式包将不再打印日志
         LogFileManager.initPath(packageName = packageName, parentPath = filesDir.path, name = "CustomLog")
-        LogUtil.init(BuildConfig.DEBUG, "浪", mFile = LogFileManager.getEventLog())
+        LogUtil.init(resources.getBoolean(R.bool.log_enable), "浪", mFile = LogFileManager.getEventLog())
         MMKV.initialize(this)//本地储存初始化
         //Toast弹框初始化
         ToastUtils.init(this)
@@ -55,7 +54,7 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
         // Crash 捕捉界面
         CaocConfig.Builder.create()
             .backgroundMode(CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM)
-            .enabled(BuildConfig.DEBUG)
+            .enabled(resources.getBoolean(R.bool.log_enable))
             .trackActivities(true)
             .minTimeBetweenCrashesMs(2000) // 重启的 Activity
             .restartActivity(MainActivity::class.java) // 错误的 Activity
@@ -85,13 +84,14 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
                 layout.setEnableLoadMoreWhenContentNotFull(true)
                 //是否在刷新完成之后滚动内容显示新数据
                 layout.setEnableScrollContentWhenRefreshed(true)
-                layout.setPrimaryColorsId(R.color.appColor, android.R.color.black)
+                layout.setPrimaryColorsId(com.caspar.base.R.color.appColor, android.R.color.black)
             }
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ ->
                 ClassicsFooter(context).setDrawableSize(20f)
             }
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ -> //全局设置主题颜色（优先级第二低，可以覆盖 DefaultRefreshInitializer 的配置，与下面的ClassicsHeader绑定）
-                MaterialHeader(context).setColorSchemeResources(R.color.appColor,
+                MaterialHeader(context).setColorSchemeResources(
+                    com.caspar.base.R.color.appColor,
                     android.R.color.black)
             }
         }

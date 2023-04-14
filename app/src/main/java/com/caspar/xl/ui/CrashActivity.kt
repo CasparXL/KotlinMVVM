@@ -17,7 +17,7 @@ import com.caspar.base.base.BaseActivity
 import com.caspar.base.helper.DoubleClickHelper
 import com.caspar.base.utils.log.LogFileManager
 import com.caspar.base.utils.log.LogUtil
-import com.caspar.xl.R
+import com.caspar.base.R
 import com.caspar.xl.databinding.ActivityCrashBinding
 import com.caspar.xl.ext.binding
 import kotlinx.coroutines.Dispatchers
@@ -40,8 +40,8 @@ class CrashActivity : BaseActivity(), View.OnClickListener {
             return
         }
         when (v.id) {
-            R.id.btn_crash_restart -> CustomActivityOnCrash.restartApplication(this@CrashActivity, mConfig!!)
-            R.id.btn_crash_log -> {
+            com.caspar.xl.R.id.btn_crash_restart -> CustomActivityOnCrash.restartApplication(this@CrashActivity, mConfig!!)
+            com.caspar.xl.R.id.btn_crash_log -> {
                 if (mDialog == null) {
                     mDialog = AlertDialog.Builder(this@CrashActivity).setTitle(R.string.crash_error_details).setMessage(CustomActivityOnCrash.getAllErrorDetailsFromIntent(this@CrashActivity, intent)).setPositiveButton(R.string.crash_close, null).setNeutralButton(R.string.crash_copy_log) { _: DialogInterface?, _: Int -> copyErrorToClipboard() }.create()
                 }
