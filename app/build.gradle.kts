@@ -82,7 +82,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes.add("META-INF/rxjava.properties")
         }
