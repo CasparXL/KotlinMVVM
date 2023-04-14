@@ -51,14 +51,12 @@ android {
         release {
             isMinifyEnabled = true   //开启混淆
             isShrinkResources = true  //移出无用资源
-            buildConfigField("boolean", "LOG_ENABLE", "false")//控制日志是否打印
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
         }
         debug {
             isMinifyEnabled = false   //开启混淆
             isShrinkResources = false  //移出无用资源
-            buildConfigField("boolean", "LOG_ENABLE", "true")//控制日志是否打印
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
         }
@@ -71,15 +69,15 @@ android {
     //使用JAVA11语法解析
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
-        jvmToolchain(11)
+        jvmToolchain(17)
     }
     //kotlin的java11支持
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     packagingOptions {
         resources {

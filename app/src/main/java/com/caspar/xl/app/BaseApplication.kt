@@ -1,6 +1,7 @@
 package com.caspar.xl.app
 
 import android.app.Application
+import android.os.Build
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.camera.camera2.Camera2Config
@@ -43,7 +44,7 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
     private fun init() {
         //打印日志初始化,打正式包将不再打印日志
         LogFileManager.initPath(packageName = packageName, parentPath = filesDir.path, name = "CustomLog")
-        LogUtil.init(BuildConfig.LOG_ENABLE, "浪", mFile = LogFileManager.getEventLog())
+        LogUtil.init(BuildConfig.DEBUG, "浪", mFile = LogFileManager.getEventLog())
         MMKV.initialize(this)//本地储存初始化
         //Toast弹框初始化
         ToastUtils.init(this)
@@ -54,7 +55,7 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
         // Crash 捕捉界面
         CaocConfig.Builder.create()
             .backgroundMode(CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM)
-            .enabled(true)
+            .enabled(BuildConfig.DEBUG)
             .trackActivities(true)
             .minTimeBetweenCrashesMs(2000) // 重启的 Activity
             .restartActivity(MainActivity::class.java) // 错误的 Activity

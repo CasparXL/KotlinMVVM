@@ -38,7 +38,7 @@ object Api {
                     //拦截器是有执行顺序的，所以日志拦截器放在最后一位，可以保证数据展示完整
                     addInterceptor(AuthInterceptor())
                     addInterceptor(
-                        if (BuildConfig.LOG_ENABLE) HttpLoggingInterceptor().setLevel(
+                        if (BuildConfig.DEBUG) HttpLoggingInterceptor().setLevel(
                             HttpLoggingInterceptor.Level.HEADERS
                         ) else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
                     )
@@ -66,7 +66,7 @@ object Api {
                     //拦截器是有执行顺序的，所以日志拦截器放在最后一位，可以保证数据展示完整
                     addInterceptor(AuthInterceptor())
                     addInterceptor(
-                        if (BuildConfig.LOG_ENABLE) HttpLoggingInterceptor().setLevel(
+                        if (BuildConfig.DEBUG) HttpLoggingInterceptor().setLevel(
                             HttpLoggingInterceptor.Level.BODY
                         ) else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
                     )

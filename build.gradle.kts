@@ -8,18 +8,18 @@ plugins {
     alias(libs.plugins.hilt) apply false
 }
 allprojects {
-    /*configurations.all {
+    configurations.all {
         resolutionStrategy.eachDependency {
-            if (requested.group == libs.kotlin.stdlib.get().module.group) {
-                if (requested.name.startsWith(libs.kotlin.stdlib.get().module.name)) {
-                    useVersion(libs.versions.kotlin.get())
+            if (requested.group == "org.jetbrains.kotlin") {
+                if (requested.name.startsWith("kotlin-stdlib")) {
+                    useVersion("1.8.0")
                 }
             }
         }
-    }*/
+    }
     tasks.withType(JavaCompile::class.java) {
         options.encoding = "UTF-8"
-        version = 11
+        version = 17
     }
     tasks.withType(Javadoc::class.java) {
         options {
