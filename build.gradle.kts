@@ -12,7 +12,7 @@ allprojects {
         resolutionStrategy.eachDependency {
             if (requested.group == "org.jetbrains.kotlin") {
                 if (requested.name.startsWith("kotlin-stdlib")) {
-                    useVersion("1.8.0")
+                    useVersion("1.8.20")
                 }
             }
         }
