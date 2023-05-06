@@ -78,7 +78,7 @@ android {
     kotlin {
         jvmToolchain(17)
     }
-    //kotlin的java11支持
+    //kotlin的java17支持
     kotlinOptions {
         jvmTarget = "17"
     }
