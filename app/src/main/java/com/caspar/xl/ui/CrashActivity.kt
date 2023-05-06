@@ -10,13 +10,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.ViewBinding
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.helper.DoubleClickHelper
 import com.caspar.base.utils.log.LogFileManager
-import com.caspar.base.utils.log.LogUtil
 import com.caspar.base.R
 import com.caspar.xl.databinding.ActivityCrashBinding
 import com.caspar.xl.ext.binding
@@ -36,7 +34,7 @@ class CrashActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (DoubleClickHelper.isOnDoubleClick) {
-            LogUtil.e("我被拦截了")
+            //禁止多秒内重复点击
             return
         }
         when (v.id) {
@@ -63,6 +61,8 @@ class CrashActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        //ApplicationInitializer仅在主进程中有效，其他进程中需要单独拿出来初始化，否则写入文件失败
+        LogFileManager.initPath(packageName = this.packageName, parentPath = this.filesDir.path, name = "CustomLog")
         mConfig = CustomActivityOnCrash.getConfigFromIntent(intent)
         if (mConfig == null) {
             // 这种情况永远不会发生，只要完成该活动就可以避免递归崩溃

@@ -116,16 +116,14 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        LogUtil.d(viewLifecycleOwner.lifecycle.currentState.toString())
         return mBindingView.root
     }
 
     override fun initData(savedInstanceState: Bundle?) {
         super.initData(savedInstanceState)
-        LogUtil.d(viewLifecycleOwner.lifecycle.currentState.toString())
     }
+
     override fun initView(savedInstanceState: Bundle?) {
-        LogUtil.d(viewLifecycleOwner.lifecycle.currentState.toString())
         mBindingView.title.tvLeft.isInvisible = true
         mBindingView.srlRefresh.setEnableAutoLoadMore(false)
         mBindingView.srlRefresh.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {

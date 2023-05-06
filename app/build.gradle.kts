@@ -122,6 +122,7 @@ dependencies {
     implementation(libs.flycoTabLayout)
     implementation(libs.chart)
     implementation(libs.androidx.multidex)
+    implementation(libs.androidx.startup.runtime)
     implementation(libs.bundles.retrofit)
     implementation(libs.crash)
     implementation(libs.google.gson)

@@ -36,30 +36,6 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
     override fun onCreate() {
         super.onCreate()
         context = this
-        init()
-    }
-
-    //第三方框架或本地工具类初始化
-    private fun init() {
-        //打印日志初始化,打正式包将不再打印日志
-        LogFileManager.initPath(packageName = packageName, parentPath = filesDir.path, name = "CustomLog")
-        LogUtil.init(resources.getBoolean(R.bool.log_enable), "浪", mFile = LogFileManager.getEventLog())
-        MMKV.initialize(this)//本地储存初始化
-        //Toast弹框初始化
-        ToastUtils.init(this)
-        ToastUtils.setStyle(BlackToastStyle())
-        ToastUtils.setGravity(Gravity.BOTTOM, 0, 100)
-        //全局堆栈管理初始化
-        ActivityStackManager.init(context)
-        // Crash 捕捉界面
-        CaocConfig.Builder.create()
-            .backgroundMode(CaocConfig.BACKGROUND_MODE_SHOW_CUSTOM)
-            .enabled(resources.getBoolean(R.bool.log_enable))
-            .trackActivities(true)
-            .minTimeBetweenCrashesMs(2000) // 重启的 Activity
-            .restartActivity(MainActivity::class.java) // 错误的 Activity
-            .errorActivity(CrashActivity::class.java) // 设置监听器
-            .apply()
     }
 
     companion object {

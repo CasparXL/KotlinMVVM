@@ -18,6 +18,7 @@ androidx-core-ktx = "1.8.0"
 androidx-lifecycle = "2.5.1"
 androidx-test = "1.1.4"
 androidx-espresso = "3.5.0"
+androidx-start-up = "1.1.1"
 junit = "4.13.2"
 androidx-camerax = "1.1.0"
 google-material = "1.7.0"
@@ -65,6 +66,7 @@ androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", 
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidx-camerax" }
 androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test" }
 androidx-test-espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso" }
+androidx-startup-runtime = { group = "androidx.startup", name = "startup-runtime", version.ref = "androidx-start-up" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 google-material = { group = "com.google.android.material", name = "material", version.ref = "google-material" }
 google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "google-gson" }
