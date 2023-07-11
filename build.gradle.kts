@@ -12,7 +12,7 @@ allprojects {
         resolutionStrategy.eachDependency {
             if (requested.group == "org.jetbrains.kotlin") {
                 if (requested.name.startsWith("kotlin-stdlib")) {
-                    useVersion("1.8.20")
+                    useVersion("1.9.0")
                 }
             }
         }
@@ -25,7 +25,7 @@ allprojects {
         options {
             encoding("UTF-8")
             charset("UTF-8")
-            description = "http://docs.oracle.com/javase/11/docs/api"
+            description = "http://docs.oracle.com/javase/17/docs/api"
         }
     }
     buildDir = File(rootDir, "build/${path.replace(':', '/')}")
