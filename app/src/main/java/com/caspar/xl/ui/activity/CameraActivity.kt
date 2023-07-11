@@ -29,25 +29,21 @@ import java.util.concurrent.Executors
 class CameraActivity : BaseActivity(), View.OnClickListener {
     private val mBindingView: ActivityCameraBinding by binding()
     var cameraControl: CameraControl? = null
-    private lateinit var scaleGestureDetector: ScaleGestureDetector
-    private lateinit var imageAnalyzer: ImageAnalysis
-    private var preview: Preview? = null
     private var camera: Camera? = null
     private var imageCapture: ImageCapture? = null
-    private lateinit var cameraExecutor: ExecutorService
     var create: BaseDialog? = null
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvCenter.text = "CameraX"
         setOnClickListener(this, R.id.tv_left, R.id.iv_take_photo)
         startCamera()
-        cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
     //开始预览，CameraX绑定Activity，随生命周期销毁而自动销毁
     @SuppressLint("ClickableViewAccessibility")
     private fun startCamera() {
-        scaleGestureDetector = ScaleGestureDetector(this, listener)
+        val cameraExecutor = Executors.newSingleThreadExecutor()
+        val scaleGestureDetector = ScaleGestureDetector(this, listener)
         //初始化双指缩放的控制器
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
@@ -55,7 +51,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
                 ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                     .build()
 
-            imageAnalyzer = ImageAnalysis.Builder().build().also {
+            val imageAnalyzer = ImageAnalysis.Builder().build().also {
                 it.setAnalyzer(cameraExecutor, LuminosityAnalyzer())
             }
             // Used to bind the lifecycle of cameras to the lifecycle owner
@@ -63,7 +59,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             // Preview
             //预览
-            preview = Preview.Builder().build()
+            val preview = Preview.Builder().build()
             // Select back camera
             // 使用相机
             val cameraSelector =
@@ -82,7 +78,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
                     imageAnalyzer
                 )
                 cameraControl = camera?.cameraControl
-                preview?.setSurfaceProvider(mBindingView.viewFinder.surfaceProvider)
+                preview.setSurfaceProvider(mBindingView.viewFinder.surfaceProvider)
             } catch (exc: Exception) {
                 LogUtil.e(exc)
             }
@@ -200,7 +196,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
     private fun initImageCapture() {
         // 旋转监听
         val orientationEventListener: OrientationEventListener =
-            object : OrientationEventListener(this as Context) {
+            object : OrientationEventListener(this) {
                 override fun onOrientationChanged(orientation: Int) {
                     // Monitors orientation values to determine the target rotation value
                     val rotation: Int = when (orientation) {
