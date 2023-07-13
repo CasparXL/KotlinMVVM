@@ -6,25 +6,11 @@ import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
-import androidx.core.app.ActivityCompat
 import androidx.multidex.MultiDexApplication
-import cat.ereza.customactivityoncrash.config.CaocConfig
-import com.caspar.base.helper.ActivityStackManager
-import com.caspar.base.utils.log.LogFileManager
-import com.caspar.base.utils.log.LogUtil
-import com.caspar.xl.MainActivity
-import com.caspar.xl.R
-import com.caspar.xl.ui.CrashActivity
-import com.hjq.toast.ToastUtils
-import com.hjq.toast.style.BlackToastStyle
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.tencent.mmkv.MMKV
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 
 
 /**
@@ -43,7 +29,7 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
         lateinit var context: Application
 
         //全局使用的协程，因为官方不推荐使用GlobalScope，因此在Application中创建一个全局的协程以便于非Activity，ViewModel的类使用协程
-        var job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+        //var job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
         init {
             //启用矢量图兼容
