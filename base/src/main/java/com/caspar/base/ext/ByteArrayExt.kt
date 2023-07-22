@@ -3,7 +3,7 @@ package com.caspar.base.ext
 /**
  * int转换2个字节的ByteArray
  */
-fun Int.int2ByteArray2(): ByteArray {
+fun Int.toByteArray2(): ByteArray {
     val byteArray = ByteArray(2)
     val LowH = ((this shr 8) and 0xff).toByte()
     val LowL = (this and 0xff).toByte()
@@ -11,10 +11,11 @@ fun Int.int2ByteArray2(): ByteArray {
     byteArray[1] = LowL
     return byteArray
 }
+
 /**
  * int转换4个字节的ByteArray
  */
-fun Int.int2ByteArray4(): ByteArray {
+fun Int.toByteArray4(): ByteArray {
     val byteArray = ByteArray(4)
     val highH = ((this shr 24) and 0xff).toByte()
     val highL = ((this shr 16) and 0xff).toByte()
@@ -47,11 +48,26 @@ fun ByteArray.toHexStr() =
     }
 
 /**
+ * 字符串中添加空白
+ * @param space 每隔几个添加空白
+ */
+fun String.toBlankSpace(space: Int = 2, char: String = " "): String {
+    val spaceChar = StringBuilder().apply {
+        repeat(space) {
+            append('.')
+        }
+    }.toString()
+    val allString = this.replace(spaceChar.toRegex(), "$0$char")
+    return allString.substring(0, allString.lastIndex)
+}
+
+/**
  * String转换byte数组
  */
-fun String.decodeHex(): ByteArray {
+fun String.toDecodeHex(): ByteArray {
     check(length % 2 == 0) { "Must have an even length" }
     return chunked(2)
         .map { it.toInt(16).toByte() }
         .toByteArray()
 }
+
