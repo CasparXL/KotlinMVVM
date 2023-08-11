@@ -11,7 +11,7 @@ import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.MainActivity
 import com.caspar.xl.R
 import com.caspar.xl.ui.CrashActivity
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 import com.hjq.toast.style.BlackToastStyle
 import com.tencent.mmkv.MMKV
 
@@ -24,9 +24,9 @@ class ApplicationInitializer : Initializer<String> {
         //本地储存初始化
         MMKV.initialize(context)
         //toast相关初始化
-        ToastUtils.init(context as Application?)
-        ToastUtils.setStyle(BlackToastStyle())
-        ToastUtils.setGravity(Gravity.BOTTOM, 0, 100)
+        Toaster.init(context as Application?)
+        Toaster.setStyle(BlackToastStyle())
+        Toaster.setGravity(Gravity.BOTTOM, 0, 100)
         //全局堆栈管理初始化
         ActivityStackManager.init(context)
         // Crash 捕捉界面

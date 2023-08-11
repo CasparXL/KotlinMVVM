@@ -1,21 +1,21 @@
 package com.caspar.base.action
 
 import androidx.annotation.StringRes
-import com.hjq.toast.ToastUtils
+import com.hjq.toast.Toaster
 
 /**
  * 在需要的地方实现该接口即可，简单轻便
  */
 interface ToastAction {
     fun toast(text: CharSequence?) {
-        ToastUtils.show(text)
+        Toaster.show(text)
     }
 
     fun toast(@StringRes id: Int) {
-        ToastUtils.show(id)
+        Toaster.show(id)
     }
 
     fun toast(`object`: Any?) {
-        ToastUtils.show(`object`)
+        Toaster.show(`object`)
     }
 }

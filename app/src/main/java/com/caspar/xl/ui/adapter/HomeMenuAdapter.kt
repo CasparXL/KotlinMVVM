@@ -29,14 +29,13 @@ class HomeMenuAdapter : BaseQuickAdapter<String, BaseViewBindingHolder<ItemMenuB
         return BaseViewBindingHolder(binding)
     }
 
+    override fun dataMove(fromPosition: Int, toPosition: Int) {
+        move(fromPosition, toPosition)
+        LogUtil.d("swap($fromPosition,${toPosition})")
+    }
+
     override fun dataRemoveAt(position: Int) {
         removeAt(position)
         LogUtil.d("dataRemoveAt($position)")
-    }
-
-    override fun dataSwap(fromPosition: Int, toPosition: Int) {
-        swap(fromPosition, toPosition)
-        LogUtil.d("swap($fromPosition,${toPosition})")
-
     }
 }

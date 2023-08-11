@@ -33,11 +33,12 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
     DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
 
     private val listeners: ListenersWrapper<BaseDialog> = ListenersWrapper(this)
-    private val lifecycle: LifecycleRegistry = LifecycleRegistry(this)
     private var showListeners: MutableList<OnShowListener?>? = null
     private var cancelListeners: MutableList<OnCancelListener?>? = null
     private var dismissListeners: MutableList<OnDismissListener?>? = null
 
+    override val lifecycle: Lifecycle
+        get() = super.lifecycle
     /**
      * 获取 Dialog 的根布局
      */
@@ -296,7 +297,6 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
      * [DialogInterface.OnShowListener]
      */
     override fun onShow(dialog: DialogInterface?) {
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
         showListeners?.let {
             for (i in it.indices) {
                 it[i]?.onShow(this)
@@ -319,27 +319,11 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
      * [DialogInterface.OnDismissListener]
      */
     override fun onDismiss(dialog: DialogInterface?) {
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         dismissListeners?.let {
             for (i in it.indices) {
                 it[i]?.onDismiss(this)
             }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -934,10 +918,6 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
         override fun onActivityStarted(activity: Activity) {}
 
         override fun onActivityResumed(activity: Activity) {
-            if (activity !== activity) {
-                return
-            }
-
             dialog?.let {
                 if (!it.isShowing) {
                     return
