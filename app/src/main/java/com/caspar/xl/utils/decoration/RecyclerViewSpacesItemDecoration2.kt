@@ -2,7 +2,6 @@ package com.caspar.xl.utils.decoration
 
 import android.graphics.Rect
 import android.view.View
-import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import java.util.*

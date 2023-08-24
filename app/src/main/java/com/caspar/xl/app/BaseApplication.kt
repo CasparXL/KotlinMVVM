@@ -28,9 +28,6 @@ class BaseApplication : MultiDexApplication(), CameraXConfig.Provider {
         //Application上下文
         lateinit var context: Application
 
-        //全局使用的协程，因为官方不推荐使用GlobalScope，因此在Application中创建一个全局的协程以便于非Activity，ViewModel的类使用协程
-        //var job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-
         init {
             //启用矢量图兼容
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

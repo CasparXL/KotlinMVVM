@@ -1,5 +1,6 @@
 package com.caspar.xl.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.caspar.xl.bean.db.TeacherDao
@@ -7,6 +8,7 @@ import com.caspar.xl.bean.db.UserDao
 import com.caspar.xl.config.ApiConfig
 import com.caspar.xl.db.RoomManager
 import com.caspar.xl.network.*
+import com.caspar.xl.network.websocket.WebSocketManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,5 +62,11 @@ object AppModule {
     @Provides
     fun provideUserDao(database: RoomManager): UserDao {
         return database.getUserDao()
+    }
+
+
+    @Provides
+    fun provideWebSocket(@ApplicationContext context: Context): WebSocketManager {
+        return WebSocketManager(context as Application)
     }
 }

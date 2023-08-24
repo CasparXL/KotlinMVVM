@@ -14,3 +14,7 @@ annotation class HeaderOkHttpClient
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class BodyOkHttpClient
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class WaitDialogInject

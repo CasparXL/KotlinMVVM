@@ -15,7 +15,7 @@ object Decoration {
      * @param right  右
      * @return
      */
-    fun decoration(top: Int, bottom: Int, left: Int, right: Int): RecyclerViewSpacesItemDecoration {
+    fun decoration(top: Int = 0, bottom: Int = 0, left: Int = 0, right: Int = 0): RecyclerViewSpacesItemDecoration {
         val stringIntegerHashMap = HashMap<String, Int>()
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.TOP_DECORATION] = top //top间距
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.BOTTOM_DECORATION] = bottom //底部间距
@@ -34,7 +34,7 @@ object Decoration {
      * @param right  右
      * @return
      */
-    fun decoration2(top: Int, bottom: Int, left: Int, right: Int): RecyclerViewSpacesItemDecoration2 {
+    fun decoration2(top: Int = 0, bottom: Int = 0, left: Int = 0, right: Int = 0): RecyclerViewSpacesItemDecoration2 {
         val stringIntegerHashMap = HashMap<String, Int>()
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.TOP_DECORATION] = top //top间距
         stringIntegerHashMap[RecyclerViewSpacesItemDecoration.BOTTOM_DECORATION] = bottom //底部间距
@@ -51,7 +51,18 @@ object Decoration {
      * @param includeEdge 是否判断最左边和最右边有空格
      * @return
      */
-    fun GridDecoration(spanCount: Int, spacing: Int, includeEdge: Boolean): RecyclerViewGridDecoration {
+    fun gridDecoration(spanCount: Int = 3, spacing: Int = 0, includeEdge: Boolean = true): RecyclerViewGridDecoration {
         return RecyclerViewGridDecoration(spanCount, spacing, includeEdge)
+    }
+    /**
+     * RecyclerView 网格布局
+     *
+     * @param spanCount   一行几列
+     * @param spacing     空格多少
+     * @param includeEdge 是否判断最左边和最右边有空格
+     * @return
+     */
+    fun gridHDecoration(spanCount: Int = 3, spacing: Int = 0, includeEdge: Boolean = true): RecyclerViewGridHorDecoration {
+        return RecyclerViewGridHorDecoration(spanCount, spacing, includeEdge)
     }
 }
