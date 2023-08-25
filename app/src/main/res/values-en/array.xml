@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_menu">
+        <item>GetImage</item>
+        <item>Camera</item>
+        <item>Room</item>
+        <item>FileSelect</item>
+        <item>Coroutines</item>
+        <item>ImageLoad</item>
+        <item>ColorSelect</item>
+        <item>ImageSelect</item>
+        <item>verifyCaptcha</item>
+        <item>getLocation</item>
+        <item>SelectCity</item>
+        <item>CrashLog</item>
+        <item>RefreshRanged</item>
+        <item>ChangedLanguage</item>
+    </string-array>
+</resources>

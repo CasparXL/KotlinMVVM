@@ -44,7 +44,7 @@ class SelectImageActivity : BaseActivity(), View.OnClickListener {
         with(mBindingView) {
             rvList.layoutManager = GridLayoutManager(this@SelectImageActivity, 3)
             rvList.itemAnimator = null
-            rvList.addItemDecoration(Decoration.GridDecoration(3, 3.dp, true))
+            rvList.addItemDecoration(Decoration.gridDecoration(3, 3.dp, true))
             rvList.adapter = mAdapter
         }
         mAdapter.setOnItemClickListener { _, _, position ->

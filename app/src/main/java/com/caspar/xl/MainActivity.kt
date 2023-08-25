@@ -3,11 +3,9 @@ package com.caspar.xl
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.base.FragmentPagerAdapter
 import com.caspar.base.ext.*
-import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.databinding.ActivityMainBinding
 import com.caspar.xl.ext.binding
 import com.caspar.xl.ui.fragment.HomeFragment

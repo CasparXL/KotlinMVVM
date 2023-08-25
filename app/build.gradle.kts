@@ -116,6 +116,7 @@ dependencies {
     implementation(project(":base"))
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
     implementation(platform(libs.kotlin.bom))
+    implementation("androidx.appcompat:appcompat-resources:1.6.1")
     implementation(libs.bundles.androidx.view)
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.coroutines)

@@ -9,6 +9,10 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -34,6 +38,7 @@ import com.chad.library.adapter.base.dragswipe.QuickDragAndSwipe
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -103,10 +108,10 @@ class HomeFragment : BaseFragment() {
      */
     private fun toPermissionActivity() {
         when (toOtherPage) {
-            mViewModel.selectFile -> {
+            mViewModel.mData[3] -> {
                 selectFile.launch(createIntent<SelectFileActivity>())
             }
-            mViewModel.imageSelect -> {
+            mViewModel.mData[7] -> {
                 acStart<SelectImageActivity>()
             }
             else -> {
@@ -146,7 +151,7 @@ class HomeFragment : BaseFragment() {
 
     private fun initAdapter() {
         mBindingView.rvList.layoutManager = GridLayoutManager(context, 2)
-        mBindingView.rvList.addItemDecoration(Decoration.GridDecoration(2, 10.dp, true))
+        mBindingView.rvList.addItemDecoration(Decoration.gridDecoration(2, 10.dp, true))
         mBindingView.rvList.adapter = mAdapter
         mAdapter.submitList(mViewModel.mData)
         mAdapter.setOnItemClickListener { _, _, position ->
@@ -154,34 +159,34 @@ class HomeFragment : BaseFragment() {
                 val menu = mAdapter.items[position]
                 toOtherPage = menu
                 when (menu) {
-                    mViewModel.ktorGetImages -> {
+                    mViewModel.mData[0] -> {
                         acStart<TranslateActivity>()
                     }
-                    mViewModel.camera -> {
+                    mViewModel.mData[1]-> {
                         permission.launch(Permission.Group.CAMERA)
                     }
-                    mViewModel.room -> {
+                    mViewModel.mData[2] -> {
                         acStart<RoomActivity>()
                     }
-                    mViewModel.selectFile -> {
+                    mViewModel.mData[3] -> {
                         startSelectFile2AllStorage()
                     }
-                    mViewModel.coroutines -> {
+                    mViewModel.mData[4] -> {
                         acStart<CoroutinesAboutActivity>()
                     }
-                    mViewModel.imageLoad -> {
+                    mViewModel.mData[5] -> {
                         acStart<ImageLoadActivity>()
                     }
-                    mViewModel.colorSelect -> {
+                    mViewModel.mData[6] -> {
                         acStart<PaletteActivity>()
                     }
-                    mViewModel.imageSelect -> {
+                    mViewModel.mData[7] -> {
                         startSelectFile2AllStorage()
                     }
-                    mViewModel.selectCity -> {
+                    mViewModel.mData[8] -> {
                         acStart<SelectCityActivity>()
                     }
-                    mViewModel.verifyCaptcha -> {
+                    mViewModel.mData[9] -> {
                         VerifyDialog.Builder(requireContext())
                             .setListener(object : Captcha.CaptchaListener {
                                 override fun onAccess(time: Long): String {
@@ -200,14 +205,24 @@ class HomeFragment : BaseFragment() {
                                 }
                             }).create().show()
                     }
-                    mViewModel.local -> {
+                    mViewModel.mData[10] -> {
                         localPermission.launch(Permission.Group.LOCATION)
                     }
-                    mViewModel.crashLog -> {
+                    mViewModel.mData[11] -> {
                         acStart<CrashLogActivity>()
                     }
-                    mViewModel.refreshList -> {
+                    mViewModel.mData[12] -> {
                         acStart<RefreshListActivity>()
+                    }
+                    mViewModel.mData[13] -> {
+                        val current = if (AppCompatDelegate.getApplicationLocales().isEmpty) {
+                            Locale.getDefault().toLanguageTag()
+                        } else {
+                            AppCompatDelegate.getApplicationLocales()[0]?.toLanguageTag() ?: ""
+                        }
+                        val appLocale: LocaleListCompat = if (current == "en") LocaleListCompat.forLanguageTags("zh") else LocaleListCompat.forLanguageTags("en")
+                        // 注意：需要在主线程上调用它，因为它可能需要Activity.restart()
+                        AppCompatDelegate.setApplicationLocales(appLocale)
                     }
                 }
             }

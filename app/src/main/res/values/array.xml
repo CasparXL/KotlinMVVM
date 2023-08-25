@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_menu">
+        <item>获取图片</item>
+        <item>相机</item>
+        <item>数据库</item>
+        <item>文件选择器</item>
+        <item>协程库</item>
+        <item>图片加载库</item>
+        <item>颜色选择器</item>
+        <item>图片选择器</item>
+        <item>滑块验证</item>
+        <item>获取定位信息</item>
+        <item>选择城市</item>
+        <item>崩溃日志</item>
+        <item>刷新部分布局</item>
+        <item>切换语言</item>
+    </string-array>
+</resources>
