@@ -9,12 +9,18 @@ import okhttp3.RequestBody.Companion.toRequestBody
 /**
  * Post请求Json数据转换
  */
-object PostJson {
-    fun toRequestBody(json: String): RequestBody {
-        return json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+fun Any.toRequestBody(): RequestBody {
+    return if (this is String) {
+        this.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+    } else {
+        Gson().toJson(this).toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
     }
+}
 
-    fun toJsonString(json: Any?): String {
-        return Gson().toJson(json)
-    }
+/**
+ * 判断字符串是否是json
+ */
+fun String.isJson(): Boolean {
+    val pattern = """^[\{\[].*[\}\]]$"""
+    return this.trim().matches(pattern.toRegex())
 }
