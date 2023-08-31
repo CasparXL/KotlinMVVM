@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        app:cardCornerRadius="@dimen/dp_10"
+        app:cardElevation="@dimen/dp_5"
+        app:strokeColor="@color/appColor"
+        app:strokeWidth="@dimen/dp_1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="20dp"
+                android:text="请输入您的车牌号码："
+                android:textColor="#000"
+                android:textSize="@dimen/sp_20"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/carLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_60"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/etProvince"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:background="@drawable/shape_et"
+                    android:gravity="center"
+                    android:maxLength="1"
+                    android:textSize="@dimen/sp_20" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/et1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_2"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:background="@drawable/shape_et"
+                    android:gravity="center"
+                    android:maxLength="1"
+                    android:textSize="@dimen/sp_20" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/et2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_2"
+                    android:inputType="none"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_et"
+                    android:gravity="center"
+                    android:maxLength="1"
+                    android:textSize="@dimen/sp_20" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/et3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_2"
+                    android:inputType="none"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_et"
+                    android:gravity="center"
+                    android:maxLength="1"
+                    android:textSize="@dimen/sp_20" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/et4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_2"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:background="@drawable/shape_et"
+                    android:gravity="center"
+                    android:maxLength="1"
+                    android:textSize="@dimen/sp_20" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/et5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_2"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:background="@drawable/shape_et"
+                    android:gravity="center"
+                    android:maxLength="1"
+                    android:textSize="@dimen/sp_20" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/et6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_2"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_et"
+                    android:inputType="none"
+                    android:gravity="center"
+                    android:maxLength="1"
+                    android:textSize="@dimen/sp_20" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/et7"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_2"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:background="@drawable/shape_et_green"
+                    android:gravity="center"
+                    android:hint="新"
+                    android:maxLength="1"
+                    android:textSize="@dimen/sp_20" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_ui_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/transparent_selector"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dp_15"
+                    android:text="取消"
+                    android:textColor="@color/appColor"
+                    android:textSize="@dimen/sp_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_ui_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/transparent_selector"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dp_15"
+                    android:text="添加车牌"
+                    android:textColor="@color/appColor"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/kv_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#DCDCDC"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@drawable/transparent_selector"
+        android:keyTextColor="#000"
+        android:keyTextSize="@dimen/sp_18"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingBottom="@dimen/dp_8"
+        android:shadowColor="#FFFFFF"
+        android:shadowRadius="0.0"
+        android:visibility="visible" />
+</LinearLayout>

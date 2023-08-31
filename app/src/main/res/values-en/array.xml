@@ -15,5 +15,6 @@
         <item>CrashLog</item>
         <item>RefreshRanged</item>
         <item>ChangedLanguage</item>
+        <item>SelectCar</item>
     </string-array>
 </resources>

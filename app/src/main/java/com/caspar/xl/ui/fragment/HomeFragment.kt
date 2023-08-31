@@ -10,8 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
@@ -35,10 +33,10 @@ import com.caspar.xl.utils.decoration.Decoration
 import com.caspar.xl.ui.viewmodel.HomeViewModel
 import com.caspar.xl.widget.captcha.Captcha
 import com.chad.library.adapter.base.dragswipe.QuickDragAndSwipe
+import com.caspar.xl.ui.dialog.CarNumDialog
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -61,6 +59,11 @@ class HomeFragment : BaseFragment() {
 
     //跳转到某个界面，这里是用来标识需要储存权限的几个界面
     private var toOtherPage: String = ""
+
+    //跳转到某个界面，这里是用来标识需要储存权限的几个界面
+    private val carDialog: CarNumDialog.Builder by lazy {
+        CarNumDialog.Builder(requireContext())
+    }
 
     //请求定位所需的权限
     private val localPermission = requestMultiplePermissions(allGranted = {
@@ -223,6 +226,11 @@ class HomeFragment : BaseFragment() {
                         val appLocale: LocaleListCompat = if (current == "en") LocaleListCompat.forLanguageTags("zh") else LocaleListCompat.forLanguageTags("en")
                         // 注意：需要在主线程上调用它，因为它可能需要Activity.restart()
                         AppCompatDelegate.setApplicationLocales(appLocale)
+                    }
+                    mViewModel.mData[14] -> {
+                        carDialog.clearText("陕A").setCarNumListener {
+                            toast("您输入了车牌->${it}")
+                        }.show()
                     }
                 }
             }

@@ -15,5 +15,6 @@
         <item>崩溃日志</item>
         <item>刷新部分布局</item>
         <item>切换语言</item>
+        <item>车牌选择</item>
     </string-array>
 </resources>
