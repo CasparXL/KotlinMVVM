@@ -1,153 +1,214 @@
 package com.caspar.base.ext
-
-import android.graphics.Color
-import android.graphics.Typeface
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.TextPaint
-import android.text.method.LinkMovementMethod
+import android.content.Context
+import android.graphics.*
+import android.graphics.drawable.Drawable
+import android.text.*
 import android.text.style.*
 import android.view.View
-import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.FloatRange
+import androidx.annotation.IntRange
+import androidx.core.text.inSpans
 
-/**
- *  @Create 2020/6/25.
- *  @Use
- */
-/**
- * 将一段文字中指定range的文字改变大小
- * @param range 要改变大小的文字的范围
- * @param scale 缩放值，大于1，则比其他文字大；小于1，则比其他文字小；默认是1.5
- */
-fun CharSequence.toSizeSpan(range: IntRange, scale: Float = 1.5f): CharSequence {
-    return SpannableString(this).apply {
-        setSpan(RelativeSizeSpan(scale), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+private const val IMAGE_SPAN_TEXT = "<img/>"
+private const val SPACE_SPAN_TEXT = "<space/>"
+
+operator fun Spannable.set(string: String, span: Any) =
+    toString().indexOf(string).takeIf { it != -1 }?.let { start ->
+        setSpan(span, start, start + string.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+    }
+
+operator fun Spannable.set(string: String, spans: List<Any>) =
+    toString().indexOf(string).takeIf { it != -1 }?.let { start ->
+        spans.forEach { span -> setSpan(span, start, start + string.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE) }
+    }
+
+inline fun SpannableStringBuilder.size(
+    size: Float,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = size(size.toInt(), builderAction)
+
+inline fun SpannableStringBuilder.size(
+    size: Int,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = inSpans(AbsoluteSizeSpan(size), builderAction)
+
+inline fun SpannableStringBuilder.blur(
+    radius: Float,
+    style: BlurMaskFilter.Blur = BlurMaskFilter.Blur.NORMAL,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = maskFilter(BlurMaskFilter(radius, style), builderAction)
+
+inline fun SpannableStringBuilder.maskFilter(
+    filter: MaskFilter,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = inSpans(MaskFilterSpan(filter), builderAction)
+
+inline fun SpannableStringBuilder.fontFamily(
+    family: String?,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = inSpans(TypefaceSpan(family), builderAction)
+
+inline fun SpannableStringBuilder.typeface(
+    typeface: Typeface,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = inSpans(TypefaceSpanCompat(typeface), builderAction)
+
+inline fun SpannableStringBuilder.url(
+    url: String,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = inSpans(URLSpan(url), builderAction)
+
+inline fun SpannableStringBuilder.alignCenter(
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = alignment(Layout.Alignment.ALIGN_CENTER, builderAction)
+
+inline fun SpannableStringBuilder.alignOpposite(
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = alignment(Layout.Alignment.ALIGN_OPPOSITE, builderAction)
+
+inline fun SpannableStringBuilder.alignment(
+    alignment: Layout.Alignment,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = inSpans(AlignmentSpan.Standard(alignment), builderAction)
+
+inline fun SpannableStringBuilder.leadingMargin(
+    first: Float,
+    rest: Float = first,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = leadingMargin(first.toInt(), rest.toInt(), builderAction)
+
+inline fun SpannableStringBuilder.leadingMargin(
+    first: Int,
+    rest: Int = first,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = inSpans(LeadingMarginSpan.Standard(first, rest), builderAction)
+
+inline fun SpannableStringBuilder.bullet(
+    gapWidth: Float,
+    @ColorInt color: Int? = null,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder = bullet(gapWidth.toInt(), color, builderAction)
+
+inline fun SpannableStringBuilder.bullet(
+    gapWidth: Int = BulletSpan.STANDARD_GAP_WIDTH,
+    @ColorInt color: Int? = null,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder =
+    inSpans(if (color == null) BulletSpan(gapWidth) else BulletSpan(gapWidth, color), builderAction)
+
+inline fun SpannableStringBuilder.quote(
+    @ColorInt color: Int? = null,
+    builderAction: SpannableStringBuilder.() -> Unit
+): SpannableStringBuilder =
+    inSpans(if (color == null) QuoteSpan() else QuoteSpan(color), builderAction)
+
+fun SpannableStringBuilder.append(
+    drawable: Drawable,
+    width: Int = drawable.intrinsicWidth,
+    height: Int = drawable.intrinsicHeight
+): SpannableStringBuilder {
+    drawable.setBounds(0, 0, width, height)
+    return inSpans(ImageSpan(drawable)) { append(IMAGE_SPAN_TEXT) }
+}
+
+fun SpannableStringBuilder.append(
+    @DrawableRes resourceId: Int,
+    context: Context
+): SpannableStringBuilder = inSpans(ImageSpan(context, resourceId)) { append(IMAGE_SPAN_TEXT) }
+
+fun SpannableStringBuilder.append(
+    bitmap: Bitmap,
+    context: Context
+): SpannableStringBuilder = inSpans(ImageSpan(context, bitmap)) { append(IMAGE_SPAN_TEXT) }
+
+fun SpannableStringBuilder.appendClickable(
+    text: CharSequence?,
+    @ColorInt color: Int? = null,
+    isUnderlineText: Boolean = true,
+    onClick: (View) -> Unit
+): SpannableStringBuilder = inSpans(ClickableSpan(color, isUnderlineText, onClick)) { append(text) }
+
+fun SpannableStringBuilder.appendClickable(
+    drawable: Drawable,
+    width: Int = drawable.intrinsicWidth,
+    height: Int = drawable.intrinsicHeight,
+    onClick: (View) -> Unit
+): SpannableStringBuilder = inSpans(ClickableSpan(onClick = onClick)) { append(drawable, width, height) }
+
+fun SpannableStringBuilder.appendClickable(
+    @DrawableRes resourceId: Int,
+    context: Context,
+    onClick: (View) -> Unit
+): SpannableStringBuilder = inSpans(ClickableSpan(onClick = onClick)) { append(resourceId, context) }
+
+fun SpannableStringBuilder.appendClickable(
+    bitmap: Bitmap,
+    context: Context,
+    onClick: (View) -> Unit
+): SpannableStringBuilder = inSpans(ClickableSpan(onClick = onClick)) { append(bitmap, context) }
+
+fun SpannableStringBuilder.appendSpace(
+    @FloatRange(from = 0.0) size: Float,
+    @ColorInt color: Int = Color.TRANSPARENT
+): SpannableStringBuilder = appendSpace(size.toInt(), color)
+
+fun SpannableStringBuilder.appendSpace(
+    @IntRange(from = 0) size: Int,
+    @ColorInt color: Int = Color.TRANSPARENT
+): SpannableStringBuilder = inSpans(SpaceSpan(size, color)) { append(SPACE_SPAN_TEXT) }
+
+fun ClickableSpan(
+    @ColorInt color: Int? = null,
+    isUnderlineText: Boolean = true,
+    onClick: (View) -> Unit,
+): ClickableSpan = object : ClickableSpan() {
+    override fun onClick(widget: View) = onClick(widget)
+
+    override fun updateDrawState(ds: TextPaint) {
+        ds.color = color ?: ds.linkColor
+        ds.isUnderlineText = isUnderlineText
     }
 }
 
-/**
- * 将一段文字中指定range的文字改变前景色
- * @param range 要改变前景色的文字的范围
- * @param color 要改变的颜色，默认是红色
- */
-fun CharSequence.toColorSpan(range: IntRange, color: Int = Color.RED): CharSequence {
-    return SpannableString(this).apply {
-        setSpan(ForegroundColorSpan(color), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+class SpaceSpan(private val width: Int, color: Int = Color.TRANSPARENT) : ReplacementSpan() {
+    private val paint = Paint().apply {
+        this.color = color
+        style = Paint.Style.FILL
     }
+
+    override fun getSize(
+        paint: Paint, text: CharSequence?,
+        @IntRange(from = 0) start: Int,
+        @IntRange(from = 0) end: Int,
+        fm: Paint.FontMetricsInt?
+    ): Int = width
+
+    override fun draw(
+        canvas: Canvas, text: CharSequence?,
+        @IntRange(from = 0) start: Int,
+        @IntRange(from = 0) end: Int,
+        x: Float, top: Int, y: Int, bottom: Int, paint: Paint
+    ) = canvas.drawRect(x, top.toFloat(), x + width, bottom.toFloat(), this.paint)
 }
 
-/**
- * 将一段文字中指定range的文字改变背景色
- * @param range 要改变背景色的文字的范围
- * @param color 要改变的颜色，默认是红色
- */
-fun CharSequence.toBackgroundColorSpan(range: IntRange, color: Int = Color.RED): CharSequence {
-    return SpannableString(this).apply {
-        setSpan(BackgroundColorSpan(color), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-    }
-}
+class TypefaceSpanCompat(private val newType: Typeface) : TypefaceSpan(null) {
+    override fun updateDrawState(ds: TextPaint) = ds.applyTypeFace(newType)
 
-/**
- * 将一段文字中指定range的文字添加删除线
- * @param range 要添加删除线的文字的范围
- */
-fun CharSequence.toStrikeThrougthSpan(range: IntRange): CharSequence {
-    return SpannableString(this).apply {
-        setSpan(StrikethroughSpan(), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-    }
-}
+    override fun updateMeasureState(paint: TextPaint) = paint.applyTypeFace(newType)
 
-/**
- * 将一段文字中指定range的文字添加颜色和点击事件
- * @param range 目标文字的范围
- */
-fun CharSequence.toClickSpan(range: IntRange, color: Int = Color.RED, isUnderlineText: Boolean = false, clickAction: () -> Unit): CharSequence {
-    return SpannableString(this).apply {
-        val clickableSpan = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                clickAction()
-            }
-
-            override fun updateDrawState(ds: TextPaint) {
-                ds.color = color
-                ds.isUnderlineText = isUnderlineText
-            }
+    private fun TextPaint.applyTypeFace(tf: Typeface) {
+        val oldStyle: Int
+        val old = typeface
+        oldStyle = old?.style ?: 0
+        val fake = oldStyle and tf.style.inv()
+        if (fake and Typeface.BOLD != 0) {
+            isFakeBoldText = true
         }
-        setSpan(clickableSpan, range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        if (fake and Typeface.ITALIC != 0) {
+            textSkewX = -0.25f
+        }
+        typeface = tf
     }
-}
-
-/**
- * 将一段文字中指定range的文字添加style效果
- * @param range 要添加删除线的文字的范围
- */
-fun CharSequence.toStyleSpan(style: Int = Typeface.BOLD, range: IntRange): CharSequence {
-    return SpannableString(this).apply {
-        setSpan(StyleSpan(style), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-    }
-}
-
-/** TextView的扩展 **/
-fun TextView.sizeSpan(str: String = "", range: IntRange, scale: Float = 1.5f): TextView {
-    text = (if (str.isEmpty()) text else str).toSizeSpan(range, scale)
-    return this
-}
-
-fun TextView.appendSizeSpan(str: String = "", scale: Float = 1.5f): TextView {
-    append(str.toSizeSpan(0..str.length, scale))
-    return this
-}
-
-fun TextView.colorSpan(str: String = "", range: IntRange, color: Int = Color.RED): TextView {
-    text = (if (str.isEmpty()) text else str).toColorSpan(range, color)
-    return this
-}
-
-fun TextView.appendColorSpan(str: String = "", color: Int = Color.RED): TextView {
-    append(str.toColorSpan(0..str.length, color))
-    return this
-}
-
-fun TextView.backgroundColorSpan(str: String = "", range: IntRange, color: Int = Color.RED): TextView {
-    text = (if (str.isEmpty()) text else str).toBackgroundColorSpan(range, color)
-    return this
-}
-
-fun TextView.appendBackgroundColorSpan(str: String = "", color: Int = Color.RED): TextView {
-    append(str.toBackgroundColorSpan(0..str.length, color))
-    return this
-}
-
-fun TextView.strikeThrougthSpan(str: String = "", range: IntRange): TextView {
-    text = (if (str.isEmpty()) text else str).toStrikeThrougthSpan(range)
-    return this
-}
-
-fun TextView.appendStrikeThrougthSpan(str: String = ""): TextView {
-    append(str.toStrikeThrougthSpan(0..str.length))
-    return this
-}
-
-fun TextView.clickSpan(str: String = "", range: IntRange, color: Int = Color.RED, isUnderlineText: Boolean = false, clickAction: () -> Unit): TextView {
-    movementMethod = LinkMovementMethod.getInstance()
-    highlightColor = Color.TRANSPARENT  // remove click bg color
-    text = (if (str.isEmpty()) text else str).toClickSpan(range, color, isUnderlineText, clickAction)
-    return this
-}
-
-fun TextView.appendClickSpan(str: String = "", color: Int = Color.RED, isUnderlineText: Boolean = false, clickAction: () -> Unit): TextView {
-    movementMethod = LinkMovementMethod.getInstance()
-    highlightColor = Color.TRANSPARENT  // remove click bg color
-    append(str.toClickSpan(0..str.length, color, isUnderlineText, clickAction))
-    return this
-}
-
-fun TextView.styleSpan(str: String = "", range: IntRange, style: Int = Typeface.BOLD): TextView {
-    text = (if (str.isEmpty()) text else str).toStyleSpan(style = style, range = range)
-    return this
-}
-
-fun TextView.appendStyleSpan(str: String = "", style: Int = Typeface.BOLD): TextView {
-    append(str.toStyleSpan(style = style, range = 0..str.length))
-    return this
 }
