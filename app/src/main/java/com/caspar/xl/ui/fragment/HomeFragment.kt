@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.caspar.base.base.BaseFragment
 import com.caspar.base.ext.*
-import com.caspar.base.utils.log.LogUtil
 import com.caspar.base.helper.Permission
-import com.caspar.base.utils.local.getLocal
+import com.caspar.base.utils.log.dLog
+import com.caspar.base.utils.log.eLog
 import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.FragmentHomeBinding
@@ -39,6 +39,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -65,17 +66,6 @@ class HomeFragment : BaseFragment() {
         CarNumDialog.Builder(requireContext())
     }
 
-    //请求定位所需的权限
-    private val localPermission = requestMultiplePermissions(allGranted = {
-        lifecycleScope.launchWhenCreated {
-            getLocal()
-        }
-    }, denied = {
-        toast("你拒绝了以下权限->${it.toJson()}")
-    }, explained = {
-        toast("你拒绝了以下权限，并点击了不再询问->${it.toJson()}")
-    })
-
     //请求拍照所需的权限
     private val permission = requestMultiplePermissions(allGranted = {
         acStart<CameraActivity>()
@@ -92,7 +82,7 @@ class HomeFragment : BaseFragment() {
             if (path.isNotEmpty()) {
                 toast("你选择的文件路径为：$path")
             }
-            LogUtil.e("接收到的数据->$path")
+            "接收到的数据->$path".dLog()
         }
     }
 
@@ -193,31 +183,28 @@ class HomeFragment : BaseFragment() {
                         VerifyDialog.Builder(requireContext())
                             .setListener(object : Captcha.CaptchaListener {
                                 override fun onAccess(time: Long): String {
-                                    LogUtil.d(time.toString())
+                                    time.toString().dLog()
                                     return time.toString()
                                 }
 
                                 override fun onFailed(failCount: Int): String {
-                                    LogUtil.d(failCount.toString())
+                                    failCount.toString().dLog()
                                     return failCount.toString()
                                 }
 
                                 override fun onMaxFailed(): String {
-                                    LogUtil.d("超出了失败次数")
+                                    "超出了失败次数".eLog()
                                     return "超出了失败次数"
                                 }
                             }).create().show()
                     }
                     mViewModel.mData[10] -> {
-                        localPermission.launch(Permission.Group.LOCATION)
-                    }
-                    mViewModel.mData[11] -> {
                         acStart<CrashLogActivity>()
                     }
-                    mViewModel.mData[12] -> {
+                    mViewModel.mData[11] -> {
                         acStart<RefreshListActivity>()
                     }
-                    mViewModel.mData[13] -> {
+                    mViewModel.mData[12] -> {
                         val current = if (AppCompatDelegate.getApplicationLocales().isEmpty) {
                             Locale.getDefault().toLanguageTag()
                         } else {
@@ -227,7 +214,7 @@ class HomeFragment : BaseFragment() {
                         // 注意：需要在主线程上调用它，因为它可能需要Activity.restart()
                         AppCompatDelegate.setApplicationLocales(appLocale)
                     }
-                    mViewModel.mData[14] -> {
+                    mViewModel.mData[13] -> {
                         carDialog.clearText("陕A").setCarNumListener {
                             toast("您输入了车牌->${it}")
                         }.show()
@@ -252,28 +239,6 @@ class HomeFragment : BaseFragment() {
             }
         } else {
             permissionRequest.launch(Permission.Group.STORAGE)
-        }
-    }
-
-    /**
-     * 多次获取，因为首次获取到定位权限时不一定能获取到定位信息
-     */
-    private suspend fun getLocal(locale: Locale? = null) {
-        val location = requireContext().getLocal(locale = locale)
-        location?.apply {
-            val hashMapOf = hashMapOf<String, Any>()
-            hashMapOf["国家"] = this.country
-            hashMapOf["省"] = this.province
-            hashMapOf["市"] = this.city
-            hashMapOf["区"] = this.area
-            hashMapOf["邮编"] = this.adCode
-            hashMapOf["区号"] = this.cityCode
-            hashMapOf["详细住址"] = this.addressDetail
-            hashMapOf["经度"] = this.latitude
-            hashMapOf["纬度"] = this.longitude
-            toast("国家[${this.country}] 省份[${this.province}] 城市[${this.city}] 区[${this.area}] 详细住址[${this.addressDetail}] 经度[${this.latitude}] 纬度[${this.longitude}]")
-            LogUtil.json(hashMapOf.toJson())
-            LogUtil.json(this.toJson())
         }
     }
 }

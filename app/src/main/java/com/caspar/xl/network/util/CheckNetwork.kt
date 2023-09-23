@@ -1,8 +1,6 @@
 package com.caspar.xl.network.util
 
-import android.content.Context
-import android.net.ConnectivityManager
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.eLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -29,7 +27,7 @@ val netWorkFlow = flow {
                     try {
                         if (buf.readLine().also { str = it } == null) break
                     } catch (e: IOException) {
-                        LogUtil.e(e)
+                        e.eLog()
                     }
                     if (str?.contains("avg") == true) {
                         val i = str?.indexOf("/", 20) ?: 0
@@ -39,7 +37,7 @@ val netWorkFlow = flow {
                 }
             }
         } catch (e: Exception) {
-            LogUtil.e(e)
+            e.eLog()
         }
         /*emit(
             if (netStatus == 0 && networkDelay.isNotEmpty()) {

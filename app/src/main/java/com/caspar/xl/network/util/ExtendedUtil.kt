@@ -1,7 +1,7 @@
 package com.caspar.xl.network.util
 
 
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.eLog
 import com.caspar.xl.bean.BaseBean
 import com.google.gson.JsonParseException
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -24,7 +24,7 @@ val DefaultErrorHandelCoroutine = CoroutineExceptionHandler { _, _ -> }
  * 解析数据异常
  */
 private fun exportError(throwable: Throwable): Pair<Int, String> {
-    LogUtil.e(throwable)
+    throwable.eLog()
     return when (throwable) {
         is HttpException -> {
             var errorBody = throwable.response()?.errorBody()?.string()

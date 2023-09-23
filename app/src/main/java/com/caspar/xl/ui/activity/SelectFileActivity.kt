@@ -8,7 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
+import com.caspar.base.utils.log.iLog
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.ActivitySelectFileBinding
 import com.caspar.xl.ext.binding
@@ -49,7 +50,7 @@ class SelectFileActivity : BaseActivity() {
                     updateFiles()
                 } else {
                     MMKVUtil.encode(Constant.ADDRESS_HISTORICAL, file.parent)
-                    LogUtil.e(file.path)
+                    file.path.dLog()
                     val intent = Intent()
                     intent.putExtra("path", file.path)
                     setResult(Constant.SELECT_FILE_PATH, intent)
@@ -108,7 +109,7 @@ class SelectFileActivity : BaseActivity() {
     private fun updateFiles() {
         lifecycleScope.launch(Dispatchers.IO) {
             currentFile?.apply {
-                LogUtil.e("当前目录:${this.name}")
+                "当前目录:${this.name}".iLog()
                 val filesList: MutableList<FileBean> = ArrayList()
                 filesList.add(FileBean("..", this.parentFile ?: this))
                 val childFiles: Array<File>? = listFiles()
@@ -121,7 +122,7 @@ class SelectFileActivity : BaseActivity() {
                         mAdapter.submitList(filesList)
                     }
                 } ?: run {
-                    LogUtil.e("返回到了原目录")
+                    "返回到了原目录".iLog()
                     toRootDirectory()
                     updateFiles()
                 }

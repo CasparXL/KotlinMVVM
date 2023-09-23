@@ -14,12 +14,15 @@ import cat.ereza.customactivityoncrash.CustomActivityOnCrash
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.helper.DoubleClickHelper
-import com.caspar.base.utils.log.LogFileManager
 import com.caspar.base.R
+import com.caspar.base.utils.log.createFileLoggingTree
+import com.caspar.base.utils.log.eLog
 import com.caspar.xl.databinding.ActivityCrashBinding
 import com.caspar.xl.ext.binding
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * author : Android 轮子哥
@@ -62,21 +65,16 @@ class CrashActivity : BaseActivity(), View.OnClickListener {
 
     override fun initView(savedInstanceState: Bundle?) {
         //ApplicationInitializer仅在主进程中有效，其他进程中需要单独拿出来初始化，否则写入文件失败
-        LogFileManager.initPath(packageName = this.packageName, parentPath = this.filesDir.path, name = "CustomLog")
         mConfig = CustomActivityOnCrash.getConfigFromIntent(intent)
         if (mConfig == null) {
-            // 这种情况永远不会发生，只要完成该活动就可以避免递归崩溃
+            // 这种情况永远不会发生，只要完成该活动就可以避免递归崩溃,但是为了保险起见,加入该方法避免出现其他异常
             finish()
         }
         val errorInformation = CustomActivityOnCrash.getAllErrorDetailsFromIntent(this@CrashActivity, intent)
         lifecycleScope.launch(Dispatchers.IO) {
-            LogFileManager.getCrashLog()?.let { crashLog->
-                if (crashLog.exists()){
-                    crashLog.appendText("\n\n Found Crash:${errorInformation}")
-                } else {
-                    crashLog.writeText("Found Crash:${errorInformation}")
-                }
-            }
+            Timber.plant(createFileLoggingTree(maxLogFileSize = 1 * 1024 * 1024))
+            delay(1000)
+            "Found Crash:${errorInformation}".eLog()
         }
         mBindingView.btnCrashLog.setOnClickListener(this)
         mBindingView.btnCrashRestart.setOnClickListener(this)

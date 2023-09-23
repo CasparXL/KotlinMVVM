@@ -43,6 +43,7 @@ leakcanary = "2.10"
 immersionbar = "3.2.2"
 flycoTabLayout = "3.0.0"
 chart = "v3.1.0"
+timber = "5.0.1"
 
 [libraries]
 #kotlin group->kotlin-stdlib,kotlin-stdlib-jdk7,kotlin-stdlib-jdk8,kotlin-stdlib-common
@@ -82,6 +83,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 retrofit-converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit" }
 okhttp-log = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp-log" }
+log-timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 ktor-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }

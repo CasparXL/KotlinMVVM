@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.caspar.base.action.ToastAction
 import com.caspar.base.helper.KeyBoardUtils
-import com.caspar.base.utils.log.LogUtil
 import com.gyf.immersionbar.ktx.immersionBar
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method

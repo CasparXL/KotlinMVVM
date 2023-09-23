@@ -8,7 +8,7 @@ import java.lang.reflect.Type
 
 val gson: Gson
     get() {
-        val builder = GsonBuilder()
+        val builder = GsonBuilder().setPrettyPrinting()
         return builder.create()
     }
 

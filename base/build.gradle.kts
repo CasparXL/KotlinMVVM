@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.bundles.lifecycle)
     implementation(libs.google.material)
     implementation(libs.toast)
+    implementation(libs.log.timber)
     implementation(libs.bundles.coroutines)
     implementation(libs.bundles.immersionbar)
 

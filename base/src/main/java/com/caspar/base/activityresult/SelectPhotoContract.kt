@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.CallSuper
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
 
 /**
  * 选择照片的协定
@@ -30,7 +30,7 @@ class SelectPhotoContract : ActivityResultContract<Unit?, Pair<Int,Uri?>>() {
     }
 
     override fun parseResult(resultCode: Int, intent: Intent?): Pair<Int,Uri?> {
-        LogUtil.d("pick photo result: ${intent?.data}")
+        "pick photo result: ${intent?.data}".dLog()
         return resultCode to intent?.data
     }
 }

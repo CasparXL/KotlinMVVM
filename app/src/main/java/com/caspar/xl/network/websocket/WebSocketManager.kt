@@ -2,7 +2,8 @@ package com.caspar.xl.network.websocket
 
 import android.annotation.SuppressLint
 import android.app.Application
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
+import com.caspar.base.utils.log.eLog
 import com.caspar.xl.app.lifecycleScope
 import com.caspar.xl.network.util.isJson
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -45,7 +46,7 @@ class WebSocketManager @Inject constructor(private val application: Application)
     val coroutineError = CoroutineExceptionHandler { _, error ->
         application.lifecycleScope.launch {
             errorMessageFlow.emit("数据解析异常,请联系管理员处理")
-            LogUtil.e(error)
+            error.eLog()
         }
     }
     val errorMessageFlow = MutableSharedFlow<String>()
@@ -86,16 +87,16 @@ class WebSocketManager @Inject constructor(private val application: Application)
                 if (webUri.containsKey(t)) {
                     if (webUri[t] == ConnectState.CONNECTED) {
                         requestPingTime[socket] = System.currentTimeMillis()
-                        LogUtil.d("WebSocket[${u.request().url.encodedPathSegments.last()}]心跳}")
+                        "WebSocket[${u.request().url.encodedPathSegments.last()}]心跳}".dLog()
                         u.send("ping")
                         //发送和接受到的数据时间间隔超出规定时间没有收到记录一次
                         if (abs(currentUriRequestTime - currentUriResponseTime) > sendTimeOut) {
                             sendTimeOutCount[socket] = sendTimeOutCountValue + 1
-                            LogUtil.d("WebSocket心跳超时,超时次数${sendTimeOutCountValue + 1}")
+                            "WebSocket心跳超时,超时次数${sendTimeOutCountValue + 1}".dLog()
                         } else {
                             //如果五秒内值正常响应,则重置超时次数
                             sendTimeOutCount[socket] = 0
-                            LogUtil.d("WebSocket心跳正常")
+                            "WebSocket心跳正常".dLog()
                         }
                         if ((sendTimeOutCount[socket] ?: 0) >= maxCount) {
                             sendTimeOutCount[socket] = 0
@@ -104,10 +105,10 @@ class WebSocketManager @Inject constructor(private val application: Application)
                             u.close(ConnectState.DISCONNECT.code, "长连接请求异常,无法收到回调,关闭当前超时的长连接")
                         }
                     } else {
-                        LogUtil.d("暂无需要心跳的长连接")
+                        "暂无需要心跳的长连接".dLog()
                     }
                 } else {
-                    LogUtil.d("暂无需要心跳的长连接")
+                    "暂无需要心跳的长连接".dLog()
                 }
             }
         }
@@ -193,7 +194,7 @@ class WebSocketManager @Inject constructor(private val application: Application)
     private fun connectSocket(url: String) {
         application.lifecycleScope.launch(Dispatchers.Main) {
             webUri[url] = ConnectState.CONNECTING
-            LogUtil.d("准备连接${url}")
+            "准备连接${url}".dLog()
             val request = Request.Builder().url(url)
                 .addHeader("Connection", "Upgrade")
                 .addHeader("Upgrade", "websocket")
@@ -205,7 +206,7 @@ class WebSocketManager @Inject constructor(private val application: Application)
     inner class WebSocketListener(private val url: String) : okhttp3.WebSocketListener() {
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
             super.onClosed(webSocket, code, reason)
-            LogUtil.e("长连接${webSocket.request().url}关闭,状态为${code},原因${reason}")
+            "长连接${webSocket.request().url}关闭,状态为${code},原因${reason}".eLog()
             application.lifecycleScope.launch(Dispatchers.Main) {
                 if (webUri.containsKey(url)) {
                     webUri[url] = ConnectState.DISCONNECT
@@ -216,9 +217,9 @@ class WebSocketManager @Inject constructor(private val application: Application)
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
             super.onClosing(webSocket, code, reason)
             application.lifecycleScope.launch(Dispatchers.Main) {
-                LogUtil.e("长连接${webSocket.request().url}关闭中,状态为${code},原因${reason}")
+                "长连接${webSocket.request().url}关闭中,状态为${code},原因${reason}".eLog()
                 if (webUri.containsKey(url)) {
-                    webUri[url] = ConnectState.DISCONNECTING
+                    webUri[url] = ConnectState.DISCONNECT
                 }
             }
         }
@@ -226,7 +227,7 @@ class WebSocketManager @Inject constructor(private val application: Application)
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
             super.onFailure(webSocket, t, response)
             application.lifecycleScope.launch(Dispatchers.Main) {
-                LogUtil.e("长连接${webSocket.request().url}出现错误,状态为${t.message},原因${response?.message}")
+                "长连接${webSocket.request().url}出现错误,状态为${t.message},原因${response?.message}".eLog()
                 if (webUri.containsKey(url)) {
                     webUri[url] = ConnectState.DISCONNECT
                 }
@@ -239,19 +240,16 @@ class WebSocketManager @Inject constructor(private val application: Application)
             application.lifecycleScope.launch(coroutineError) {
                 withContext(Dispatchers.Main) {
                     if (text == "pong") {
-                        LogUtil.d("收到[${requestUrl}]心跳ping->${text}")
+                        "收到[${requestUrl}]心跳ping->${text}".dLog()
                         responsePongTime[webSocket.request().url.toString()] = System.currentTimeMillis()
                     }
                     if (requestUrl.contains("xxx")) {
                         if (text.isJson()) {
-                            //LogUtil.e("油枪信息[$requestUrl]${text}")
                             contentOilsFlow.emit("bean")
                         }
                     }
                     if (requestUrl.contains("xxx")) {
-                        if (text.isJson()) {
-                            //LogUtil.e("车牌信息${text}")
-                        }
+                        if (text.isJson()) { }
                     }
                 }
             }
@@ -259,13 +257,13 @@ class WebSocketManager @Inject constructor(private val application: Application)
 
         override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
             super.onMessage(webSocket, bytes)
-            LogUtil.e("接收到数据ByteString${bytes}")
+            "接收到数据ByteString${bytes}".eLog()
         }
 
         override fun onOpen(webSocket: WebSocket, response: Response) {
             super.onOpen(webSocket, response)
             application.lifecycleScope.launch(Dispatchers.Main) {
-                LogUtil.e("打开长连接${webSocket.request().url}")
+                "打开长连接${webSocket.request().url}".dLog()
                 webUri[url] = ConnectState.CONNECTED
                 webSocketUri[url] = webSocket
             }

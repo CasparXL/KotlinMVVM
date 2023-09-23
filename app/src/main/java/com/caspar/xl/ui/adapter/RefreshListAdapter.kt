@@ -4,11 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.caspar.base.utils.log.LogUtil
-import com.caspar.xl.R
+import com.caspar.base.utils.log.dLog
 import com.caspar.xl.databinding.ItemRefreshListBinding
 import com.chad.library.adapter.base.BaseDifferAdapter
-import com.chad.library.adapter.base.BaseQuickAdapter
 
 
 /**
@@ -63,7 +61,7 @@ class RefreshListAdapter : BaseDifferAdapter<MessageListBean, BaseViewBindingHol
 
     override fun onBindViewHolder(holder: BaseViewBindingHolder<ItemRefreshListBinding>, position: Int, item: MessageListBean?) {
         with(holder.viewBinding) {
-            LogUtil.d("refresh${holder.bindingAdapterPosition}")
+            "refresh${holder.bindingAdapterPosition}".dLog()
             item?.apply {
                 tvId.text = "Id:${id}"
                 tvName.text = "Name:${name}"

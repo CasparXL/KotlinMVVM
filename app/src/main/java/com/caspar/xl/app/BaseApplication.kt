@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
 import androidx.multidex.MultiDexApplication
+import com.caspar.base.utils.log.createFileLoggingTree
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
 
 /**

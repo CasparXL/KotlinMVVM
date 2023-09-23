@@ -2,7 +2,8 @@ package com.caspar.xl.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
+import com.caspar.base.utils.log.eLog
 import com.caspar.xl.bean.response.City
 import com.caspar.xl.network.ApiService
 import com.caspar.xl.di.BodyOkHttpClient
@@ -39,7 +40,7 @@ class CoroutinesViewModel @Inject constructor(
                 }
 
                 override fun onFailure(call: Call<City>, t: Throwable) {
-                    LogUtil.e(t.message)
+                    t.eLog()
                     it.resume(null)
                 }
             })
@@ -58,7 +59,7 @@ class CoroutinesViewModel @Inject constructor(
     }
 
     suspend fun cancelPlan(int: Int) = repeat(int) {
-        LogUtil.d("任务共计 $int 次,当前执行第 ${it + 1} 次")
+        "任务共计 $int 次,当前执行第 ${it + 1} 次".dLog()
         delay(1000)
     }
 

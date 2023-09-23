@@ -3,7 +3,7 @@ package com.caspar.xl.ui.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
 import com.caspar.xl.databinding.ItemMenuBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.dragswipe.listener.DragAndSwipeDataCallback
@@ -31,11 +31,11 @@ class HomeMenuAdapter : BaseQuickAdapter<String, BaseViewBindingHolder<ItemMenuB
 
     override fun dataMove(fromPosition: Int, toPosition: Int) {
         move(fromPosition, toPosition)
-        LogUtil.d("swap($fromPosition,${toPosition})")
+        "swap($fromPosition,${toPosition})".dLog()
     }
 
     override fun dataRemoveAt(position: Int) {
         removeAt(position)
-        LogUtil.d("dataRemoveAt($position)")
+        "dataRemoveAt($position)".dLog()
     }
 }

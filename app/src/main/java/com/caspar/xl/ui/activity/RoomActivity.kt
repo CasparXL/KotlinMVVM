@@ -8,7 +8,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
+import com.caspar.base.utils.log.eLog
 import com.caspar.xl.R
 import com.caspar.xl.bean.db.TeacherBean
 import com.caspar.xl.bean.db.UserBean
@@ -40,13 +41,13 @@ class RoomActivity : BaseActivity(), View.OnClickListener {
         )
         mViewModel.viewStates.let { state ->
             state.observeState(this, RoomViewState::str) {
-                LogUtil.d("str文字变化->${it}")
+                "str文字变化->${it}".dLog()
             }
             state.observeState(this, RoomViewState::teacherId) {
-                LogUtil.d("teacherId文字变化->${it}")
+                "teacherId文字变化->${it}".dLog()
             }
             state.observeState(this, RoomViewState::userId) {
-                LogUtil.d("userId文字变化->${it}")
+                "userId文字变化->${it}".dLog()
             }
         }
     }
@@ -69,7 +70,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener {
             R.id.btnSearch -> {
                 lifecycleScope.launch {
                     val size = mViewModel.getTeacherSize()
-                    LogUtil.e("随机查询某老师对应的学生：老师数量$size")
+                    "随机查询某老师对应的学生：老师数量$size".eLog()
                     if (size != 0) {
                         val tId = (0 until size).random()
                         val id = mViewModel.getTeacherForId(tId)
@@ -92,7 +93,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener {
                 val error = CoroutineExceptionHandler { _, throwable ->
                     run {
                         //数据库添加失败,可能因为其他原因导致的异常[比如学生表插入的teacherId在老师表中实际上目前不存在该数据，那会进入当前界面]
-                        LogUtil.e(throwable)
+                        throwable.eLog()
                         lifecycleScope.launch {
                             val teacher =
                                 mViewModel.getTeacherById(mViewModel.viewStates.value.teacherId)
@@ -136,14 +137,14 @@ class RoomActivity : BaseActivity(), View.OnClickListener {
                         tId = teacherBean.id
                     )
                     mViewModel.updateUserId(user.id)
-                    LogUtil.e("老师id $teacherId,学生id $mViewModel.viewStates.value.userId")
+                    "老师id $teacherId,学生id $mViewModel.viewStates.value.userId".eLog()
                     val userId = mViewModel.insertUser(user)
                     mViewModel.viewStates.value.str += if (userId != -1L) {
                         "添加学生数据成功[id:${user.id},name=${user.name}]\n"
                     } else {
                         "添加学生数据失败[id:${user.id},name=${user.name}]\n请进行重新添加学生信息[错误原因可能是因为随机数产生时，当前id在表中已存在]\n"
                     }
-                    LogUtil.e(mViewModel.viewStates.value.str)
+                    mViewModel.viewStates.value.str.eLog()
                     mBindingView.tvLogcat.text = mViewModel.viewStates.value.str
                 }
             }
@@ -151,7 +152,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener {
                 val error = CoroutineExceptionHandler { _, throwable ->
                     run {
                         //数据库删除失败
-                        LogUtil.e(throwable)
+                        throwable.eLog()
                     }
                 }
                 lifecycleScope.launch(error) {

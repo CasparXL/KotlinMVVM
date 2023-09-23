@@ -1,7 +1,6 @@
 package com.caspar.xl.ui.activity
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -9,11 +8,12 @@ import android.view.*
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.base.BaseDialog
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
+import com.caspar.base.utils.log.eLog
+import com.caspar.base.utils.log.iLog
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCameraBinding
 import com.caspar.xl.ext.binding
@@ -23,7 +23,6 @@ import java.io.File
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 @AndroidEntryPoint
 class CameraActivity : BaseActivity(), View.OnClickListener {
@@ -80,7 +79,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
                 cameraControl = camera?.cameraControl
                 preview.setSurfaceProvider(mBindingView.viewFinder.surfaceProvider)
             } catch (exc: Exception) {
-                LogUtil.e(exc)
+                exc.eLog()
             }
         }, ContextCompat.getMainExecutor(this))
         initImageCapture()
@@ -102,7 +101,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
             val currentZoomRatio: Float = camera?.cameraInfo?.zoomState?.value?.zoomRatio ?: 1F
             // 获取用户捏拉手势所更改的缩放比例
             val delta = detector.scaleFactor
-            LogUtil.e("当前比例:$currentZoomRatio 手势更改比例 $delta")
+            "当前比例:$currentZoomRatio 手势更改比例 $delta".iLog()
             // 更新摄像头的缩放比例
             cameraControl?.setZoomRatio(currentZoomRatio * delta)
             return true
@@ -152,7 +151,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     create?.hide()
-                    LogUtil.e(exc)
+                    exc.eLog()
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
@@ -160,7 +159,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "拍照成功，图片被保存到app内部储存，路径为: $savedUri"
                     toast(msg)
-                    LogUtil.d(msg)
+                    msg.dLog()
                 }
             })
     }
@@ -179,7 +178,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
             val data = buffer.toByteArray()
             val pixels = data.map { it.toInt() and 0xFF }
             val lightness = pixels.average()
-            LogUtil.e("手机摄像头亮度[0-100，越高越亮]$lightness")
+            "手机摄像头亮度[0-100，越高越亮]$lightness".iLog()
             image.close()
         }
     }

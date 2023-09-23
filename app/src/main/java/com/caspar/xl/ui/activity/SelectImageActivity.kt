@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivitySelectImageBinding
 import com.caspar.xl.ext.binding
@@ -118,7 +118,7 @@ class SelectImageActivity : BaseActivity(), View.OnClickListener {
                     cursor.close()
                 }
                 withContext(Dispatchers.Main) {
-                    LogUtil.d("图片数量->${mAdapter.itemCount}")
+                    "图片数量->${mAdapter.itemCount}".dLog()
                 }
             }
         }

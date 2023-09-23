@@ -8,7 +8,8 @@ import android.view.View
 import androidx.core.graphics.drawable.toBitmap
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
+import com.caspar.base.utils.log.iLog
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityPaletteBinding
 import com.caspar.xl.ext.binding
@@ -42,20 +43,20 @@ class PaletteActivity : BaseActivity(), View.OnClickListener {
                 bitmap?.apply {
                     val xsdX = event.x / view.width
                     val xsdY = event.y / view.height
-                    LogUtil.e("bit宽高[${this.width},${this.height}],图片宽高[${view.width},${view.height}]")
+                    "bit宽高[${this.width},${this.height}],图片宽高[${view.width},${view.height}]".dLog()
                     val color: Int =
                         getPixel((xsdX * this.width).toInt(), (xsdY * this.height).toInt())
                     val r: Int = Color.red(color)
                     val g: Int = Color.green(color)
                     val b: Int = Color.blue(color)
                     mBindingView.viewBackground.setBackgroundColor(color)
-                    LogUtil.e("颜色->[r->$r,g->$g,b->$b]")
+                    "颜色->[r->$r,g->$g,b->$b]".dLog()
                 } ?: run {
                     bitmap = mBindingView.ivImage.drawable.toBitmap(height = view.height)
                         .copy(Bitmap.Config.ARGB_8888, true)
-                    LogUtil.e("创建了一个bitmap")
+                    "创建了一个bitmap".dLog()
                 }
-                LogUtil.e("移动位置->[${event.x},${event.y}]")
+                "移动位置->[${event.x},${event.y}]".iLog()
             }
             true
         }

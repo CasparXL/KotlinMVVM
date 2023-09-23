@@ -1,6 +1,6 @@
 package com.caspar.xl.network.interceptor
 
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
 import com.caspar.xl.helper.MMKVUtil
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -16,19 +16,19 @@ class TokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request: Request = chain.request()
         val response: Response = chain.proceed(request)
-        LogUtil.d("response.code=${response.code}")
+        "response.code=${response.code}".dLog()
         //根据和服务端的约定判断token过期
         if (isTokenExpired(request,response)) {
             val refreshToken = MMKVUtil.decodeString("refreshToken")
-            LogUtil.d("自动刷新Token,然后重新请求数据")
+            "自动刷新Token,然后重新请求数据".dLog()
             //同步请求方式，获取最新的Token
             val newToken = getNewToken(refreshToken)
             if (newToken == null){
-                LogUtil.d("token过期并且刷新失败")
+                "token过期并且刷新失败".dLog()
                 //这里跳转到登陆界面给用户
                 return response
             } else {
-                LogUtil.d("存入新的token和刷新token用的refreshToken")
+                "存入新的token和刷新token用的refreshToken".dLog()
                 //使用新的Token，创建新的请求
                 val newRequest: Request = chain.request()
                     .newBuilder()

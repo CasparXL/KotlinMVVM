@@ -132,6 +132,7 @@ dependencies {
     implementation(libs.google.material) {
         exclude(libs.androidx.recyclerview.get().module.group)
     }
+    implementation(libs.log.timber)
     implementation(libs.hilt.android)
     implementation(libs.mmkv)
     implementation(libs.bundles.retrofit)

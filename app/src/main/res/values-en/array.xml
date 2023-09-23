@@ -10,7 +10,6 @@
         <item>ColorSelect</item>
         <item>ImageSelect</item>
         <item>verifyCaptcha</item>
-        <item>getLocation</item>
         <item>SelectCity</item>
         <item>CrashLog</item>
         <item>RefreshRanged</item>

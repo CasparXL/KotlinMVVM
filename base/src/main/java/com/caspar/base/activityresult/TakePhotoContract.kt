@@ -10,7 +10,7 @@ import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.content.FileProvider
 import androidx.core.content.contentValuesOf
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
 import java.io.File
 
 /**
@@ -54,7 +54,7 @@ class TakePhotoContract : ActivityResultContract<Unit?, Pair<Int,Uri?>>() {
     }
 
     override fun parseResult(resultCode: Int, intent: Intent?): Pair<Int,Uri?> {
-        LogUtil.d( "Take photo, resultCode: $resultCode, uri: $uri")
+        "Take photo, resultCode: $resultCode, uri: $uri".dLog()
         return resultCode to (if (resultCode == Activity.RESULT_OK) uri else null)
     }
 }

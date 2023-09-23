@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
 import com.caspar.xl.databinding.ActivityRefreshListBinding
 import com.caspar.xl.ext.binding
 import com.caspar.xl.ui.adapter.RefreshListAdapter
@@ -114,7 +114,7 @@ class RefreshListActivity : BaseActivity() {
                         }
                     }
                 }.let {
-                    LogUtil.d("加载时间 -> ${it.inWholeMilliseconds} 毫秒")
+                    "加载时间 -> ${it.inWholeMilliseconds} 毫秒".dLog()
                 }
             }
         }

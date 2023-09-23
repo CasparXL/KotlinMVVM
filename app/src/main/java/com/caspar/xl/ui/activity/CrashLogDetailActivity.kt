@@ -8,11 +8,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.setDrawableSize
-import com.caspar.base.utils.log.LogFileManager
+import com.caspar.base.utils.log.getLogFile
+import com.caspar.base.utils.log.shareFile
 
 import com.caspar.xl.R
 import com.caspar.xl.app.BaseApplication
@@ -33,9 +33,10 @@ class CrashLogDetailActivity : BaseActivity() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        val logFiles = getLogFile()
         val fileName = intent.getStringExtra(FILE_PATH)?:""
         mBindingView.title.tvRight.setOnClickListener {
-            shareFile(this, fileName)
+            shareFile(this, File(logFiles, fileName).absolutePath)
         }
         mBindingView.title.tvRight.setDrawableSize(1, R.drawable.ic_share, 24.dp, 24.dp)
         mBindingView.title.tvCenter.text = fileName
@@ -43,7 +44,7 @@ class CrashLogDetailActivity : BaseActivity() {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 //读取大文件专用方法，该写法可以流畅读取大文件内容
-                File(LogFileManager.allLogFile(), fileName).useLines {
+                File(logFiles, fileName).useLines {
                     it.iterator().apply {
                         while (this.hasNext()) {
                             withContext(Dispatchers.Main) {
@@ -55,26 +56,6 @@ class CrashLogDetailActivity : BaseActivity() {
                     }
                 }
             }
-        }
-    }
-
-    private fun shareFile(context: Context, fileName: String) {
-        val file = File(LogFileManager.allLogFile(), fileName)
-        if (file.exists()) {
-            val share = Intent(Intent.ACTION_SEND)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                val contentUri: Uri = FileProvider.getUriForFile(context,  BaseApplication.context.applicationInfo.packageName + ".provider", file)
-                share.putExtra(Intent.EXTRA_STREAM, contentUri)
-                share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            } else {
-                share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file))
-            }
-            share.type = "application/vnd.ms-excel" //此处可发送多种文件
-            share.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            context.startActivity(Intent.createChooser(share, "分享文件"))
-        } else {
-            Toast.makeText(context, "分享文件不存在", Toast.LENGTH_SHORT).show()
         }
     }
 }

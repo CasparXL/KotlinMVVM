@@ -6,21 +6,18 @@ import android.view.Gravity
 import androidx.startup.Initializer
 import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.caspar.base.helper.ActivityStackManager
-import com.caspar.base.utils.log.LogFileManager
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.createFileLoggingTree
 import com.caspar.xl.MainActivity
 import com.caspar.xl.R
 import com.caspar.xl.ui.CrashActivity
 import com.hjq.toast.Toaster
 import com.hjq.toast.style.BlackToastStyle
 import com.tencent.mmkv.MMKV
+import timber.log.Timber
 
 class ApplicationInitializer : Initializer<String> {
     override fun create(context: Context): String {
-        //Crash日志存放目录初始化
-        LogFileManager.initPath(packageName = context.packageName, parentPath = context.filesDir.path, name = "CustomLog")
-        //Log日志工具类初始化
-        LogUtil.init(context.resources.getBoolean(R.bool.log_enable), "浪", mFile = LogFileManager.getEventLog())
+        Timber.plant(context.createFileLoggingTree(maxLogFileSize = 1 * 1024 * 1024))
         //本地储存初始化
         MMKV.initialize(context)
         //toast相关初始化

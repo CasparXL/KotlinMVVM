@@ -8,7 +8,8 @@ import androidx.viewbinding.ViewBinding
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.base.BaseDialog
 import com.caspar.base.ext.setOnClickListener
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
+import com.caspar.base.utils.log.eLog
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCoroutinesAboutBinding
 import com.caspar.xl.ext.binding
@@ -70,7 +71,7 @@ class CoroutinesAboutActivity : BaseActivity(),
                     dialogBuilder?.setMessage("模拟请求，两秒后将超时，真正操作需要三秒")
                     dialog?.show()
                     val timeout = mViewModel.timeout(2000, 3000) {
-                        LogUtil.e("这是耗时操作的回调，如果超时，将被中断，不会打印该日志 --->该操作不会打印日志")
+                        "这是耗时操作的回调，如果超时，将被中断，不会打印该日志 --->该操作不会打印日志".dLog()
                     }
                     dialog?.dismiss()
                     if (timeout == null) {
@@ -83,7 +84,7 @@ class CoroutinesAboutActivity : BaseActivity(),
                     dialogBuilder?.setMessage("模拟请求，六秒后将超时，真正执行花了三秒")
                     dialog?.show()
                     val timeout = mViewModel.timeout(6000, 3000) {
-                        LogUtil.e("这是耗时操作的回调，如果超时，将被中断，不会打印该日志 --->该操作会打印日志")
+                        "这是耗时操作的回调，如果超时，将被中断，不会打印该日志 --->该操作会打印日志".eLog()
                     }
                     dialog?.dismiss()
                     if (timeout == null) {
@@ -101,7 +102,7 @@ class CoroutinesAboutActivity : BaseActivity(),
                 }
                 R.id.btn_cancel_plan -> {
                     job?.cancel() //结束本次任务，如果没有执行任务，则点击无效
-                    LogUtil.d("停止任务")
+                    "停止任务".dLog()
                 }
             }
         }

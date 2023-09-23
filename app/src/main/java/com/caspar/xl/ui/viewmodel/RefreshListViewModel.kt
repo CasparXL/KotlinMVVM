@@ -2,7 +2,6 @@ package com.caspar.xl.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.caspar.base.utils.log.LogUtil
 import com.caspar.xl.ui.adapter.MessageListBean
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*

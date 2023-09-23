@@ -11,7 +11,7 @@ import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.content.contentValuesOf
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.dLog
 import java.io.File
 
 /**
@@ -62,7 +62,7 @@ class CropPhotoContract : ActivityResultContract<Uri, CropPhotoContract.CropOutp
     }
 
     override fun parseResult(resultCode: Int, intent: Intent?): CropOutput? {
-        LogUtil.d( "Crop photo, resultCode: $resultCode output: $output")
+        "Crop photo, resultCode: $resultCode output: $output".dLog()
         if (resultCode == Activity.RESULT_OK) return output
         return null
     }

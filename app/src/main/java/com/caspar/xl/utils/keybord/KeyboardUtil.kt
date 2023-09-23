@@ -12,7 +12,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.view.isVisible
-import com.caspar.base.utils.log.LogUtil
+import com.caspar.base.utils.log.eLog
+import com.caspar.base.utils.log.wLog
 import com.caspar.xl.R
 
 /**
@@ -113,7 +114,7 @@ class KeyboardUtil(
 
     fun clearText(default: String = "") {
         if (default.length > editList.count()) {
-            LogUtil.d("车牌字符串不能大于控件数量")
+            "车牌字符串不能大于控件数量".wLog()
             return
         }
         editList.forEachIndexed { index, editText ->
