@@ -17,7 +17,7 @@ import timber.log.Timber
 
 class ApplicationInitializer : Initializer<String> {
     override fun create(context: Context): String {
-        Timber.plant(context.createFileLoggingTree(maxLogFileSize = 1 * 1024 * 1024))
+        context.createFileLoggingTree(maxLogFileSize = 1 * 1024 * 1024)
         //本地储存初始化
         MMKV.initialize(context)
         //toast相关初始化

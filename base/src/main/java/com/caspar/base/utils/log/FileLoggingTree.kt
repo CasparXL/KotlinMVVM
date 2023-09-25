@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.caspar.base.ext.timeFormatDate
+import com.caspar.base.utils.log.AppTree.Companion.createStackElementTag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -33,44 +34,76 @@ const val LOG_FILE_NAME = "app_logs.txt"
 const val FLUSH_INTERVAL = 1000
 
 /**
- * 写入本地文件的日志工具类
+ * 过滤堆栈信息,将日志定位到调用层面上
+ */
+private val fqcnIgnore = listOf(
+    Timber::class.java.name,
+    Timber.Forest::class.java.name,
+    Timber.Tree::class.java.name,
+    AppTree::class.java.name,
+    FileLoggingTree::class.java.name,
+    Thread.currentThread().stackTrace.getOrNull(2)?.className ?: "NULL"
+)
+
+/**
+ * 安装日志到Timber日志管理
  * @param maxLogFileSize 一个文件最大写入多少日志
  * @param maxLogFiles 最多写入多少个文件
  */
 fun Context.createFileLoggingTree(
     maxLogFileSize: Long = 1 * 1024 * 1024,
     maxLogFiles: Int = 10
-): Timber.Tree {
-    return FileLoggingTree(
+){
+    Timber.plant(FileLoggingTree(
         context = this,
         maxLogFileSize = maxLogFileSize,
         maxLogFiles = maxLogFiles
-    )
+    ))
 }
 
 // Verbose 日志
-fun String.vLog(throwable: Throwable? = null) {
-    Timber.v(throwable, this)
+fun String.vLog(
+    tag: String = Throwable().stackTrace
+        .first { it.className !in fqcnIgnore }
+        .let(::createStackElementTag), throwable: Throwable? = null
+) {
+    Timber.tag(tag).v(throwable, this)
 }
 
 // Debug 日志
-fun String.dLog(throwable: Throwable? = null) {
-    Timber.d(throwable, this)
+fun String.dLog(
+    tag: String = Throwable().stackTrace
+        .first { it.className !in fqcnIgnore }
+        .let(::createStackElementTag), throwable: Throwable? = null
+) {
+    Timber.tag(tag).d(throwable, this)
 }
 
 // 信息日志
-fun String.iLog(throwable: Throwable? = null) {
-    Timber.i(throwable, this)
+fun String.iLog(
+    tag: String = Throwable().stackTrace
+        .first { it.className !in fqcnIgnore }
+        .let(::createStackElementTag), throwable: Throwable? = null
+) {
+    Timber.tag(tag).i(throwable, this)
 }
 
 // 警告日志
-fun String.wLog(throwable: Throwable? = null) {
-    Timber.w(throwable, this)
+fun String.wLog(
+    tag: String = Throwable().stackTrace
+        .first { it.className !in fqcnIgnore }
+        .let(::createStackElementTag), throwable: Throwable? = null
+) {
+    Timber.tag(tag).w(throwable, this)
 }
 
 // 错误日志
-fun String.eLog(throwable: Throwable? = null) {
-    Timber.e(throwable, this)
+fun String.eLog(
+    tag: String = Throwable().stackTrace
+        .first { it.className !in fqcnIgnore }
+        .let(::createStackElementTag), throwable: Throwable? = null
+) {
+    Timber.tag(tag).e(throwable, this)
 }
 
 // 异常Log
@@ -78,11 +111,17 @@ fun Throwable?.eLog() {
     Timber.e(this)
 }
 
+/**
+ * 获取日志目录
+ */
 fun Context.getLogFile(): File {
     return File(cacheDir, LOG_DIR_NAME)
 }
 
-fun ZipFolder(srcFileString: String, zipFileString: String): String {
+/**
+ * 压缩文件
+ */
+fun zipFolder(srcFileString: String, zipFileString: String): String {
     val path = zipFileString + "" + System.currentTimeMillis().timeFormatDate("yyyyMMdd") + ".zip"
     //创建ZIP
     try {
@@ -90,7 +129,7 @@ fun ZipFolder(srcFileString: String, zipFileString: String): String {
         //创建文件
         val file = File(srcFileString)
         //压缩
-        ZipFiles(file.parent?.plus(File.separator) ?: "", file.name, outZip)
+        zipFiles(file.parent?.plus(File.separator) ?: "", file.name, outZip)
         //完成和关闭
         outZip.finish()
         outZip.close()
@@ -100,7 +139,7 @@ fun ZipFolder(srcFileString: String, zipFileString: String): String {
     return path
 }
 
-private fun ZipFiles(
+private fun zipFiles(
     folderString: String,
     fileString: String,
     zipOutputSteam: ZipOutputStream?,
@@ -129,7 +168,7 @@ private fun ZipFiles(
             } else {
                 //子文件和递归
                 for (i in fileList.indices) {
-                    ZipFiles("$folderString$fileString/", fileList[i], zipOutputSteam)
+                    zipFiles("$folderString$fileString/", fileList[i], zipOutputSteam)
                 }
             }
         }
@@ -138,6 +177,9 @@ private fun ZipFiles(
     }
 }
 
+/**
+ * 分享文件
+ */
 fun shareFile(context: Context, fileName: String) {
     val file = File(fileName)
     if (file.exists()) {
@@ -168,7 +210,7 @@ private class FileLoggingTree(
     private val context: Context,
     private val maxLogFileSize: Long = 1 * 1024 * 1024,
     private val maxLogFiles: Int = 10
-) : Timber.DebugTree() {
+) : AppTree() {
     private var job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private val logBuffer = StringBuilder()
     private var lastFlushTime = System.currentTimeMillis()

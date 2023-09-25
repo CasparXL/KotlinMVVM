@@ -6,7 +6,7 @@ import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.acStart
 import com.caspar.base.ext.dp
 import com.caspar.base.ext.setDrawableSize
-import com.caspar.base.utils.log.ZipFolder
+import com.caspar.base.utils.log.zipFolder
 import com.caspar.base.utils.log.dLog
 import com.caspar.base.utils.log.getLogFile
 import com.caspar.base.utils.log.shareFile
@@ -40,7 +40,7 @@ class CrashLogActivity : BaseActivity() {
                         }
                     }
                 }
-                val path = ZipFolder(zipFileString = logPath.path?:"", srcFileString = logPath.path?:"")
+                val path = zipFolder(zipFileString = logPath.path?:"", srcFileString = logPath.path?:"")
                 shareFile(this, path)
             } else {
                 toast("没有文件可以分享")
