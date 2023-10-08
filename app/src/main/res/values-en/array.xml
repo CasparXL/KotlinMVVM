@@ -9,8 +9,8 @@
         <item>ImageLoad</item>
         <item>ColorSelect</item>
         <item>ImageSelect</item>
-        <item>verifyCaptcha</item>
         <item>SelectCity</item>
+        <item>verifyCaptcha</item>
         <item>CrashLog</item>
         <item>RefreshRanged</item>
         <item>ChangedLanguage</item>
