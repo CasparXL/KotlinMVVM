@@ -13,7 +13,6 @@ import com.caspar.xl.ui.CrashActivity
 import com.hjq.toast.Toaster
 import com.hjq.toast.style.BlackToastStyle
 import com.tencent.mmkv.MMKV
-import timber.log.Timber
 
 class ApplicationInitializer : Initializer<String> {
     override fun create(context: Context): String {

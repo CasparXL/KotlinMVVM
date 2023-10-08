@@ -14,6 +14,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import timber.log.Timber
 import java.io.BufferedWriter
 import java.io.File
@@ -109,6 +112,30 @@ fun String.eLog(
 // 异常Log
 fun Throwable?.eLog() {
     Timber.e(this)
+}
+
+fun String.jsonLog() {
+    if (this.isEmpty()) {
+        "Empty/Null json content".dLog()
+        return
+    }
+    try {
+        if (this.trim().startsWith("{")) {
+            val jsonObject = JSONObject(this)
+            val message = jsonObject.toString(2)
+            message.dLog()
+            return
+        }
+        if (this.trim().startsWith("[")) {
+            val jsonArray = JSONArray(this)
+            val message = jsonArray.toString(2)
+            message.dLog()
+            return
+        }
+        "Invalid Json".eLog()
+    } catch (e: JSONException) {
+        eLog(throwable = e)
+    }
 }
 
 /**
