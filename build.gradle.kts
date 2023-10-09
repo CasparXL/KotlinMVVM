@@ -28,6 +28,14 @@ allprojects {
             description = "http://docs.oracle.com/javase/17/docs/api"
         }
     }
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_17.toString()
+            freeCompilerArgs = freeCompilerArgs + listOf(
+                "-Xcontext-receivers"
+            )
+        }
+    }
     buildDir = File(rootDir, "build/${path.replace(':', '/')}")
 }
 

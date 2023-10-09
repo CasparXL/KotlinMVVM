@@ -1,6 +1,5 @@
 package com.caspar.base.ext
 
-import android.R
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
@@ -9,8 +8,6 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import java.text.DecimalFormat
-import kotlin.reflect.KProperty
 
 /**
  *  @Create 2020/6/25.
