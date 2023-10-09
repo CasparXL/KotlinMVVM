@@ -212,3 +212,22 @@ class TypefaceSpanCompat(private val newType: Typeface) : TypefaceSpan(null) {
         typeface = tf
     }
 }
+
+/**
+ * 纵向字体渐变
+ */
+class TextShaderSpan(
+    private val startColor: Int = Color.parseColor("#b1634b"),
+    private val centerColor: Int = Color.parseColor("#784332"),
+    private val endColor: Int = Color.parseColor("#2f1a14")
+) : CharacterStyle() {
+
+    override fun updateDrawState(tp: TextPaint) {
+        tp.shader = LinearGradient(
+            0f, 0f, 0f, tp.textSize,
+            intArrayOf(startColor, centerColor, endColor),
+            null,
+            Shader.TileMode.CLAMP
+        )
+    }
+}
