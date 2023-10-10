@@ -9,6 +9,7 @@ import com.caspar.base.base.BaseActivity
 import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityTranslateBinding
+import com.caspar.xl.di.WaitDialogInject
 import com.caspar.xl.eventandstate.ViewEvent
 import com.caspar.xl.ext.binding
 import com.caspar.xl.ext.observeEvent
@@ -17,15 +18,17 @@ import com.caspar.xl.ui.dialog.WaitDialog
 import com.caspar.xl.ui.viewmodel.TranslateViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TranslateActivity : BaseActivity(), View.OnClickListener {
     private val mBindingView: ActivityTranslateBinding by binding()
 
     private val mViewModel: TranslateViewModel by viewModels()
-    private val dialog by lazy {
-        WaitDialog.Builder(this).setMessage("稍等")
-    }
+
+    @WaitDialogInject
+    @Inject
+    lateinit var dialog: WaitDialog.Builder
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
@@ -42,7 +45,7 @@ class TranslateActivity : BaseActivity(), View.OnClickListener {
     private fun initNetworkObserver() {
         lifecycleScope.launch {
             mViewModel.translateResult.collect {
-                mBindingView.ivImage.loadNet(it.random().url?:"", R.drawable.image_loading_bg)
+                mBindingView.ivImage.loadNet(it.random().url ?: "", R.drawable.image_loading_bg)
             }
         }
     }

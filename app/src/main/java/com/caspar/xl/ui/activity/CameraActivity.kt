@@ -16,6 +16,7 @@ import com.caspar.base.utils.log.eLog
 import com.caspar.base.utils.log.iLog
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityCameraBinding
+import com.caspar.xl.di.WaitDialogInject
 import com.caspar.xl.ext.binding
 import com.caspar.xl.ui.dialog.WaitDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,13 +25,17 @@ import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
+import javax.inject.Inject
+
 @AndroidEntryPoint
 class CameraActivity : BaseActivity(), View.OnClickListener {
     private val mBindingView: ActivityCameraBinding by binding()
     var cameraControl: CameraControl? = null
     private var camera: Camera? = null
     private var imageCapture: ImageCapture? = null
-    var create: BaseDialog? = null
+    @WaitDialogInject
+    @Inject
+    lateinit var dialog: WaitDialog.Builder
 
     override fun initView(savedInstanceState: Bundle?) {
         mBindingView.title.tvCenter.text = "CameraX"
@@ -122,12 +127,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
 
     //拍照
     private fun takePhoto() {
-        if (create == null) {
-            create = WaitDialog.Builder(this).setMessage("稍等").create()
-            create?.show()
-        } else {
-            create?.show()
-        }
+        dialog.setMessage("稍等").show()
         // Get a stable reference of the modifiable image capture use case
         //获得可修改映像捕获用例的稳定引用
         val imageCapture = imageCapture ?: return
@@ -150,12 +150,12 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    create?.hide()
+                    dialog.dismiss()
                     exc.eLog()
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    create?.hide()
+                    dialog.dismiss()
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "拍照成功，图片被保存到app内部储存，路径为: $savedUri"
                     toast(msg)
