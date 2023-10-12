@@ -73,7 +73,6 @@ class CrashActivity : BaseActivity(), View.OnClickListener {
         val errorInformation = CustomActivityOnCrash.getAllErrorDetailsFromIntent(this@CrashActivity, intent)
         lifecycleScope.launch(Dispatchers.IO) {
             createFileLoggingTree(maxLogFileSize = 1 * 1024 * 1024)
-            delay(1000)
             "Found Crash:${errorInformation}".eLog()
         }
         mBindingView.btnCrashLog.setOnClickListener(this)

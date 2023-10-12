@@ -26,7 +26,7 @@ class FileLoggingTree(
 ) : AppTree() {
     private var job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private val logBuffer = StringBuilder()
-    private var lastFlushTime = System.currentTimeMillis()
+    private var lastFlushTime: Long = 0
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         super.log(priority, tag, message, t)
         job.launch(Dispatchers.IO) {
