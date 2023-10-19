@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.flowOn
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.net.ServerSocket
 import kotlin.time.Duration.Companion.seconds
 
 /**
@@ -66,3 +67,18 @@ val netWorkFlow = flow {
         delay(3.seconds)
     }
 }.flowOn(Dispatchers.IO)
+
+/**
+ * @return 端口号是否占用判断 true代表可用，false代表已被占用
+ */
+fun Int.isPortAvailable(): Boolean {
+    var serverSocket: ServerSocket? = null
+    return try {
+        serverSocket = ServerSocket(this)
+        true
+    } catch (e: IOException) {
+        false
+    } finally {
+        serverSocket?.close()
+    }
+}

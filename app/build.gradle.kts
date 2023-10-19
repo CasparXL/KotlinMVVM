@@ -85,6 +85,8 @@ android {
     packaging {
         resources {
             excludes.add("META-INF/rxjava.properties")
+            excludes.add("META-INF/INDEX.LIST")
+            excludes.add("META-INF/io.netty.versions.properties")
         }
     }
     lint {
@@ -132,6 +134,11 @@ dependencies {
     implementation(libs.google.material) {
         exclude(libs.androidx.recyclerview.get().module.group)
     }
+    implementation("io.ktor:ktor-server-netty:2.3.5")
+    implementation("io.ktor:ktor-server-core:2.3.5")
+    implementation("io.ktor:ktor-server-content-negotiation:2.3.5")
+    implementation("io.ktor:ktor-server-status-pages:2.3.5")
+    implementation("io.ktor:ktor-serialization-gson:2.3.5")
     implementation(libs.log.timber)
     implementation(libs.hilt.android)
     implementation(libs.mmkv)
