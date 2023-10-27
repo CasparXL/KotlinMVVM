@@ -24,8 +24,13 @@ import com.caspar.base.utils.log.eLog
 import com.caspar.xl.app.BaseApplication
 import com.caspar.xl.config.Constant
 import com.caspar.xl.databinding.FragmentHomeBinding
+import com.caspar.xl.di.WaitDialogInject
 import com.caspar.xl.ext.binding
 import com.caspar.xl.ext.toJson
+import com.caspar.xl.helper.createNetty
+import com.caspar.xl.helper.isInit
+import com.caspar.xl.network.util.getIPAddress
+import com.caspar.xl.network.util.isPortAvailable
 import com.caspar.xl.ui.activity.*
 import com.caspar.xl.ui.adapter.HomeMenuAdapter
 import com.caspar.xl.ui.dialog.VerifyDialog
@@ -34,13 +39,18 @@ import com.caspar.xl.ui.viewmodel.HomeViewModel
 import com.caspar.xl.widget.captcha.Captcha
 import com.chad.library.adapter.base.dragswipe.QuickDragAndSwipe
 import com.caspar.xl.ui.dialog.CarNumDialog
+import com.caspar.xl.ui.dialog.WaitDialog
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import dagger.hilt.android.AndroidEntryPoint
+import io.ktor.server.netty.NettyApplicationEngine
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 /**
  *  @Create 2020/6/13.
@@ -61,10 +71,15 @@ class HomeFragment : BaseFragment() {
     //跳转到某个界面，这里是用来标识需要储存权限的几个界面
     private var toOtherPage: String = ""
 
+    @WaitDialogInject
+    @Inject
+    lateinit var waitDialog: WaitDialog.Builder
     //跳转到某个界面，这里是用来标识需要储存权限的几个界面
     private val carDialog: CarNumDialog.Builder by lazy {
         CarNumDialog.Builder(requireContext())
     }
+
+    private var service: NettyApplicationEngine? = null
 
     //请求拍照所需的权限
     private val permission = requestMultiplePermissions(allGranted = {
@@ -115,10 +130,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return mBindingView.root
-    }
-
-    override fun initData(savedInstanceState: Bundle?) {
-        super.initData(savedInstanceState)
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -219,12 +230,51 @@ class HomeFragment : BaseFragment() {
                             toast("您输入了车牌->${it}")
                         }.show()
                     }
+                    mViewModel.mData[14] -> {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            runCatching {
+                                if (8080.isPortAvailable()) {
+                                    withContext(Dispatchers.Main){
+                                        waitDialog.show()
+                                    }
+                                    service = (service ?: context?.createNetty(8080))
+                                    if (service?.isInit() == false){
+                                        "服务开启,访问地址:${getIPAddress()}:8080/".dLog()
+                                        withContext(Dispatchers.Main) {
+                                            toast("服务开启,访问地址:${getIPAddress()}:8080/")
+                                            waitDialog.dismiss()
+                                        }
+                                        service?.start(wait = true)
+                                    } else {
+                                        service?.stop()
+                                        service = null
+                                        "服务关闭".dLog()
+                                        withContext(Dispatchers.Main) {
+                                            toast("服务关闭")
+                                        }
+                                    }
+
+                                } else {
+                                    withContext(Dispatchers.Main){
+                                        waitDialog.show()
+                                    }
+                                    service?.stop()
+                                    service = null
+                                    "服务关闭".dLog()
+                                    withContext(Dispatchers.Main){
+                                        toast("服务关闭")
+                                        waitDialog.dismiss()
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
         // 滑动事件
-        quickDragAndSwipe.attachToRecyclerView(mBindingView.rvList)
-            .setDataCallback(mAdapter)
+        /*quickDragAndSwipe.attachToRecyclerView(mBindingView.rvList)
+            .setDataCallback(mAdapter)*/
     }
 
     //兼容安卓10 ,11读写权限问题,11的手机暂时没有，所以需要有条件了再测，再次点击跳转按钮也可以
@@ -239,6 +289,15 @@ class HomeFragment : BaseFragment() {
             }
         } else {
             permissionRequest.launch(Permission.Group.STORAGE)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (service?.isInit() == true){
+            service?.stop()
+            service = null
+            "关闭Netty服务".dLog()
         }
     }
 }

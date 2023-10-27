@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.flowOn
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.net.NetworkInterface
 import java.net.ServerSocket
 import kotlin.time.Duration.Companion.seconds
 
@@ -81,4 +82,20 @@ fun Int.isPortAvailable(): Boolean {
     } finally {
         serverSocket?.close()
     }
+}
+
+fun getIPAddress(): String? {
+    val interfaces = NetworkInterface.getNetworkInterfaces()
+    while (interfaces.hasMoreElements()) {
+        val networkInterface = interfaces.nextElement()
+        val addresses = networkInterface.inetAddresses
+        while (addresses.hasMoreElements()) {
+            val address = addresses.nextElement()
+            if (!address.isLoopbackAddress && address.isSiteLocalAddress && address.hostAddress?.contains(".") == true
+            ) {
+                return address.hostAddress?.toString()
+            }
+        }
+    }
+    return null
 }

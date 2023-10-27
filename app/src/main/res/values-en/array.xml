@@ -15,5 +15,6 @@
         <item>RefreshRanged</item>
         <item>ChangedLanguage</item>
         <item>SelectCar</item>
+        <item>OpenService</item>
     </string-array>
 </resources>

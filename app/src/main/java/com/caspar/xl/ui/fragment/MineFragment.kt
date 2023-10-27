@@ -8,6 +8,7 @@ import com.caspar.base.base.BaseFragment
 import com.caspar.base.utils.log.dLog
 import com.caspar.xl.databinding.FragmentMineBinding
 import com.caspar.xl.ext.binding
+import com.caspar.xl.network.util.getIPAddress
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -23,6 +24,6 @@ class MineFragment : BaseFragment() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        "切换MineFragment".dLog()
+        mBindingView.tvName.text = getIPAddress()
     }
 }
