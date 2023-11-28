@@ -92,6 +92,8 @@ android {
     lint {
         abortOnError = false
         checkReleaseBuilds = false
+        warningsAsErrors = true
+        enable.add("deprecation")
     }
     //apk输出格式
     applicationVariants.all {
