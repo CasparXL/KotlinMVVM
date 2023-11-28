@@ -37,9 +37,9 @@ import com.caspar.xl.ui.dialog.VerifyDialog
 import com.caspar.xl.utils.decoration.Decoration
 import com.caspar.xl.ui.viewmodel.HomeViewModel
 import com.caspar.xl.widget.captcha.Captcha
-import com.chad.library.adapter.base.dragswipe.QuickDragAndSwipe
 import com.caspar.xl.ui.dialog.CarNumDialog
 import com.caspar.xl.ui.dialog.WaitDialog
+import com.chad.library.adapter4.dragswipe.QuickDragAndSwipe
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import dagger.hilt.android.AndroidEntryPoint

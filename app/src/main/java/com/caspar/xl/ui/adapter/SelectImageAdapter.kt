@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.caspar.xl.databinding.ItemSelectImageBinding
 import com.caspar.xl.helper.loadFile
-import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter4.BaseQuickAdapter
 import java.io.File
 
 class SelectImageAdapter : BaseQuickAdapter<String, BaseViewBindingHolder<ItemSelectImageBinding>>() {

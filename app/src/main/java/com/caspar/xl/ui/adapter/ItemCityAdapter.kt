@@ -7,7 +7,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ItemCityBinding
-import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter4.BaseQuickAdapter
 
 /**
  * 单个条目剧中适配器

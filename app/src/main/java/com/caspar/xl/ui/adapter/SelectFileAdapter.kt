@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ItemFilesBinding
-import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter4.BaseQuickAdapter
 import java.io.File
 
 class SelectFileAdapter: BaseQuickAdapter<FileBean, BaseViewBindingHolder<ItemFilesBinding>>() {

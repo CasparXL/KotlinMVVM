@@ -1,7 +1,7 @@
 package com.caspar.xl.ui.adapter
 
 import androidx.viewbinding.ViewBinding
-import com.chad.library.adapter.base.viewholder.QuickViewHolder
+import com.chad.library.adapter4.viewholder.QuickViewHolder
 
 
 /**

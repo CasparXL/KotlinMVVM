@@ -5,15 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.caspar.base.utils.log.dLog
 import com.caspar.xl.databinding.ItemMenuBinding
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.dragswipe.listener.DragAndSwipeDataCallback
+import com.chad.library.adapter4.BaseQuickAdapter
+import com.chad.library.adapter4.dragswipe.listener.DragAndSwipeDataCallback
 
 
 /**
  *  @Create 2020/6/13.
  *  @Use
  */
-class HomeMenuAdapter : BaseQuickAdapter<String, BaseViewBindingHolder<ItemMenuBinding>>(), DragAndSwipeDataCallback {
+class HomeMenuAdapter : BaseQuickAdapter<String, BaseViewBindingHolder<ItemMenuBinding>>(),
+    DragAndSwipeDataCallback {
     //如果非要使用ViewBinding，则应该重写onCreateDefViewHolder方法，否则将会导致类型无法强转的Crash
 
     override fun onBindViewHolder(holder: BaseViewBindingHolder<ItemMenuBinding>, position: Int, item: String?) {

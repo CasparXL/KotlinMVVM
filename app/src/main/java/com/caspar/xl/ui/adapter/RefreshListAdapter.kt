@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.caspar.base.utils.log.dLog
 import com.caspar.xl.databinding.ItemRefreshListBinding
-import com.chad.library.adapter.base.BaseDifferAdapter
+import com.chad.library.adapter4.BaseDifferAdapter
 
 
 /**
