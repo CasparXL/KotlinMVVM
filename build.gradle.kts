@@ -1,4 +1,3 @@
-
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -6,8 +5,10 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.hilt) apply false
+    id("org.jetbrains.dokka") version "1.9.10"
 }
 allprojects {
+    apply(plugin = "org.jetbrains.dokka")
     configurations.all {
         resolutionStrategy.eachDependency {
             if (requested.group == "org.jetbrains.kotlin") {
@@ -37,8 +38,17 @@ allprojects {
         }
     }
     buildDir = File(rootDir, "build/${path.replace(':', '/')}")
+    tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+        moduleName.set(project.name)
+        moduleVersion.set(project.version.toString())
+        outputDirectory.set(buildDir.resolve("dokka/$name"))
+        failOnWarning.set(false)
+        suppressObviousFunctions.set(true)
+        suppressInheritedMembers.set(false)
+        offlineMode.set(false)
+    }
 }
 
-task("clean"){
+task("clean") {
     delete(rootProject.buildDir)
 }
