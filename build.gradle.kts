@@ -46,6 +46,29 @@ allprojects {
         suppressObviousFunctions.set(true)
         suppressInheritedMembers.set(false)
         offlineMode.set(false)
+        dokkaSourceSets {
+            configureEach {
+                suppress.set(false)
+                displayName.set(name)
+                documentedVisibilities.set(
+                    setOf(
+                        org.jetbrains.dokka.DokkaConfiguration.Visibility.PUBLIC,
+                        org.jetbrains.dokka.DokkaConfiguration.Visibility.INTERNAL,
+                        org.jetbrains.dokka.DokkaConfiguration.Visibility.PRIVATE,
+                    )
+                )
+                reportUndocumented.set(false)
+                skipEmptyPackages.set(true)
+                skipDeprecated.set(false)
+                suppressGeneratedFiles.set(true)
+                jdkVersion.set(17)
+                languageVersion.set("1.9")
+                apiVersion.set("1.9")
+                noStdlibLink.set(false)
+                noJdkLink.set(false)
+                noAndroidSdkLink.set(false)
+            }
+        }
     }
 }
 
