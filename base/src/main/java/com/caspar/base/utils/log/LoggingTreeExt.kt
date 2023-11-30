@@ -19,13 +19,19 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-//日志文件夹名称
+/**
+ * 日志文件夹名称
+ */
 const val LOG_DIR_NAME = "Logs"
 
-//当前写入日志名称
+/**
+ * 当前写入日志名称
+ */
 const val LOG_FILE_NAME = "app_logs.txt"
 
-//下一次日志距离上一次时间间隔，超出则将当前缓存区日志存入本地沙盒
+/**
+ * 下一次日志距离上一次时间间隔，超出则将当前缓存区日志存入本地沙盒
+ */
 const val FLUSH_INTERVAL = 1000
 
 /**
@@ -56,7 +62,9 @@ fun Context.createFileLoggingTree(
     ))
 }
 
-// Verbose 日志
+/**
+ * Verbose 日志
+ */
 fun String.vLog(
     tag: String = Throwable().stackTrace
         .first { it.className !in fqcnIgnore }
@@ -65,7 +73,9 @@ fun String.vLog(
     Timber.tag(tag).v(throwable, this)
 }
 
-// Debug 日志
+/**
+ * Debug 日志
+ */
 fun String.dLog(
     tag: String = Throwable().stackTrace
         .first { it.className !in fqcnIgnore }
@@ -74,7 +84,9 @@ fun String.dLog(
     Timber.tag(tag).d(throwable, this)
 }
 
-// 信息日志
+/**
+ * 信息日志
+ */
 fun String.iLog(
     tag: String = Throwable().stackTrace
         .first { it.className !in fqcnIgnore }
@@ -83,7 +95,9 @@ fun String.iLog(
     Timber.tag(tag).i(throwable, this)
 }
 
-// 警告日志
+/**
+ * 警告日志
+ */
 fun String.wLog(
     tag: String = Throwable().stackTrace
         .first { it.className !in fqcnIgnore }
@@ -92,7 +106,9 @@ fun String.wLog(
     Timber.tag(tag).w(throwable, this)
 }
 
-// 错误日志
+/**
+ * 错误日志
+ */
 fun String.eLog(
     tag: String = Throwable().stackTrace
         .first { it.className !in fqcnIgnore }
@@ -101,11 +117,16 @@ fun String.eLog(
     Timber.tag(tag).e(throwable, this)
 }
 
-// 异常Log
+/**
+ * 异常Log
+ */
 fun Throwable?.eLog() {
     Timber.e(this)
 }
 
+/**
+ * Json格式打印日志
+ */
 fun String.jsonLog() {
     if (this.isEmpty()) {
         "Empty/Null json content".dLog()

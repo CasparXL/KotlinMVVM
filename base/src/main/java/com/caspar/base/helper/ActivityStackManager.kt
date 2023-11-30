@@ -2,7 +2,9 @@ package com.caspar.base.helper
 
 import android.app.Activity
 import android.app.Application
+import android.content.ActivityNotFoundException
 import android.os.Bundle
+import com.caspar.base.utils.log.eLog
 import java.util.*
 
 object ActivityStackManager : Application.ActivityLifecycleCallbacks {
@@ -16,23 +18,22 @@ object ActivityStackManager : Application.ActivityLifecycleCallbacks {
     var application: Application? = null
         private set
 
+    /**
+     * 初始化activity堆栈管理类
+     */
     fun init(application: Application) {
         this.application = application
         application.registerActivityLifecycleCallbacks(this)
     }
 
     /**
-
      * 获取栈顶的 Activity
-
      */
-    val topActivity: Activity
-        get() = mActivitySet.lastElement()
+    val topActivity: Activity?
+        get() = mActivitySet.lastOrNull()
 
     /**
-
      * 销毁所有的 Activity
-
      */
     fun finishAllActivity() {
         finishOtherActivity()
@@ -48,7 +49,11 @@ object ActivityStackManager : Application.ActivityLifecycleCallbacks {
                 if (classArray.contains(set.javaClass)) {
                     true
                 } else {
-                    set.finish()
+                    try {
+                        set.finish()
+                    } catch (e: ActivityNotFoundException) {
+                        e.eLog()
+                    }
                     false
                 }
             } else {
@@ -65,7 +70,11 @@ object ActivityStackManager : Application.ActivityLifecycleCallbacks {
         mActivitySet.removeAll { set ->
             if (!set.isFinishing) {
                 if (classArray.contains(set.javaClass)) {
-                    set.finish()
+                    try {
+                        set.finish()
+                    } catch (e: ActivityNotFoundException) {
+                        e.eLog()
+                    }
                     true
                 } else {
                     false
@@ -91,7 +100,9 @@ object ActivityStackManager : Application.ActivityLifecycleCallbacks {
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
     override fun onActivityDestroyed(activity: Activity) {
-        mActivitySet.remove(activity)
+        if (mActivitySet.contains(activity)){
+            mActivitySet.remove(activity)
+        }
     }
 
 }

@@ -49,6 +49,10 @@ open class AppTree : Timber.Tree() {
         private const val MAX_LOG_LENGTH = 4000
         private const val MAX_TAG_LENGTH = 23
 
+        /**
+         * 创建独特化tag
+         * @param element 堆栈信息
+         */
         fun createStackElementTag(element: StackTraceElement): String {
             var tag = element.className.substringAfterLast('.')
             /*val m = Pattern.compile("(\\$\\d+)+$").matcher(tag)
