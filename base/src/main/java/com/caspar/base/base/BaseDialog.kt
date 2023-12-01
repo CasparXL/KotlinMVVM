@@ -145,9 +145,17 @@ open class BaseDialog constructor(context: Context, @StyleRes themeResId: Int = 
         if (focusView != null) {
             getSystemService(InputMethodManager::class.java).hideSoftInputFromWindow(focusView.windowToken, 0)
         }
+        //this.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
         super.dismiss()
+        //getActivity()?.immersive()
     }
 
+    //沉浸式加入dismiss中注释的两行代码以及如下show部分的代码即可不闪烁屏幕
+    /*override fun show() {
+        this.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+        super.show()
+        immersive()
+    }*/
     /**
      * 设置一个显示监听器
      *
