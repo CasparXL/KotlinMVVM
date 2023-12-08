@@ -16,5 +16,6 @@
         <item>切换语言</item>
         <item>车牌选择</item>
         <item>开启服务器</item>
+        <item>查看pdf</item>
     </string-array>
 </resources>

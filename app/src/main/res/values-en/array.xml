@@ -16,5 +16,6 @@
         <item>ChangedLanguage</item>
         <item>SelectCar</item>
         <item>OpenService</item>
+        <item>Query Pdf</item>
     </string-array>
 </resources>

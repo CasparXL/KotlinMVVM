@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.PdfPreviewActivity">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/view_header" />
+
+
+    <com.rajat.pdfviewer.PdfRendererView
+        android:id="@+id/pdfView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:pdfView_disableScreenshots="true"
+        app:pdfView_enableLoadingForPages="true"
+        app:pdfView_divider="@drawable/pdf_viewer_divider"
+        app:pdfView_showDivider="true" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_15"
+        android:backgroundTint="@color/appColor"
+        android:text="当前界面查看Pdf"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_12"
+        app:cornerRadius="@dimen/dp_15" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_query2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_15"
+        android:backgroundTint="@color/appColor"
+        android:text="跳转界面查看Pdf"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_12"
+        app:cornerRadius="@dimen/dp_15" />
+</LinearLayout>

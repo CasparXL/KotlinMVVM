@@ -40,6 +40,8 @@ import com.caspar.xl.widget.captcha.Captcha
 import com.caspar.xl.ui.dialog.CarNumDialog
 import com.caspar.xl.ui.dialog.WaitDialog
 import com.chad.library.adapter4.dragswipe.QuickDragAndSwipe
+import com.rajat.pdfviewer.PdfViewerActivity
+import com.rajat.pdfviewer.util.saveTo
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -268,6 +270,9 @@ class HomeFragment : BaseFragment() {
                                 }
                             }
                         }
+                    }
+                    mViewModel.mData[15] -> {
+                        acStart<PdfPreviewActivity>()
                     }
                 }
             }
