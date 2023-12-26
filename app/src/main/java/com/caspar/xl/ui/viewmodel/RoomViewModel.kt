@@ -6,10 +6,8 @@ import com.caspar.xl.bean.db.TeacherBean
 import com.caspar.xl.bean.db.TeacherDao
 import com.caspar.xl.bean.db.UserBean
 import com.caspar.xl.bean.db.UserDao
-import com.caspar.xl.db.RoomManager
-import com.caspar.xl.eventandstate.RoomViewState
+import com.caspar.xl.eventandstate.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
@@ -24,7 +22,7 @@ class RoomViewModel @Inject constructor(
     private val teacherDao: TeacherDao,
     private val userDao: UserDao
 ) : AndroidViewModel(application) {
-    private val _viewStates = MutableStateFlow(RoomViewState())
+    private val _viewStates = MutableStateFlow(ViewState.Content.RoomViewState())
     val viewStates = _viewStates.asStateFlow()
 
     fun updateStr(str: String) {
