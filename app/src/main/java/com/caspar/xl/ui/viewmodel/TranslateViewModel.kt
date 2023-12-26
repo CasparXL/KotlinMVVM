@@ -3,6 +3,7 @@ package com.caspar.xl.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.caspar.xl.di.domain.TranslateRepository
+import com.caspar.xl.eventandstate.TranslateEvent
 import com.caspar.xl.eventandstate.ViewState
 import com.caspar.xl.ext.SharedFlowEvents
 import com.caspar.xl.ext.setEvent
@@ -27,10 +28,10 @@ class TranslateViewModel @Inject constructor(
      */
     fun getImage() {
         viewModelScope.launch {
-            _viewEvent.setEvent(ViewState.Global.Loading)
+            _viewEvent.setEvent(ViewState.Loading)
             val result = repository.requestGetImages()
-            result.onSuccess { _viewEvent.setEvent(ViewState.Content.TransitionViewState(it)) }
-                .onFailure { _viewEvent.setEvent(ViewState.Global.Error(it.message ?: "")) }
+            result.onSuccess { _viewEvent.setEvent(TranslateEvent.TransitionViewState(it)) }
+                .onFailure { _viewEvent.setEvent(ViewState.Error(it.message ?: "")) }
         }
     }
 }

@@ -9,6 +9,7 @@ import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.R
 import com.caspar.xl.databinding.ActivityTranslateBinding
 import com.caspar.xl.di.WaitDialogInject
+import com.caspar.xl.eventandstate.TranslateEvent
 import com.caspar.xl.eventandstate.ViewState
 import com.caspar.xl.ext.binding
 import com.caspar.xl.ext.observeEvent
@@ -42,30 +43,21 @@ class TranslateActivity : BaseActivity(), View.OnClickListener {
     private fun initViewObserver() {
         mViewModel.viewEvent.observeEvent(this@TranslateActivity) {
             when (it) {
-                is ViewState.Content -> {
-                    if (it is ViewState.Content.TransitionViewState) {
-                        dialog.dismiss()
-                        mBindingView.ivImage.loadNet(
-                            it.imageList.random().url ?: "",
-                            R.drawable.image_loading_bg
-                        )
-                    }
+                is ViewState.Loading->{
+                    dialog.show()
                 }
-
-                is ViewState.Global -> {
-                    when (it) {
-                        ViewState.Global.Loading -> {
-                            dialog.show()
-                        }
-
-                        is ViewState.Global.Error -> {
-                            toast(it.message)
-                            dialog.dismiss()
-                        }
-
-                        else -> {}
-                    }
+                is ViewState.Error->{
+                    dialog.dismiss()
+                    toast(it.message)
                 }
+                is TranslateEvent.TransitionViewState->{
+                    dialog.dismiss()
+                    mBindingView.ivImage.loadNet(
+                        it.imageList.random().url ?: "",
+                        R.drawable.image_loading_bg
+                    )
+                }
+                else -> {}
             }
         }
     }

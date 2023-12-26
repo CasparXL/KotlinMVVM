@@ -14,6 +14,7 @@ import com.caspar.xl.R
 import com.caspar.xl.bean.db.TeacherBean
 import com.caspar.xl.bean.db.UserBean
 import com.caspar.xl.databinding.ActivityRoomBinding
+import com.caspar.xl.eventandstate.RoomEvent
 import com.caspar.xl.eventandstate.ViewState
 import com.caspar.xl.ext.binding
 import com.caspar.xl.ext.observeState
@@ -39,13 +40,13 @@ class RoomActivity : BaseActivity(), View.OnClickListener {
             R.id.btnSearchAll
         )
         mViewModel.viewStates.let { state ->
-            state.observeState(this, ViewState.Content.RoomViewState::str) {
+            state.observeState(this, RoomEvent.RoomViewState::str) {
                 "str文字变化->${it}".dLog()
             }
-            state.observeState(this, ViewState.Content.RoomViewState::teacherId) {
+            state.observeState(this, RoomEvent.RoomViewState::teacherId) {
                 "teacherId文字变化->${it}".dLog()
             }
-            state.observeState(this, ViewState.Content.RoomViewState::userId) {
+            state.observeState(this, RoomEvent.RoomViewState::userId) {
                 "userId文字变化->${it}".dLog()
             }
         }
