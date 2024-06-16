@@ -13,7 +13,7 @@ allprojects {
         resolutionStrategy.eachDependency {
             if (requested.group == "org.jetbrains.kotlin") {
                 if (requested.name.startsWith("kotlin-stdlib")) {
-                    useVersion("1.9.20")
+                    useVersion("2.0.0")
                 }
             }
         }
@@ -62,8 +62,8 @@ allprojects {
                 skipDeprecated.set(false)
                 suppressGeneratedFiles.set(true)
                 jdkVersion.set(17)
-                languageVersion.set("1.9")
-                apiVersion.set("1.9")
+                languageVersion.set("2.0")
+                apiVersion.set("2.0")
                 noStdlibLink.set(false)
                 noJdkLink.set(false)
                 noAndroidSdkLink.set(false)
