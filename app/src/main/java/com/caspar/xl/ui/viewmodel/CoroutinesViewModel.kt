@@ -5,11 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import com.caspar.base.utils.log.dLog
 import com.caspar.base.utils.log.eLog
 import com.caspar.xl.bean.response.City
-import com.caspar.xl.network.ApiService
 import com.caspar.xl.di.BodyOkHttpClient
-import com.caspar.xl.di.HeaderOkHttpClient
+import com.caspar.xl.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withTimeoutOrNull
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -3,29 +3,14 @@ package com.caspar.xl
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.caspar.base.base.BaseActivity
 import com.caspar.base.base.FragmentPagerAdapter
-import com.caspar.base.ext.*
-import com.caspar.base.utils.log.dLog
+import com.caspar.base.ext.setOnClickListener
 import com.caspar.xl.databinding.ActivityMainBinding
 import com.caspar.xl.ext.binding
-import com.caspar.xl.ext.toJson
-import com.caspar.xl.helper.createNetty
-import com.caspar.xl.helper.isInit
-import com.caspar.xl.network.util.getIPAddress
-import com.caspar.xl.network.util.isPortAvailable
 import com.caspar.xl.ui.fragment.HomeFragment
 import com.caspar.xl.ui.fragment.MineFragment
 import dagger.hilt.android.AndroidEntryPoint
-import io.ktor.server.application.pluginRegistry
-import io.ktor.server.netty.NettyApplicationEngine
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.io.IOException
-import java.net.ServerSocket
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity(), View.OnClickListener {

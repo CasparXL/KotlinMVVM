@@ -12,7 +12,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.view.isVisible
-import com.caspar.base.utils.log.eLog
 import com.caspar.base.utils.log.wLog
 import com.caspar.xl.R
 
